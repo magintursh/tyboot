@@ -1,0 +1,78 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+
+	<parent>
+		<groupId>org.typroject</groupId>
+		<artifactId>tyboot-core</artifactId>
+		<version>1.0-Ty</version>
+	</parent>
+
+	<groupId>org.typroject</groupId>
+	<artifactId>tyboot-core-rdbms</artifactId>
+	<packaging>jar</packaging>
+	<name>tyboot-core-rdbms</name>
+	<url>http://www.tycloud.org</url>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.typroject</groupId>
+			<artifactId>tyboot-core-foundation</artifactId>
+			<version>1.0-Ty</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+			<version>3.0.7.1</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.7</version>
+		</dependency>
+
+		<!-- velocity 模板引擎, 默认 -->
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-engine-core</artifactId>
+			<version>2.0</version>
+		</dependency>
+
+		<!-- freemarker 模板引擎 -->
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.38</version>
+		</dependency>
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+		</dependency>
+		
+
+		<dependency>
+			<groupId>org.typroject</groupId>
+			<artifactId>tyboot-component-cache</artifactId>
+			<version>1.0-Ty</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.typroject</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+	</dependencies>
+</project>

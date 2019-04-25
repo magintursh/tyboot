@@ -1,0 +1,92 @@
+package org.typroject.api.tiku.face.${package.ModuleName}.service;
+
+import com.baomidou.mybatisplus.service.IService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import Bean;
+import BaseService;
+
+import org.typroject.api.wheatwave.face.${package.ModuleName}.model.${entity}Model;
+import org.typroject.api.wheatwave.face.${package.ModuleName}.orm.dao.${table.mapperName};
+import org.typroject.api.wheatwave.face.${package.ModuleName}.orm.entity.${entity};
+import RequestContext;
+import Bean;
+import ValidationUtil;
+import BaseService;
+
+
+
+/**
+ * <p>
+ * ${table.comment} 服务类
+ * </p>
+ *
+ * @author 子杨
+ * @since ${date}
+ */
+public class ${table.serviceName} extends BaseService<${entity}Model,${entity},${table.mapperName}> implements IService<${entity}>
+{
+
+
+        public ${entity}Model create${entity} (${entity}Model model) throws Exception
+        {
+            return this.createWithModel(model);
+        }
+
+
+        public ${entity}Model update${entity} (${entity}Model model) throws Exception
+        {
+            return this.updateWithModel(model);
+        }
+
+
+        /**
+        * 根据物理主键查询单个对象
+        */
+        public ${entity}Model queryById (Long seq) throws Exception
+        {
+            return this.queryBySeq(seq);
+        }
+
+        /**
+        * 根据业务主键查询单个对象，方法名字和参数名自行修改
+        */
+        public ${entity}Model queryByUniqueIndex (String uniqueIndex1,String uniqueIndex2 ) throws Exception
+        {
+           return this.queryModelByParams(uniqueIndex,uniqueIndex2);
+        }
+
+
+        public boolean delete${entity}(Long seq)throws Exception
+        {
+            return this.deleteBySeq(seq);
+        }
+
+        public boolean deleteMult${entity}(Long [] seqs)throws Exception
+        {
+            for(Long seq:seqs)
+                this.deleteBySeq(seq);
+            return true;
+        }
+
+
+        /**
+        * 分页查询
+        */
+        public Page<${entity}Model> queryFor${entity}Page(Page page,String agencyCode) throws Exception
+            {
+                return this.queryForPage(page,null,false,agencyCode);
+            }
+
+
+        /**
+        * 列表查询 示例
+        */
+        public List<${entity}Model> queryFor${entity}List(String agencyCode) throws Exception
+        {
+            return this.queryForList(null,false,agencyCode);
+        }
+
+
+
+}
