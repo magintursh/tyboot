@@ -34,6 +34,7 @@ public class DictionarieService extends BaseService<DictionarieModel,Dictionarie
     public static final String CACHEKEY_DICTIONARY_LIST="DICTIONARY_LIST";
 
 
+
     public void afterPropertiesSet() throws Exception
     {
         this.setCacheExpire(24*60*60*60L);//设置字典的缓存时间为24小时

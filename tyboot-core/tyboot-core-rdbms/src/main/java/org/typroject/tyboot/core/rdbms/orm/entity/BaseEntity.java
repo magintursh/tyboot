@@ -23,9 +23,6 @@ public class   BaseEntity implements Serializable{
     @TableField("REC_USER_ID")
     protected String recUserId;
 
-    @TableField("REC_STATUS")
-    protected String recStatus;
-
 
     public Long getSequenceNbr() {
         return sequenceNbr;
@@ -49,14 +46,6 @@ public class   BaseEntity implements Serializable{
 
     public void setRecUserId(String recUserId) {
         this.recUserId = recUserId;
-    }
-
-    public String getRecStatus() {
-        return recStatus;
-    }
-
-    public void setRecStatus(String recStatus) {
-        this.recStatus = recStatus;
     }
 
 }

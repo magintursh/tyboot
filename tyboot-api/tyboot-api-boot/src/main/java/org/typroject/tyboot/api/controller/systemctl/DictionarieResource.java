@@ -33,7 +33,7 @@ public class DictionarieResource {
     private final Logger logger = LogManager.getLogger(DictionarieResource.class);
 
     @Autowired
-    DictionarieService dictionarieService;
+    private DictionarieService dictionarieService;
 
     @TycloudOperation( ApiLevel = APILevel.ALL)
     @ApiOperation(value="创建字典")
@@ -71,6 +71,7 @@ public class DictionarieResource {
 
 
     @TycloudOperation( ApiLevel = APILevel.ALL)
+    @ApiOperation(value="根据code获取字典")
     @RequestMapping(value = "/{dictCode}", method = RequestMethod.GET)
     public ResponseModel<DictionarieModel> queryByCode(
             @ApiParam

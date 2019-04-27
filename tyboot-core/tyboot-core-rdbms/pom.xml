@@ -26,14 +26,15 @@
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-boot-starter</artifactId>
-			<version>3.0.7.1</version>
+			<version>3.1.1</version>
 		</dependency>
+
 
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.9.7</version>
+			<version>2.9.8</version>
 		</dependency>
 
 		<!-- velocity 模板引擎, 默认 -->

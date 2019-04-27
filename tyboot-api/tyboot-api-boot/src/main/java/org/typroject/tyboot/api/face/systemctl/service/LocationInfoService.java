@@ -17,15 +17,10 @@ import java.util.List;
 public class LocationInfoService extends BaseService<LocationInfoModel,LocationInfo,LocationInfoMapper> {
 
 
-    public static final String LOCATIONINFO="LOCATIONINFO";
 
     public static final String LOCATIONINFO_LIST="LOCATIONINFO_LIST";
 
 
-    public static final String cacheKeyForLocationinfoModel(String locationCode)
-    {
-        return Redis.genKey(CacheType.ERASABLE.name(),LOCATIONINFO,locationCode);
-    }
 
     public static final String cacheKeyForLocationList(String parentCode)
     {
@@ -41,9 +36,7 @@ public class LocationInfoService extends BaseService<LocationInfoModel,LocationI
 
     public LocationInfoModel getByCode(String  locationCode) throws Exception
     {
-        LocationInfoModel model = new LocationInfoModel();
-        model.setLocationCode(locationCode);
-        return queryByModelWithCache(model,locationCode);
+        return queryModelByParamsWithCache(locationCode,locationCode);
     }
 
 

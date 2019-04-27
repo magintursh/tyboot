@@ -30,6 +30,15 @@ public class RequestLimitAuthHandler implements AuthHandler,InitializingBean {
 
     private RedisTemplate redisTemplate;
 
+
+
+    enum LimitWay
+    {
+        userId,IP,token,device,API
+    }
+
+
+
     //@Value("${freeapis.requestLimit.period}")
     private long requestLimitPeriod = 60L;
 

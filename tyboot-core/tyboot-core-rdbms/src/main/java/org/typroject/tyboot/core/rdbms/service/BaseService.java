@@ -12,7 +12,6 @@ import org.typroject.tyboot.component.cache.enumeration.CacheType;
 import org.typroject.tyboot.core.foundation.context.RequestContext;
 import org.typroject.tyboot.core.foundation.utils.Bean;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
-import org.typroject.tyboot.core.rdbms.RdbmsConstants;
 import org.typroject.tyboot.core.rdbms.annotation.Condition;
 import org.typroject.tyboot.core.rdbms.annotation.Operator;
 import org.typroject.tyboot.core.rdbms.orm.entity.BaseEntity;
@@ -56,10 +55,9 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
             boolean flag   = this.getClass().getGenericSuperclass() instanceof ParameterizedType;
 
             if(flag)
-                modelCalss = ReflectionKit.getSuperClassGenericType(this.getClass(),0);
+                modelCalss = (Class<V>)ReflectionKit.getSuperClassGenericType(this.getClass(),0);
             else if(superFlag)
-                modelCalss = ReflectionKit.getSuperClassGenericType(this.getClass().getSuperclass(),0);
-
+                modelCalss = (Class<V>)ReflectionKit.getSuperClassGenericType(this.getClass().getSuperclass(),0);
         }
         return modelCalss;
     }
@@ -83,7 +81,6 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
         if (entity instanceof BaseEntity) {
             BaseEntity temp = (BaseEntity) entity;
             temp.setRecDate(new Date());
-            temp.setRecStatus(RdbmsConstants.COMMON_ACTIVE);
             temp.setRecUserId(RequestContext.getExeUserId());
         }
         return entity;
@@ -168,12 +165,12 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
     }
 
 
-
-
-
-
-
-
+    /**
+     * 根据物理主键查询model，先以物理主键为键值从缓存中查询
+     * @param seq 物理主键
+     * @return
+     * @throws Exception
+     */
     public final    V queryBySeqWithCache(Long  seq) throws Exception {
        V v = queryFromCache(getDefaultModelCacheKey(String.valueOf(seq)));
        if(ValidationUtil.isEmpty(v))
@@ -186,6 +183,13 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
     }
 
 
+    /**
+     * 根据model中的有值得字段查询对象，先根据指定字段拼接缓存键值从缓存中获取
+     * @param model
+     * @param propertyValueAsCacheKey
+     * @return
+     * @throws Exception
+     */
     public final   V queryByModelWithCache(V model,String propertyValueAsCacheKey) throws Exception
     {
         V v = queryFromCache(getDefaultModelCacheKey(propertyValueAsCacheKey));
@@ -244,7 +248,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @return model
      * @throws Exception
      */
-    protected final   V createWithCache(V model,String propertyValueAsCacheKey,String... deleteCacheKey) throws Exception {
+    public final   V createWithCache(V model,String propertyValueAsCacheKey,String... deleteCacheKey) throws Exception {
         model = this.createWithModel(model);
         saveCache(getDefaultModelCacheKey(propertyValueAsCacheKey),model);
         deleteFromCache(deleteCacheKey);
@@ -252,7 +256,12 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
     }
 
 
-
+    /**
+     * 更新对象到db TODO 处理要设置为null的情况
+     * @param model
+     * @return
+     * @throws Exception
+     */
     public final   V updateWithModel(V model) throws Exception {
         P entity = this.prepareEntity(model);
         this.updateById(entity);
@@ -260,20 +269,35 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
     }
 
 
+    /**
+     * 根据物理主键删除对象
+     * @param seq
+     * @return
+     * @throws Exception
+     */
     public final   boolean deleteBySeq(Long seq)throws Exception
     {
         return this.removeById(seq);
     }
 
 
-
-
+    /**
+     * 根据物理主键查询对象
+     * @param seq
+     * @return
+     * @throws Exception
+     */
     public final    V queryBySeq(Long  seq) throws Exception {
         return Bean.toModel(this.getById(seq), getModelClass().newInstance());
     }
 
 
-
+    /**
+     * 根据物理主键批量查询
+     * @param seqs
+     * @return
+     * @throws Exception
+     */
     public final    List<V> queryBatchSeq(List<Long>  seqs) throws Exception {
         return Bean.toModels(this.baseMapper.selectBatchIds(seqs), getModelClass());
     }
@@ -383,6 +407,15 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
         return Bean.toModels(this.list(wrapper),this.getModelClass());
     }
 
+    /**
+     * 列表查询，先从缓存中获取
+     * @param cacheKey  完整缓存键值
+     * @param orderBy 排序字段
+     * @param isAsc 排序规则
+     * @param params 参数胡列表
+     * @return
+     * @throws Exception
+     */
     protected final   List<V> queryForListWithCache(String cacheKey,String orderBy,boolean isAsc,Object... params)throws Exception
     {
         ArrayList<V>  list = queryFromCache(cacheKey);

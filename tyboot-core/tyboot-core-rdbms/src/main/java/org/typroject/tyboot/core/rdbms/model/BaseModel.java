@@ -22,8 +22,6 @@ public class BaseModel implements Serializable {
     @JsonIgnore
     protected String recUserId;
 
-    @JsonIgnore
-    protected String recStatus;
 
 
     public Long getSequenceNbr() {
@@ -50,11 +48,4 @@ public class BaseModel implements Serializable {
         this.recUserId = recUserId;
     }
 
-    public String getRecStatus() {
-        return recStatus;
-    }
-
-    public void setRecStatus(String recStatus) {
-        this.recStatus = recStatus;
-    }
 }
