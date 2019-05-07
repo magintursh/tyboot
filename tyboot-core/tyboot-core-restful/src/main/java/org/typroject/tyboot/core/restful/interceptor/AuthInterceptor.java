@@ -21,6 +21,7 @@ import org.typroject.tyboot.core.foundation.utils.DateUtil;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.core.restful.auth.AuthHandler;
 import org.typroject.tyboot.core.restful.auth.AuthWithSessionHandler;
+import org.typroject.tyboot.core.restful.auth.ExtendAuthHandler;
 import org.typroject.tyboot.core.restful.doc.TycloudOperation;
 import org.typroject.tyboot.core.restful.utils.APILevel;
 import org.typroject.tyboot.core.restful.utils.RequestUtil;
@@ -44,8 +45,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     private static final Sequence sequence = new Sequence();
 
-    private static SortedMap<Integer,AuthHandler> authHandlers                      = new TreeMap<>();
-    private static SortedMap<Integer,AuthWithSessionHandler> authWithSessionHandlers = new TreeMap<>();
+
 
 
 
@@ -54,19 +54,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     private SsoSessionsService ssoSessionsService;
 
 
-    public static void addAuthHandler(AuthHandler authHandler) throws Exception
-    {
-        if(!ValidationUtil.isEmpty(authHandlers.get(authHandler.order())))
-            throw new Exception("the order of "+authHandler.order()+ " have bean exist");
-       authHandlers.put(authHandler.order(),authHandler);
-    }
-
-    public static void addAuthWithSessionHandler(AuthWithSessionHandler authWithSessionHandler) throws Exception
-    {
-        if(!ValidationUtil.isEmpty(authWithSessionHandlers.get(authWithSessionHandler.order())))
-            throw new Exception("the order of "+authWithSessionHandler.order()+ " have bean exist");
-        authWithSessionHandlers.put(authWithSessionHandler.order(),authWithSessionHandler);
-    }
 
 
 
@@ -126,16 +113,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     private boolean doAuth(HandlerMethod handlerMethod,
                            String token, String appKey, String product) throws Exception {
 
-        /**
-         * 扩展的验证规则
-         */
-        if(!ValidationUtil.isEmpty(authHandlers))
-            for(Integer key:authHandlers.keySet())
-                authHandlers.get(key).doAuth(handlerMethod,token,appKey,product);
+
+        //执行扩展规则验证
+        ExtendAuthHandler.doAuth(handlerMethod,token,appKey,product);
 
 
         TycloudOperation tycloudOperation = handlerMethod.getMethodAnnotation(TycloudOperation.class);
-
 
         if(!tycloudOperation.needAuth())
             return true;
@@ -149,15 +132,11 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         {
             //刷新session：判断用户状态，登录信息状态，session是否过期,然后重置session过期时间并返回
              sessionsModel =  ssoSessionsService.refreshSession(token,product);
-
             if(ValidationUtil.isEmpty(sessionsModel))
                 throw new AuthException("登录信息失效，请重新登录");
 
-            //扩展的验证规则
-            if(!ValidationUtil.isEmpty(authWithSessionHandlers))
-                for(Integer key :authWithSessionHandlers.keySet())
-                    authWithSessionHandlers.get(key).doAuth(sessionsModel,handlerMethod,token,appKey,product);
-
+            //执行扩展规则验证
+            ExtendAuthHandler.doAuthWithSession(sessionsModel,handlerMethod,token,appKey,product);
         }
         if (!ValidationUtil.isEmpty(sessionsModel)) {
             setUser2ThreadLocal(sessionsModel);

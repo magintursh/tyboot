@@ -89,17 +89,28 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
 
     /**
      * 拼接默认的对象缓存前缀   ERASABLE+ModelClassName+propertyValue
-     * @param propertyValue
+     * @param propertiesValue  model的属性值作为后缀，多个值得拼接起来即可
      * @return
      */
-    protected String getDefaultModelCacheKey(String propertyValue)
+    protected String genCacheKeyForModel(String propertiesValue)
     {
-        return Redis.genKey(CacheType.ERASABLE.name(),this.getModelClass().getSimpleName().toUpperCase(),propertyValue);
+        return Redis.genKey(CacheType.ERASABLE.name(),this.getModelClass().getSimpleName().toUpperCase(),propertiesValue);
+    }
+
+    /**
+     * 生成列表缓存key
+     * @param propertiesValue model的属性值作为后缀，多个值得拼接起来即可
+     * @return
+     */
+    protected String genCacheKeyForModelList(String propertiesValue)
+    {
+        String suffix = this.getModelClass().getSimpleName().toUpperCase()+"_LIST";
+        return Redis.genKey(CacheType.ERASABLE.name(),suffix,propertiesValue);
     }
 
 
     /**
-     * 保存缓存信息
+     * 保存缓存信息  ,默认保存都使用Value类型
      * @param cacheKey  完整键值
      * @param t         要缓存的值
      * @param <T>
@@ -110,6 +121,10 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
             Redis.getRedisTemplate().opsForValue().set(cacheKey,t,cacheExpire, TimeUnit.SECONDS);
    }
 
+    /**
+     * 删除缓存
+     * @param cacheKey 完整的缓存键
+     */
    private static void deleteFromCache(String[] cacheKey)
    {
        if(!ValidationUtil.isEmpty(cacheKey))
@@ -118,7 +133,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
    }
 
     /**
-     * 从缓存中获取值，
+     * 从缓存中获取值，  默认都使用Value类型
      * @param cacheKey   完整的键值
      * @param <T>    要返回的对象类型
      * @return
@@ -137,14 +152,14 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
     /**
      * 更新model，并更新缓存。并更新或删除指定的缓存
      * @param model         要更新的model
-     * @param propertyValueAsCacheKey model的缓存key
-     * @param deleteCacheKey        要删除的缓存key
+     * @param propertyValueAsCacheKey 缓存model所用的其属性值
+     * @param deleteCacheKey        要删除的缓存key，删除使用完整的key
      * @return model
      * @throws Exception
      */
     protected final   V updateWithCache(V model,String propertyValueAsCacheKey,String... deleteCacheKey) throws Exception {
         model = this.updateWithModel(model);
-        saveCache(getDefaultModelCacheKey(propertyValueAsCacheKey),model);
+        saveCache(genCacheKeyForModel(propertyValueAsCacheKey),model);
         deleteFromCache(deleteCacheKey);
         return model;
     }
@@ -153,7 +168,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
     /**
      * 根据物理主键删除对象，一并删除所指定的缓存
      * @param seq
-     * @param cacheKeyForDelete
+     * @param cacheKeyForDelete  要删除的缓存key，删除使用完整的key
      * @return
      * @throws Exception
      */
@@ -172,12 +187,12 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @throws Exception
      */
     public final    V queryBySeqWithCache(Long  seq) throws Exception {
-       V v = queryFromCache(getDefaultModelCacheKey(String.valueOf(seq)));
+       V v = queryFromCache(genCacheKeyForModel(String.valueOf(seq)));
        if(ValidationUtil.isEmpty(v))
        {
            v = this.queryBySeq(seq);
            if(!ValidationUtil.isEmpty(v))
-               saveCache(getDefaultModelCacheKey(String.valueOf(seq)),v);
+               saveCache(genCacheKeyForModel(String.valueOf(seq)),v);
        }
         return v;
     }
@@ -192,12 +207,12 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      */
     public final   V queryByModelWithCache(V model,String propertyValueAsCacheKey) throws Exception
     {
-        V v = queryFromCache(getDefaultModelCacheKey(propertyValueAsCacheKey));
+        V v = queryFromCache(genCacheKeyForModel(propertyValueAsCacheKey));
         if(ValidationUtil.isEmpty(v))
         {
             v = this.queryByModel(model);
             if(!ValidationUtil.isEmpty(v))
-                saveCache(getDefaultModelCacheKey(propertyValueAsCacheKey),v);
+                saveCache(genCacheKeyForModel(propertyValueAsCacheKey),v);
         }
         return v;
     }
@@ -205,7 +220,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
 
     protected final    V queryModelByParamsWithCache(String propertyValueAsCacheKey,Object... params) throws Exception
     {
-        V v = queryFromCache(getDefaultModelCacheKey(propertyValueAsCacheKey));
+        V v = queryFromCache(genCacheKeyForModel(propertyValueAsCacheKey));
         if(ValidationUtil.isEmpty(v))
         {
             P entity    = this.getPoClass().newInstance();
@@ -222,7 +237,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
             QueryWrapper wrapper = new QueryWrapper();
             v = Bean.toModel(this.getOne(wrapper),this.getModelClass().newInstance());
             if(!ValidationUtil.isEmpty(v))
-                saveCache(getDefaultModelCacheKey(propertyValueAsCacheKey),v);
+                saveCache(genCacheKeyForModel(propertyValueAsCacheKey),v);
         }
         return v;
     }
@@ -250,7 +265,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      */
     public final   V createWithCache(V model,String propertyValueAsCacheKey,String... deleteCacheKey) throws Exception {
         model = this.createWithModel(model);
-        saveCache(getDefaultModelCacheKey(propertyValueAsCacheKey),model);
+        saveCache(genCacheKeyForModel(propertyValueAsCacheKey),model);
         deleteFromCache(deleteCacheKey);
         return model;
     }
@@ -346,7 +361,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      */
     public final V queryForPropertiesValue(String indexName,Object indexValue,String... propertyNames)throws Exception
     {
-        this.queryFromCache(this.getDefaultModelCacheKey(String.valueOf(indexValue)));
+        this.queryFromCache(this.genCacheKeyForModel(String.valueOf(indexValue)));
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.select(Bean.propertyToColums(propertyNames));
         wrapper.eq(Bean.propertyToColum(indexName),indexValue);

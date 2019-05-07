@@ -5,12 +5,19 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 /**
- * Created by magintursh on 2017/12/3.
+ * 将列表结构的数据转换为树状结构
  */
 public class TreeBuilder {
     public TreeBuilder() {
     }
 
+    /**
+     * 多层循环实现
+     * @param treeNodes  列表结构的数据
+     * @param root 树结构的根节点标识
+     * @param <N>
+     * @return
+     */
     public static <N extends TreeNode> Collection<N> bulid(Collection<N> treeNodes, Object root) {
         Collection<N> trees = new TreeSet<>();
         Iterator var3 = treeNodes.iterator();
@@ -36,6 +43,14 @@ public class TreeBuilder {
         return trees;
     }
 
+
+    /**
+     * 递归方式实现
+     * @param treeNodes  列表结构的数据
+     * @param root   树结构的根节点标识
+     * @param <N>
+     * @return
+     */
     public static <N extends TreeNode> Collection<N> buildByRecursive(Collection<N> treeNodes, Object root) {
         Collection<N> trees = new  TreeSet<>();
         Iterator var3 = treeNodes.iterator();

@@ -16,7 +16,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-		<tyboot-version>1.0-Ty</tyboot-version>
 	</properties>
 
 	<parent>
@@ -50,6 +49,7 @@
 		<module>tyboot-api</module>
 		<module>tyboot-core</module>
 		<module>tyboot-component</module>
+		<module>tyboot-prototype</module>
 	</modules>
 
 

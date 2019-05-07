@@ -4,7 +4,10 @@ import org.springframework.stereotype.Component;
 import org.typroject.tyboot.api.face.systemctl.model.DictionarieValueModel;
 import org.typroject.tyboot.api.face.systemctl.orm.dao.DictionarieValueMapper;
 import org.typroject.tyboot.api.face.systemctl.orm.entity.DictionarieValue;
+import org.typroject.tyboot.component.cache.Redis;
 import org.typroject.tyboot.core.rdbms.service.BaseService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -19,10 +22,18 @@ public class DictionarieValueService extends BaseService<DictionarieValueModel,D
 
 
 
-    public DictionarieValueModel selectByCodeAndKey(String agencyCode,String dictCode,String dictDataKey) throws Exception
+    public DictionarieValueModel queryValueByCodeAndKey(String agencyCode,String dictCode,String dictDataKey) throws Exception
     {
-        return this.queryModelByParams(agencyCode,dictCode,dictDataKey);
+        return this.queryModelByParamsWithCache(Redis.genKey(agencyCode,dictCode,dictDataKey),agencyCode,dictCode,dictDataKey);
     }
+
+
+    public List<DictionarieValueModel> queryByDictCode(String agencyCode,String dictCode) throws Exception
+    {
+        return this.queryForListWithCache(genCacheKeyForModelList(Redis.genKey(agencyCode,dictCode)),"order_Num",true,agencyCode,dictCode);
+    }
+
+
 
 
 

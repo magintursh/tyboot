@@ -18,19 +18,9 @@ public class LocationInfoService extends BaseService<LocationInfoModel,LocationI
 
 
 
-    public static final String LOCATIONINFO_LIST="LOCATIONINFO_LIST";
-
-
-
-    public static final String cacheKeyForLocationList(String parentCode)
-    {
-        return Redis.genKey(CacheType.ERASABLE.name(),LOCATIONINFO_LIST,parentCode);
-    }
-
-
     public List<LocationInfoModel> getByParent(String  parentCode) throws Exception
     {
-       return this.queryForListWithCache(cacheKeyForLocationList(parentCode),null,false,parentCode);
+       return this.queryForListWithCache(genCacheKeyForModelList(parentCode),null,false,parentCode);
     }
 
 

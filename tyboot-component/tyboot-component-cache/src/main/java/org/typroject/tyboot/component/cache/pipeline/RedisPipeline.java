@@ -9,6 +9,7 @@ import org.typroject.tyboot.core.foundation.utils.Bean;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yaohelang on 2018/7/3.
@@ -97,4 +98,11 @@ public class RedisPipeline {
         return models;
 
     }
+
+
+    public static Map<String,Object> pipelineGetFromValue(String... key)
+    {
+        return null;
+    }
+
 }

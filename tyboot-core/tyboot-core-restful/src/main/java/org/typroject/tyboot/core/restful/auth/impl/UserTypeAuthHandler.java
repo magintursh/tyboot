@@ -7,6 +7,7 @@ import org.typroject.tyboot.core.auth.exception.AuthException;
 import org.typroject.tyboot.core.auth.face.model.SsoSessionsModel;
 import org.typroject.tyboot.core.foundation.enumeration.UserType;
 import org.typroject.tyboot.core.restful.auth.AuthWithSessionHandler;
+import org.typroject.tyboot.core.restful.auth.ExtendAuthHandler;
 import org.typroject.tyboot.core.restful.doc.TycloudOperation;
 import org.typroject.tyboot.core.restful.interceptor.AuthInterceptor;
 
@@ -20,7 +21,7 @@ public class UserTypeAuthHandler implements AuthWithSessionHandler ,Initializing
 
     public void afterPropertiesSet() throws Exception
     {
-        AuthInterceptor.addAuthWithSessionHandler(this);
+        ExtendAuthHandler.addAuthWithSessionHandler(this);
     }
 
 

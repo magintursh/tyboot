@@ -31,8 +31,6 @@ import java.util.List;
 public class DictionarieService extends BaseService<DictionarieModel,Dictionarie,DictionarieMapper> implements InitializingBean {
 
 
-    public static final String CACHEKEY_DICTIONARY_LIST="DICTIONARY_LIST";
-
 
 
     public void afterPropertiesSet() throws Exception
@@ -40,16 +38,11 @@ public class DictionarieService extends BaseService<DictionarieModel,Dictionarie
         this.setCacheExpire(24*60*60*60L);//设置字典的缓存时间为24小时
     }
 
-    public static String getCachekeyDictionaryList(String agencyCode)
-    {
-        return Redis.genKey(CacheType.ERASABLE.name(),CACHEKEY_DICTIONARY_LIST,agencyCode);
-    }
-
     public DictionarieModel createDict(DictionarieModel model)throws Exception
     {
         return this.createWithCache(model,
                 Redis.genKey(model.getAgencyCode(),model.getDictCode()),
-                getCachekeyDictionaryList(model.getAgencyCode()));
+                genCacheKeyForModelList(model.getAgencyCode()));
     }
 
     public boolean deleteDicts(List<Long > seqs)throws Exception
@@ -60,8 +53,9 @@ public class DictionarieService extends BaseService<DictionarieModel,Dictionarie
             if(ValidationUtil.isEmpty(model))
                 throw new DataNotFound("找不到指定的字典.");
             this.deleteBySeqWithCache(seq,
-                Redis.genKey(model.getAgencyCode(),model.getDictCode()));
-                getCachekeyDictionaryList(model.getAgencyCode());
+                    genCacheKeyForModel(Redis.genKey(model.getAgencyCode(),model.getDictCode())),
+                    genCacheKeyForModelList(model.getAgencyCode()));
+
         }
         return true;
     }
@@ -71,10 +65,11 @@ public class DictionarieService extends BaseService<DictionarieModel,Dictionarie
         DictionarieModel oldModel = this.queryBySeq(model.getSequenceNbr());
         if(ValidationUtil.isEmpty(oldModel))
             throw new DataNotFound("找不到指定的字典.");
+
         oldModel  = Bean.copyExistPropertis(model,oldModel);
         return this.updateWithCache(oldModel,
                 Redis.genKey(oldModel.getAgencyCode(),oldModel.getDictCode()),
-                getCachekeyDictionaryList(model.getAgencyCode()));
+                genCacheKeyForModelList(model.getAgencyCode()));
     }
 
 
@@ -85,7 +80,7 @@ public class DictionarieService extends BaseService<DictionarieModel,Dictionarie
 
     public List<DictionarieModel> queryByAgencyCode(String agencyCode) throws Exception
     {
-        return this.queryForListWithCache(getCachekeyDictionaryList(agencyCode),"REC_DATE", false,agencyCode);
+        return this.queryForListWithCache(genCacheKeyForModelList(agencyCode),"REC_DATE", false,agencyCode);
     }
 
 

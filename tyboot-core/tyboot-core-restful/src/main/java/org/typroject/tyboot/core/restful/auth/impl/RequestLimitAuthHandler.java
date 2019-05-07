@@ -12,6 +12,7 @@ import org.typroject.tyboot.core.foundation.context.RequestContext;
 import org.typroject.tyboot.core.foundation.context.SpringContextHelper;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.core.restful.auth.AuthHandler;
+import org.typroject.tyboot.core.restful.auth.ExtendAuthHandler;
 import org.typroject.tyboot.core.restful.doc.TycloudOperation;
 import org.typroject.tyboot.core.restful.exception.instance.TooManyRequests;
 import org.typroject.tyboot.core.restful.interceptor.AuthInterceptor;
@@ -36,6 +37,8 @@ public class RequestLimitAuthHandler implements AuthHandler,InitializingBean {
     {
         userId,IP,token,device,API
     }
+
+
 
 
 
@@ -64,7 +67,7 @@ public class RequestLimitAuthHandler implements AuthHandler,InitializingBean {
     {
 
         redisTemplate = (RedisTemplate)SpringContextHelper.getBean(RedisTemplate.class);
-        AuthInterceptor.addAuthHandler(this);
+        ExtendAuthHandler.addAuthHandler(this);
     }
 
 

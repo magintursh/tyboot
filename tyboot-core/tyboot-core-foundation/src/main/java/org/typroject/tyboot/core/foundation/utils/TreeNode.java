@@ -6,6 +6,11 @@ package org.typroject.tyboot.core.foundation.utils;
 
 import java.util.Collection;
 
+/**
+ * 树结构的节点，要使用TreeBuilder进行转换，先要实现此接口
+ * @param <N>
+ * @param <ID>
+ */
 public interface TreeNode<N,ID> {
     ID getMyParentId();
 
