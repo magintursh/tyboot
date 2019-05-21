@@ -57,7 +57,7 @@ public class MenuResource {
         menuModel.setAgencyCode(RequestContext.getAgencyCode());
         menuModel.setCreateUserId(RequestContext.getExeUserId());
         menuModel.setCreateTime(new Date());
-        return ResponseHelper.buildRespons( menuService.createMenuList(menuModel));
+        return ResponseHelper.buildResponse( menuService.createMenuList(menuModel));
     }
 
 
@@ -68,7 +68,7 @@ public class MenuResource {
     @RequestMapping(value = "/{sequenceNBR}", method = RequestMethod.GET)
     public ResponseModel<MenuModel> seleteOne(@PathVariable Long sequenceNbr) throws Exception
     {
-        return ResponseHelper.buildRespons(this.menuService.queryBySeq(sequenceNbr));
+        return ResponseHelper.buildResponse(this.menuService.queryBySeq(sequenceNbr));
     }
 
 
@@ -79,7 +79,7 @@ public class MenuResource {
     @RequestMapping(value = "/agency/menus", method = RequestMethod.GET)
     public ResponseModel<List<MenuModel>> selectByAgency() throws Exception
     {
-        return ResponseHelper.buildRespons(this.menuService.queryForList(null, RequestContext.getAgencyCode(),null,null));
+        return ResponseHelper.buildResponse(this.menuService.queryForList(null, RequestContext.getAgencyCode(),null,null));
     }
 
 
@@ -93,7 +93,7 @@ public class MenuResource {
     public ResponseModel<MenuModel> updateMenu(@RequestBody MenuModel menuModel, @PathVariable Long sequenceNBR) throws Exception
     {
         menuModel.setSequenceNbr(sequenceNBR);
-        return ResponseHelper.buildRespons(menuService.updateMenu(menuModel));
+        return ResponseHelper.buildResponse(menuService.updateMenu(menuModel));
     }
 
 
@@ -102,7 +102,7 @@ public class MenuResource {
     @RequestMapping(value = "/{ids}", method = RequestMethod.DELETE)
     public ResponseModel<String> deleteMenu(@PathVariable String ids) throws Exception
     {
-        return ResponseHelper.buildRespons(menuService.deleteMenu(ids));
+        return ResponseHelper.buildResponse(menuService.deleteMenu(ids));
     }
 
 

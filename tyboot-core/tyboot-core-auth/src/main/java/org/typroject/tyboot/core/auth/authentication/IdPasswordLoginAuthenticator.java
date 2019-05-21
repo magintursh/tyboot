@@ -25,7 +25,7 @@ public class IdPasswordLoginAuthenticator implements LoginAuthenticatorHandler {
     private LoginInfoService loginInfoService;
 
 
-
+    
     public LoginInfoModel doAuthenticate(IdType idType, UserType userType, AuthModel authModel) throws Exception{
 
         IdPasswordAuthModel idPasswordAuthModel = (IdPasswordAuthModel) authModel;

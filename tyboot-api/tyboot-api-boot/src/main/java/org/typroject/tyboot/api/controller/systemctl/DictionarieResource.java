@@ -41,7 +41,7 @@ public class DictionarieResource {
     public ResponseModel<DictionarieModel> createDictionary(@RequestBody DictionarieModel dictionaryModel) throws Exception
     {
         dictionaryModel = dictionarieService.createDict(dictionaryModel);
-        return ResponseHelper.buildRespons(dictionaryModel);
+        return ResponseHelper.buildResponse(dictionaryModel);
     }
 
 
@@ -55,7 +55,7 @@ public class DictionarieResource {
         {
             seqs.add(Long.parseLong(ids[i]));
         }
-        return ResponseHelper.buildRespons(dictionarieService.deleteDicts(seqs));
+        return ResponseHelper.buildResponse(dictionarieService.deleteDicts(seqs));
     }
 
 
@@ -66,7 +66,7 @@ public class DictionarieResource {
             @RequestBody DictionarieModel dictionaryModel,
             @PathVariable(value="sequenceNbr") String sequenceNbr) throws Exception {
         dictionaryModel.setDictCode(sequenceNbr);
-        return ResponseHelper.buildRespons(dictionarieService.updateDict(dictionaryModel));
+        return ResponseHelper.buildResponse(dictionarieService.updateDict(dictionaryModel));
     }
 
 
@@ -76,7 +76,7 @@ public class DictionarieResource {
     public ResponseModel<DictionarieModel> queryByCode(
             @ApiParam
             @PathVariable(value = "dictCode") String dictCode) throws Exception {
-        return ResponseHelper.buildRespons(dictionarieService.queryByCode("SUPER_ADMIN",dictCode));
+        return ResponseHelper.buildResponse(dictionarieService.queryByCode("SUPER_ADMIN",dictCode));
     }
 
 
@@ -95,7 +95,7 @@ public class DictionarieResource {
         Page page = new Page();
         page.setCurrent(current);
         page.setSize(size);
-        return ResponseHelper.buildRespons(dictionarieService.queryDictPage(page,agencyCode,buType,dictAlias,dictName,dictCode));
+        return ResponseHelper.buildResponse(dictionarieService.queryDictPage(page,agencyCode,buType,dictAlias,dictName,dictCode));
     }
 
 
@@ -104,7 +104,7 @@ public class DictionarieResource {
     @RequestMapping(value = "/{dictCode}/available", method = RequestMethod.GET)
     public ResponseModel<Boolean> isDictionaryCodeAvailable(
             @PathVariable(value = "dictCode") String dictCode) throws Exception {
-        return ResponseHelper.buildRespons(ValidationUtil.isEmpty(dictionarieService.queryByCode("SUPER_ADMIN",dictCode)));
+        return ResponseHelper.buildResponse(ValidationUtil.isEmpty(dictionarieService.queryByCode("SUPER_ADMIN",dictCode)));
     }
 
     @TycloudOperation(ApiLevel = APILevel.ALL,needAuth = false)

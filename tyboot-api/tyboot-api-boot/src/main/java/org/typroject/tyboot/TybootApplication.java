@@ -10,7 +10,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
  */
 //@actuator
 
-@MapperScan("org.typroject.*.*.face.orm.dao")
+@MapperScan({"org.typroject.tyboot.api.face.*.orm.dao","org.typroject.tyboot.*.*.face.orm.dao"})
 @SpringBootApplication
 public class TybootApplication {
     public static void main(String[] args) {

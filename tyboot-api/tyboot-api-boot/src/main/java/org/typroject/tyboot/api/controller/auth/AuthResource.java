@@ -100,7 +100,7 @@ public class AuthResource {
     private ResponseModel doAuthenticate(IdType idType, ProvidedAuthType authType, UserType userType, AuthModel authModel) throws Exception
     {
         HashMap<String, Object> result = loginAuthenticator.authLogin(idType, authType, userType, authModel);
-        return ResponseHelper.buildRespons(result);
+        return ResponseHelper.buildResponse(result);
     }
 
 

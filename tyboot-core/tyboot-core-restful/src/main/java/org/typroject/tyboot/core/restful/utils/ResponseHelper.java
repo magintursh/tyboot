@@ -30,8 +30,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class ResponseHelper {
 
-	public static <T> ResponseModel buildRespons(T t) {
-		ResponseModel<T> response = new ResponseModel();
+	public static <T> ResponseModel<T> buildResponse(T t) {
+		ResponseModel<T> response = new ResponseModel<>();
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		response.setResult(t);
 		response.setDevMessage("SUCCESS");

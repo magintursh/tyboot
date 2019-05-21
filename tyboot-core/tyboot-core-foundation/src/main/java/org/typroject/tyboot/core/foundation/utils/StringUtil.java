@@ -12,6 +12,8 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -295,9 +297,49 @@ public final class StringUtil
 		String[] strings = s.split(",");
     	return strings;
     }
-    
-    
-    public static String  string2SqlCase(String s){
+
+
+
+	public static Long[] String2LongArray(String str)
+	{
+		Long [] longSeqs    = new Long[]{};
+		if(ValidationUtil.isEmpty(str))
+		{
+			String [] seqs      = StringUtil.string2Array(str);
+			longSeqs            = new Long[seqs.length];
+			for(int i=0;i<seqs.length;i++)
+				longSeqs[i]     =Long.parseLong(seqs[i]);
+		}
+		return longSeqs;
+	}
+
+	public static List<Long> String2LongList(String str)
+	{
+		List<Long> longSeqs     = new ArrayList<>();
+		if(!ValidationUtil.isEmpty(str))
+		{
+			String [] seqs          = StringUtil.string2Array(str);
+			for(String id:seqs)longSeqs.add(Long.parseLong(id));
+		}
+		return longSeqs;
+	}
+
+
+
+	public static List<String> String2List(String str)
+	{
+		List<String> stringList     = new ArrayList<>();
+		if(!ValidationUtil.isEmpty(str))
+		{
+			String [] seqs          = StringUtil.string2Array(str);
+			for(String id:seqs)stringList.add(id);
+		}
+		return stringList;
+	}
+
+
+
+	public static String  string2SqlCase(String s){
 		String[] strings = s.split(",");
 		String returnStr = "";
 		if(!ValidationUtil.isEmpty(strings))

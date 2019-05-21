@@ -37,7 +37,7 @@ public @interface TycloudResource {
     String resource() default "";
 
     @AliasFor("resource")
-    String value();
+    String value() default "";
 
     String description() default "";
 }

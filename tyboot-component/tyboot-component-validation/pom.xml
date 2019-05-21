@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.typroject</groupId>
 		<artifactId>tyboot-component</artifactId>
-		<version>1.0-Ty</version>
+		<version>1.0.1-Ty</version>
 	</parent>
 
 	<groupId>org.typroject</groupId>
@@ -20,7 +20,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-core-foundation</artifactId>
-			<version>1.0-Ty</version>
+			<version>1.0.1-Ty</version>
 		</dependency>
 
 		<dependency>

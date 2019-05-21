@@ -204,7 +204,7 @@ public class Bean {
 		return result;
 	}
 	/**
-	 * TODO.将数据库查询的结果集转换为自定义对象结果集
+	 * 将数据库查询的结果集转换为自定义对象结果集
 	 * 
 	 * @param listMap
 	 * @param T
@@ -221,6 +221,55 @@ public class Bean {
 		}
 		return list;
 	}
+
+
+
+	public static <T> List<Map> listBean2ListMap(List<T> listBean, Class<T> T) throws Exception {
+		List<Map> list = new ArrayList<Map>();
+		if(!ValidationUtil.isEmpty(listBean)){
+			for(T t : listBean){
+				list.add(Bean.BeantoMap(t));
+			}
+		}
+		return list;
+	}
+
+
+	/**
+	 * 将列表数据转换为，按内部对象的指定属性为key的map
+	 * @param beanList
+	 * @param propertyName
+	 * @param <T>
+	 * @return
+	 * @throws Exception
+	 */
+	public static <T> Map<Object,List<T>> list2MapList(List<T> beanList,String propertyName) throws Exception
+	{
+		Map<Object,List<T>> returnMap = new HashMap<>();
+		if(!ValidationUtil.isEmpty(beanList))
+		{
+			Set<Object> keys = new HashSet<>();
+			for(T t:beanList)
+				keys.add(getPropertyValue(propertyName,t));
+
+			for(Object key :keys)
+			{
+				List<T> innerList 	= returnMap.get(key);
+				if(ValidationUtil.isEmpty(innerList))
+					innerList 		= new ArrayList<>();
+				for(T innert:beanList)
+				{
+					Object innerkey = getPropertyValue(propertyName,innert);
+
+					if(key.equals(innerkey))
+						innerList.add(innert);
+				}
+				returnMap.put(key,innerList);
+			}
+		}
+		return returnMap;
+	}
+
 
 	/**
 	 * TODO.将javaBean及其父对象的属性值转换为Map

@@ -62,7 +62,7 @@ public class RoleResource {
         {
             agencyCode = RequestContext.getAgencyCode();
         }
-        return ResponseHelper.buildRespons(roleService.qeuryByName(page,roleName, agencyCode));
+        return ResponseHelper.buildResponse(roleService.qeuryByName(page,roleName, agencyCode));
     }
 
 
@@ -73,7 +73,7 @@ public class RoleResource {
     @RequestMapping(value = "/agency", method = RequestMethod.GET)
     public ResponseModel<List<RoleModel>> selectByAgency () throws Exception
     {
-        return ResponseHelper.buildRespons(roleService.selectByAgency(RequestContext.getAgencyCode()));
+        return ResponseHelper.buildResponse(roleService.selectByAgency(RequestContext.getAgencyCode()));
     }
 
 
@@ -88,7 +88,7 @@ public class RoleResource {
     @RequestMapping(value = "/{sequenceNBR}", method = RequestMethod.GET)
     public ResponseModel<RoleModel> queryByCode(
             @PathVariable(value = "sequenceNBR") String sequenceNBR) throws Exception {
-        return ResponseHelper.buildRespons(Bean.toModel(roleService.queryForPropertiesValue("sequenceNbr",sequenceNBR,"roleName"),new RoleModel()));
+        return ResponseHelper.buildResponse(Bean.toModel(roleService.queryForPropertiesValue("sequenceNbr",sequenceNBR,"roleName"),new RoleModel()));
     }
 
     @TycloudOperation( ApiLevel = APILevel.AGENCY)
@@ -101,7 +101,7 @@ public class RoleResource {
         roleModel.setCreateUserId(RequestContext.getExeUserId());
         roleModel.setAgencyCode(RequestContext.getAgencyCode());
         roleModel = roleService.createRole(roleModel);
-        return ResponseHelper.buildRespons(roleModel);
+        return ResponseHelper.buildResponse(roleModel);
     }
 
     @TycloudOperation( ApiLevel = APILevel.AGENCY)
@@ -111,7 +111,7 @@ public class RoleResource {
     public ResponseModel<RoleModel> updateRole(@RequestBody RoleModel roleModel, @PathVariable Long sequenceNBR) throws Exception
     {
         roleModel.setSequenceNbr(sequenceNBR);
-        return ResponseHelper.buildRespons(roleService.updateRole(roleModel));
+        return ResponseHelper.buildResponse(roleService.updateRole(roleModel));
     }
 
 
@@ -122,7 +122,7 @@ public class RoleResource {
     public ResponseModel<Boolean> deleteMenu(@PathVariable Long   id) throws Exception
     {
 
-        return ResponseHelper.buildRespons(roleService.deleteRole(id));
+        return ResponseHelper.buildResponse(roleService.deleteRole(id));
     }
 
 

@@ -6,7 +6,7 @@
     <parent>
         <artifactId>tyboot</artifactId>
         <groupId>org.typroject</groupId>
-        <version>1.0-Ty</version>
+        <version>1.0.1-Ty</version>
     </parent>
 
 
@@ -31,7 +31,8 @@
 		<module>tyboot-component-cache</module>
 		<module>tyboot-component-validation</module>
 		<module>tyboot-component-mongo</module>
-        <module>tyboot-component-notification</module>
+		<module>tyboot-component-activemq</module>
+		<module>tyboot-component-emq</module>
 		
 		
     </modules>

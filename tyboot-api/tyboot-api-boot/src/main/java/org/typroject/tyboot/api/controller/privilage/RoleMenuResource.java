@@ -45,7 +45,7 @@ public class RoleMenuResource {
     @RequestMapping(value = "/role/{sequenceNBR}", method = RequestMethod.PUT)
     public ResponseModel<List<RoleMenuModel>> updateByRole(@PathVariable Long sequenceNBR, @RequestBody String [] menuIds) throws Exception
     {
-        return ResponseHelper.buildRespons(this.roleMenuService.updateByRole(menuIds,sequenceNBR, RequestContext.getAgencyCode()));
+        return ResponseHelper.buildResponse(this.roleMenuService.updateByRole(menuIds,sequenceNBR, RequestContext.getAgencyCode()));
     }
 
 

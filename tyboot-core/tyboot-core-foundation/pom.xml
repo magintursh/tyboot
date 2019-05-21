@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.typroject</groupId>
 		<artifactId>tyboot-core</artifactId>
-		<version>1.0-Ty</version>
+		<version>1.0.1-Ty</version>
 	</parent>
 
 	<groupId>org.typroject</groupId>
@@ -67,6 +67,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
+		</dependency>
+
+		<!--验证码-->
+		<dependency>
+			<groupId>com.github.axet</groupId>
+			<artifactId>kaptcha</artifactId>
+			<version>0.0.9</version>
 		</dependency>
 
 	</dependencies>

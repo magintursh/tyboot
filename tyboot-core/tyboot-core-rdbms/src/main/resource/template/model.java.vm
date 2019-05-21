@@ -1,54 +1,36 @@
-package ${package.Entity};
+package ${package.ServiceImpl};
 
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
-/**
- * <p>
- * ${table.comment} model
- * </p>
- *
- * @author 子杨
- * @since ${date}
- */
-public class ${entity}Model extends BaseModel {
+    /**
+     * <p>
+     * ${table.comment}
+     * </p>
+     *
+     * @author 子杨
+     * @since ${date}
+     */
+    public class ${entity}Model extends BaseModel {
 
-    private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-    #foreach($field in ${table.fields})
-        #if(${field.keyFlag})
-            #set($keyPropertyName=${field.propertyName})
-        #end
-        #if("$!field.comment" != "")
-            /**
-             * ${field.comment}
-             */
-        #end
-    private ${field.propertyType} ${field.propertyName};
-    #end
-
-
-
-    #foreach($field in ${table.fields})
-        #if(${field.propertyType.equals("Boolean")})
-            #set($getprefix="is")
-        #else
-            #set($getprefix="get")
+        #foreach($field in ${table.fields})
+            #if("$!field.comment" != "")
+                /**
+                 * ${field.comment}
+                 */
+            #end
+            private ${field.propertyType} ${field.propertyName};
         #end
 
-        public ${field.propertyType} ${getprefix}${field.capitalName}() {
-        return ${field.propertyName};
+
+        #foreach($field in ${table.fields})
+        public ${field.propertyType} get${field.capitalName}() {
+            return ${field.propertyName};
+        }
+        public void set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+            this.${field.propertyName} = ${field.propertyName};
+        }
+        #end
+
     }
-
-        #if(${entityBuilderModel})
-        public ${entity} set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
-        #else
-            public void set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
-        #end
-        this.${field.propertyName} = ${field.propertyName};
-        #if(${entityBuilderModel})
-            return this;
-        #end
-    }
-    #end
-	
-}
