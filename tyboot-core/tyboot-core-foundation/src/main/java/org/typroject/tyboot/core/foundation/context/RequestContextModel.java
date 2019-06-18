@@ -157,6 +157,7 @@ public class RequestContextModel implements Serializable {
 	}
 
 	public void clean() {
+		this.loginId = null;
 		this.traceId = null;
 		this.excutedUserId = null;
 		this.agencyCode = null;

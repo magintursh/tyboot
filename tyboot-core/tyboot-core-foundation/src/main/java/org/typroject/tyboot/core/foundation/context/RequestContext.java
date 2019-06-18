@@ -52,10 +52,9 @@ public class RequestContext {
 		return getRequestContext().getLoginId();
 	}
 
-	public void setLoginId(String loginId) {
+	public static void setLoginId(String loginId) {
 		getRequestContext().setLoginId(loginId);
 	}
-
 
 	public static void setToken(String token)
 	{
