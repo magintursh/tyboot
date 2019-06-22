@@ -235,6 +235,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
             }
 
             QueryWrapper wrapper = new QueryWrapper();
+            wrapper.setEntity(entity);
             v = Bean.toModel(this.getOne(wrapper),this.getModelClass().newInstance());
             if(!ValidationUtil.isEmpty(v))
                 saveCache(genCacheKeyForModel(propertyValueAsCacheKey),v);

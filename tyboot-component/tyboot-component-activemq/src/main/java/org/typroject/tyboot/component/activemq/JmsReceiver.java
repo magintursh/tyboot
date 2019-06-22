@@ -8,6 +8,7 @@ import org.typroject.tyboot.core.foundation.context.SpringContextHelper;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 
 
+
 public class JmsReceiver {
 
 

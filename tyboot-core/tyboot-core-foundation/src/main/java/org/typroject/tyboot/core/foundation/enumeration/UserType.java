@@ -27,9 +27,13 @@ public enum UserType {
 
 	PUBLIC_USER(100),
 
-	AGENCY_USER(200),
+	CUSTOMER(200),//本地用户级别
 
-	SUPER_ADMIN(300);
+	AGENCY_USER(300),
+
+	SUPER_ADMIN(400);
+
+
 
 	/**
 	 * Field value

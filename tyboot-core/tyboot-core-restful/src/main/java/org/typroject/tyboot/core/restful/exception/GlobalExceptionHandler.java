@@ -21,6 +21,8 @@ public class GlobalExceptionHandler {
 
     private final Logger logger = LogManager.getLogger(GlobalExceptionHandler.class);
 
+    private static Boolean alwaysOk = true;//http返回码永远都是200
+
 
     @ExceptionHandler(value = {Exception.class,BaseException.class,RuntimeException.class,Throwable.class})
     @ResponseBody
@@ -34,17 +36,31 @@ public class GlobalExceptionHandler {
             responseModel.setMessage(baseException.getMessage());
             responseModel.setDevMessage(baseException.getDevMessage());
             logger.error(baseException.getDevMessage());
+            logger.error(e.getMessage(),e);
+
+            if(!alwaysOk)
+                response.setStatus(baseException.getHttpStatus());
         }else{
             responseModel.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             responseModel.setDevMessage(e.getMessage());
             responseModel.setMessage("未知错误,请联系管理员.");
+            if(!alwaysOk)
+                response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+            logger.error(e.getMessage(),e);
         }
-        logger.error(e.getMessage(),e);
-        response.setStatus(HttpStatus.OK.value());//http返回码永远都是200，真是的返回码见responseBody中的status字段
+
+        if(alwaysOk)
+            response.setStatus(HttpStatus.OK.value());//http返回码永远都是200，真是的返回码见responseBody中的status字段
+
         return responseModel;
     }
 
+    public static Boolean getAlwaysOk() {
+        return alwaysOk;
+    }
 
-
-
+    public static void setAlwaysOk(Boolean alwaysOk) {
+        alwaysOk = alwaysOk;
+    }
 }

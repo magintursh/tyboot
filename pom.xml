@@ -5,7 +5,7 @@
 
 	<groupId>org.typroject</groupId>
 	<artifactId>tyboot</artifactId>
-	<version>1.0.1-Ty</version>
+	<version>1.0.5-Ty</version>
 	<packaging>pom</packaging>
 
 	<name>tyboot</name>
@@ -16,15 +16,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+		<springboot.version>2.1.6.RELEASE</springboot.version>
+		<springcloud.version>Greenwich.SR1</springcloud.version>
 	</properties>
-
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.7.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-
 
 	<dependencies>
 
@@ -37,7 +31,15 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>Finchley.SR2</version>
+				<version>${springcloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<!-- Import dependency management from Spring Boot -->
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${springboot.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>

@@ -39,8 +39,7 @@ public class RestResourceInterceptor {
 
 
     /*定义切入点，所有那些触发业务事件的方法都会成为切入点*/
-    @Pointcut("execution(* org.typroject.api.*.controller.*.*Resource*.*(..))" +
-            "   || execution(* org.typroject.api.*.controller.*Resource*.*(..))")
+    @Pointcut("@annotation(org.typroject.tyboot.core.restful.doc.TycloudOperation)")
     public void restEventOccured() {
     }
 
