@@ -48,8 +48,7 @@ public class RestEventInterceptor {
     private ApplicationContext applicationContext;
 
     /*定义切入点，所有那些触发业务事件的方法都会成为切入点*/
-    @Pointcut("execution( * org.typroject.api.*.controller.*.*Resource*.*(..))" +
-            "   || execution(* org.typroject.api.*.controller.*Resource*.*(..))")
+    @Pointcut("@annotation(org.typroject.tyboot.component.event.RestEventTrigger)")
     public void restEventOccured() {
     }
 
@@ -69,15 +68,16 @@ public class RestEventInterceptor {
     private void publishEvent(ProceedingJoinPoint pjp,Object retVal) {
         try {
             MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
-            Method method = methodSignature.getMethod();
-            RestEventTrigger eventTrigger = method.getAnnotation(RestEventTrigger.class);
+            Method method   = methodSignature.getMethod();
+            Object []params = pjp.getArgs();
+            RestEventTrigger eventTrigger   = method.getAnnotation(RestEventTrigger.class);
             //如果正在执行的方法上有TyrestEventTrigger注解，说明该方法是一个系统业务事件的触发器
             if (!ValidationUtil.isEmpty(eventTrigger)) {
                 String[] events = eventTrigger.value();
                 if (!ValidationUtil.isEmpty(events)) {
-                    Object eventSourceData = null;
+                    Object eventSourceData  = null;
                     for (String event : events) {
-                        eventSourceData = RestEventHandler.obtainEventSource(event);
+                        eventSourceData     = RestEventHandler.obtainEventSource(event);
 
                         if(ValidationUtil.isEmpty(eventSourceData))
                         {
@@ -86,12 +86,12 @@ public class RestEventInterceptor {
                         // 根据不同的事件类型，构造不同的事件处理器所需要的事件源数据
 
                         RequestContextModel contextModel = RequestContext.cloneRequestContext();
-                        applicationContext.publishEvent(new RestEvent(event, eventSourceData,contextModel));
+                        applicationContext.publishEvent(new RestEvent(event, params,eventSourceData,contextModel));
                     }
                 }
             }
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(),e);
         }
     }
 }

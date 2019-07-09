@@ -32,11 +32,14 @@ public class RestEvent extends ApplicationEvent
 	private String restEventName;
 
 	private RequestContextModel requestContextModel;
+
+	private Object [] params;
 	
-	public RestEvent(String restEventName,Object eventSource,RequestContextModel contextModel){
+	public RestEvent(String restEventName,Object [] params,Object eventSource,RequestContextModel contextModel){
 		super(eventSource);
 		this.restEventName = restEventName;
 		this.requestContextModel = contextModel;
+		this.params = params;
 	}
 
 	public RequestContextModel getRequestContextModel() {
@@ -46,5 +49,9 @@ public class RestEvent extends ApplicationEvent
 	public String getRestEventName()
 	{
 		return restEventName;
+	}
+
+	public Object[] getParams() {
+		return params;
 	}
 }

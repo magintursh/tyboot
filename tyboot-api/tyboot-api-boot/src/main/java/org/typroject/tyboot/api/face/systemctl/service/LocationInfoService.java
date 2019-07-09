@@ -26,7 +26,7 @@ public class LocationInfoService extends BaseService<LocationInfoModel,LocationI
 
     public LocationInfoModel getByCode(String  locationCode) throws Exception
     {
-        return queryModelByParamsWithCache(locationCode,locationCode);
+        return queryModelByParamsWithCache(locationCode);
     }
 
 

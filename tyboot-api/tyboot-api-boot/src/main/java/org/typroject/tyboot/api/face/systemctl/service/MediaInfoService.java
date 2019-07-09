@@ -144,7 +144,7 @@ public class MediaInfoService extends BaseService<MediaInfoModel, MediaInfo, Med
 
 
     public MediaInfoModel queryByAlias(String entityType, String entityId, String mediaAlias) throws Exception {
-        MediaInfoModel postMediaInfoModel  =  this.queryModelByParamsWithCache(genCacheKeyForModel(Redis.genKey(entityType,entityId,mediaAlias)),entityType,entityId,mediaAlias);
+        MediaInfoModel postMediaInfoModel  =  this.queryModelByParamsWithCache(entityType,entityId,mediaAlias);
         if(!ValidationUtil.isEmpty(postMediaInfoModel))
             postMediaInfoModel.setMediaUrl(this.getUrl(postMediaInfoModel.getMediaType(),postMediaInfoModel.getMediaFilename()));
         return postMediaInfoModel;

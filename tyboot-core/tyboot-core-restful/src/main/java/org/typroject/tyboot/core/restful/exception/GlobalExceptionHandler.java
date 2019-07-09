@@ -37,15 +37,12 @@ public class GlobalExceptionHandler {
             responseModel.setDevMessage(baseException.getDevMessage());
             logger.error(baseException.getDevMessage());
             logger.error(e.getMessage(),e);
-
-            if(!alwaysOk)
-                response.setStatus(baseException.getHttpStatus());
+            response.setStatus(baseException.getHttpStatus());
         }else{
             responseModel.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             responseModel.setDevMessage(e.getMessage());
             responseModel.setMessage("未知错误,请联系管理员.");
-            if(!alwaysOk)
-                response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 
             logger.error(e.getMessage(),e);
         }
@@ -60,7 +57,7 @@ public class GlobalExceptionHandler {
         return alwaysOk;
     }
 
-    public static void setAlwaysOk(Boolean alwaysOk) {
-        alwaysOk = alwaysOk;
+    public static void setAlwaysOk(Boolean flag) {
+        alwaysOk = flag;
     }
 }

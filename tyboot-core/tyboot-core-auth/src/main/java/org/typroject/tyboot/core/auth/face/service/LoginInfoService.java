@@ -35,7 +35,7 @@ public class LoginInfoService extends BaseService<LoginInfoModel,LoginInfo,Login
 
     public LoginInfoModel selectByLoginId(String loginId) throws Exception
     {
-        return this.queryModelByParamsWithCache(loginId,loginId);
+        return this.queryModelByParamsWithCache(loginId);
     }
 
 

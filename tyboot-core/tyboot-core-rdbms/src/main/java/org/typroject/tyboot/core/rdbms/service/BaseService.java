@@ -218,9 +218,14 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
     }
 
 
-    protected final    V queryModelByParamsWithCache(String propertyValueAsCacheKey,Object... params) throws Exception
+    protected final    V queryModelByParamsWithCache(Object... params) throws Exception
     {
-        V v = queryFromCache(genCacheKeyForModel(propertyValueAsCacheKey));
+
+        String [] asKey = new String[params.length];
+        for(int i=0;i<params.length;i++)
+            asKey[i]=String.valueOf(params[i]);
+
+        V v = queryFromCache(genCacheKeyForModel(Redis.genKey(asKey)));
         if(ValidationUtil.isEmpty(v))
         {
             P entity    = this.getPoClass().newInstance();
@@ -238,7 +243,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
             wrapper.setEntity(entity);
             v = Bean.toModel(this.getOne(wrapper),this.getModelClass().newInstance());
             if(!ValidationUtil.isEmpty(v))
-                saveCache(genCacheKeyForModel(propertyValueAsCacheKey),v);
+                saveCache(genCacheKeyForModel(Redis.genKey(asKey)),v);
         }
         return v;
     }

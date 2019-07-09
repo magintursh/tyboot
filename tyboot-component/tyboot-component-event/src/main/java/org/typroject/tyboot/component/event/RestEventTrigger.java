@@ -32,7 +32,7 @@ public @interface RestEventTrigger
 	/**
 	 * 标示该触发器触发什么系统业务事件,一个事件对应一个事件处理器
 	 */
-	String[] value();
+	String[] value() default {};
 }
 
 /*

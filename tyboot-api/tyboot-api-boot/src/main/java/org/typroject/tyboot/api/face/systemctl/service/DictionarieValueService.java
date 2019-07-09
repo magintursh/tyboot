@@ -24,7 +24,7 @@ public class DictionarieValueService extends BaseService<DictionarieValueModel,D
 
     public DictionarieValueModel queryValueByCodeAndKey(String agencyCode,String dictCode,String dictDataKey) throws Exception
     {
-        return this.queryModelByParamsWithCache(Redis.genKey(agencyCode,dictCode,dictDataKey),agencyCode,dictCode,dictDataKey);
+        return this.queryModelByParamsWithCache(agencyCode,dictCode,dictDataKey);
     }
 
 

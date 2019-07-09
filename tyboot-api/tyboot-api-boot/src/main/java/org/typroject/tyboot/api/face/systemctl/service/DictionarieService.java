@@ -75,7 +75,7 @@ public class DictionarieService extends BaseService<DictionarieModel,Dictionarie
 
     public DictionarieModel queryByCode(String agencyCode,String dictCode) throws Exception
     {
-        return this.queryModelByParamsWithCache(Redis.genKey(agencyCode,dictCode),agencyCode,dictCode);
+        return this.queryModelByParamsWithCache(agencyCode,dictCode);
     }
 
     public List<DictionarieModel> queryByAgencyCode(String agencyCode) throws Exception

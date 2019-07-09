@@ -23,5 +23,6 @@ public class MyWebAppConfigurer
         // addPathPatterns 用于添加拦截规则
         // excludePathPatterns 用户排除拦截
         registry.addInterceptor(authInterceptor).addPathPatterns("/v1/**");
+
     }
 }
