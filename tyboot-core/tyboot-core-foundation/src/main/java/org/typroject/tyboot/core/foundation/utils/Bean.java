@@ -401,7 +401,7 @@ public class Bean {
 			className 				= className.substring(lastDotIndex + 1) + ".class";
 			InputStream is 			= clazz.getResourceAsStream(className);
 			ClassReader classReader = new ClassReader(is);
-			classReader.accept(new ClassVisitor(Opcodes.ASM4) {
+			classReader.accept(new ClassVisitor(Opcodes.ASM5) {
 				@Override
 				public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
 					// 只处理指定的方法
@@ -409,7 +409,7 @@ public class Bean {
 					if (!method.getName().equals(name) || !Arrays.equals(argumentTypes, types)) {
 						return null;
 					}
-					return new MethodVisitor(Opcodes.ASM4) {
+					return new MethodVisitor(Opcodes.ASM5) {
 						@Override
 						public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
 							// 静态方法第一个参数就是方法的参数，如果是实例方法，第一个参数是this

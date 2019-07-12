@@ -37,7 +37,7 @@ public class ResponseHelper {
 		response.setDevMessage("SUCCESS");
 		response.setStatus(HttpStatus.OK.value());
 		response.setTraceId(RequestContext.getTraceId());
-		response.setUrl(request.getRequestURL().toString());
+		response.setPath(request.getServletPath());
 		return response;
 	}
 }

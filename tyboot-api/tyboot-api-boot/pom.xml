@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.typroject</groupId>
 		<artifactId>tyboot-api</artifactId>
-		<version>1.0.7-Ty</version>
+		<version>1.0.8-Ty</version>
 	</parent>
 
 
@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-core-auth</artifactId>
-			<version>1.0.7-Ty</version>
+			<version>1.0.8-Ty</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-component-activemq</artifactId>
-			<version>1.0.7-Ty</version>
+			<version>1.0.8-Ty</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -56,7 +56,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-component-opendata</artifactId>
-			<version>1.0.7-Ty</version>
+			<version>1.0.8-Ty</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -70,7 +70,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-core-rdbms</artifactId>
-			<version>1.0.7-Ty</version>
+			<version>1.0.8-Ty</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -82,7 +82,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-component-cache</artifactId>
-			<version>1.0.7-Ty</version>
+			<version>1.0.8-Ty</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -95,7 +95,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-component-event</artifactId>
-			<version>1.0.7-Ty</version>
+			<version>1.0.8-Ty</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>

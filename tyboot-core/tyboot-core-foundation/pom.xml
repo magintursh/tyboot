@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.typroject</groupId>
 		<artifactId>tyboot-core</artifactId>
-		<version>1.0.7-Ty</version>
+		<version>1.0.8-Ty</version>
 	</parent>
 
 	<groupId>org.typroject</groupId>

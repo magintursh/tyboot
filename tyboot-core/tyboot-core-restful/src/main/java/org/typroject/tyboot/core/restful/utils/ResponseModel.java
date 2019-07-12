@@ -40,7 +40,7 @@ public class ResponseModel<T> implements Serializable
 
 	private String message = "";
 
-	private String url;
+	private String path;
 
 	public String getMessage() {
 		return message;
@@ -50,12 +50,12 @@ public class ResponseModel<T> implements Serializable
 		this.message = message;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getPath() {
+		return path;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	public String getDevMessage() {
