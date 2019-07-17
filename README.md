@@ -90,11 +90,9 @@ tycloud
     public class LocationInfoService extends BaseService<LocationInfoModel,LocationInfo,LocationInfoMapper> 
     {}
   ````
-    2.在service中不提倡引入mapper，因为mapper只有接口，没有实现类，在IDE中会有报错提示，与逼格不符。
-      使用baseService提供的泛型方法足够业务开发。
-    3.service中的方法不要重载,因为会只根据方法名通过反射获取方法实例。
-    4.service层只有实现类，抛弃了以前接口，觉得麻烦。
-    5.单表单对象的操作可以不需要在service中写方法，泛型方法足够用，
+    2.service中的方法不要重载,因为会只根据方法名通过反射获取方法实例。
+    3.service层只有实现类，抛弃了以前接口，觉得麻烦。
+    4.单表单对象的操作可以不需要在service中写方法，也不需要引入mapper，泛型方法足够用，
       分页查询和列表查询也只需要一行代码，示例如下：
 -
       分页：
@@ -131,7 +129,6 @@ tycloud
    
     1.统一返回值，所有接口统一使用ResponseModel封装返回值。
     2.自定义注解@TycloudOperation用来定义接口的访问级别ApiLevel，鉴权控制needAuth
-    3.
     
     
    **关于缓存**
@@ -148,7 +145,7 @@ tycloud
    ###  最佳实践
    
     1.将tyboot-core和tyboot-component中的组件包打包发布到maven私服nexus中统一管理，
-      然后各个实例项目引用后进行业务项目的开发。
+      然后各个实例项目引用后进行业务项目的开发，这样实例项目的业务代码会更加清晰，打包速度更快，可以随时升级所引用的tyboot版本。
    
    ###  后续计划
    
