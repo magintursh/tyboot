@@ -31,29 +31,28 @@
    ###  项目结构
    
   ~~~
-tycloud
-   
-   	tyboot-core-------------------------核心包，一般情况下实例项目都会引用到
-        tyboot-core-auth-------------------------用户认证，session共享
-        tyboot-core-rdbms------------------------集成mybatis，mybatisplus，简化orm和封装servic通用操作
-        tyboot-core-restful----------------------对restful风格的接口封装，集成接口文档，统一异常处理，请求拦截处理，返回数据封装，上下文封装
-        tyboot-core-foundation-------------------常用工具类库，线程内上下文封装；Bean、File,列表转树结构，加密解密等等。。。。。
-   		
-   	tyboot-component--------------------组件
-   	    tyboot-component-amqp--------------------对spring的amqp简单集成
-   	    tyboot-component-cache-------------------缓存，对redis的进一步实现和封装，地理位置，管道，zset实现分页查询，分布式锁
-   	    tyboot-component-event-------------------利用spring的事件机制实现基于rest接口的事件处理机制
-   	    tyboot-component-opendata----------------集成常用第三方开放接口，七牛，阿里大鱼，腾讯im，极光推送
-   	    tyboot-component-notification------------消息通知，目前就只有短信的实现，（后期计划重构或者取消此模块）
+   tyboot 
+    ├─tyboot-api
+    │  ├─tyboot-api-boot                示例项目，实现了数据字典，权限管理，其他项目通用的基础功能
+    ├─tyboot-component------组件
+    │  ├─tyboot-component-activemq------集成activemq
+    │  ├─tyboot-component-amqp----------对spring的amqp简单集成
+    │  ├─tyboot-component-cache---------缓存，对redis的进一步实现和封装，地理位置，管道，zset实现分页查询，分布式锁
+    │  ├─tyboot-component-emq-----------集成mqtt服务 EMQ
+    │  ├─tyboot-component-event---------利用spring的事件机制实现基于rest接口的事件处理机制
+    │  ├─tyboot-component-mongo---------集成mongo
+    │  ├─tyboot-component-opendata------集成常用第三方开放接口，七牛，阿里大鱼，腾讯im，极光推送
+    │  └─tyboot-component-validation----参数校验
+    ├─tyboot-core-----------核心包，一般情况下实例项目都会引用到
+    │  ├─tyboot-core-auth---------------用户认证，session共享
+    │  ├─tyboot-core-foundation---------常用工具类库，线程内上下文封装；Bean、File,列表转树结构，加密解密等等。。。。。
+    │  ├─tyboot-core-rdbms--------------集成mybatis，mybatisplus，简化orm和封装servic通用操作
+    │  └─tyboot-core-restful------------对restful风格的接口封装，集成接口文档，统一异常处理，请求拦截处理，返回数据封装，上下文封装
+    └─tyboot-prototype------通用业务模型，针对特定业务场景进行封装实现
+        ├─tyboot-prototype-account------虚拟账户系统
+        ├─tyboot-prototype-order--------通用订单系统
+        └─tyboot-prototype-trade--------简单支付渠道实现，支付宝，微信
    	    
-   	tycloud-module-----------------------通用业务模型，针对特定业务场景进行封装实现（待进一步封装后开源出来）
-       	    tycloud-module-account------------虚拟账户系统（待进一步封装后开源出来）
-       	    tycloud-module-order--------------通用订单系统（待进一步封装后开源出来）
-       	    tycloud-module-trade--------------简单支付渠道实现，支付宝，微信。。。。（待进一步封装后开源出来）
-       	    
-   	tyboot-api-------------------------基础业务接口实现
-   	    tyboot-api-privilege---------------------用户登录认证，权限管理 
-   	    tyboot-api-systemctl---------------------基础数据的API接口
    ~~~
 
    目录约定：
