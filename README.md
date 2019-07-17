@@ -2,41 +2,27 @@
 
 ### 介绍
 
-    tycloud是一个基于springboot的服务端脚手架。后续集成springcloud各个子项目，转向微服务
+    tyboot是一个基于springboot的服务端脚手架，面向单体服务快速开发，需要微服务方案的可以看另一个项目tycloud(还在完善中)
 
-###  目标
+### 特点
 
-    1.简化基础业务开发过程，这部分开发任务占一般项目的比较大的任务量，尤其各种单表分页，列表查询的重复sql，
-      如果能够做到一定程度的简化，可以大大减少开发人员的工作量，使其专心于核心业务。
-      针对简化事宜，目前主要在ORM层下功夫，截止目前，已经略有成效。
-      主要表现在：
+    1.简化基础业务开发过程
         a.针对单表查询，不用写sql。列表，分页，都不用写。
-        b.dao层的mapper只是一个空的接口，大部分业务不需要在mapper中写任何代码，因为使用了mybatis-plus，所以也不需要mapper的xml文                
-          件。
-        c.baseService中有大量的泛型方法以供使用，单表单对象增删改查在service层也不需要写代码，
-          列表和分页查询也只需要一行代码。
-        注：提倡单表查询。只将关系数据库作为数据存储即可，不提倡使用复杂sql解决业务问题，
-            可以将复杂查询转化为多个单表查询，然后在代码中组合结果，各个单表查询合理使用
-            缓存就可以解决性能问题。完全单表操作，对数据库设计有比较高的要求，慎重设计。
-            目前已经有多个项目只使用单表操作，表现良好。除非以后有复杂报表可能需要些一些sql。
-            其实报表的场景也可以简化为单表查询，后续文档继续探讨。
+        b.dao层的mapper只是一个空的接口，大部分业务不需要在mapper中写任何代码(除非复杂报表查询)，也不需要mapper的xml文件。
+        c.baseService中有大量的泛型方法以供使用，单表单对象增删改查在service层也不需要写代码，列表和分页查询也只需要一行代码。
+        d.提倡单表操作。不提倡使用复杂sql解决复杂的业务问题。
     2.降低学习成本。新人快速上手，基础知识过关的新人，可以快速进入业务开发状态。
-    3.常用组件集成。集成业内常用的各种组件，redis，mq，事件，mongodb等等
+    3.常用组件集成。redis，mq，事件，mongodb等等
     4.通用业务模型的实现。开箱即用的业务模型，可以大大的缩减项目开发周期。计划实现的通用业务模型有
       订单系统，虚拟账户系统，支付网关，动态表单，报表系统，通用预约系统，优惠策略定制，
       基础数据(验证码，字典，内部消息，地理位置信息，通用文件信息存储，操作记录与计数，)
     5.集成常用第三方系统。短信（阿里大鱼），存储（七牛，阿里OSS），支付（微信公众平台，支付宝）
-    6.基于springboot，springcloud支持微服务，优化调用过程，将本身就开箱即用的springcloud子项目
-      集成进来，根据情况选择使用。协助业务拆分和扩展。
-    7.使用vue-element-admin实现通用后台管理，动态表单web界面，以及别的通用业务模型的web端。
-    8.大家都在造轮子，我也来应景。希望能造出稍微圆一点的轮子，能为大家所喜欢。
     
    ###  技术栈
      
-     1. SpringBoot 2.0.7.RELEASE
-     2. MyBatis-Plus 2.0.5
+     1. SpringBoot 2.1.6.RELEASE
+     2. MyBatis-Plus 3.x
      3. mybatis-spring-boot-starter 1.2.0
-     4. SpringCloud Finchley.SR2
      5. Kaptcha 2.3.2
      6. jackson-databind 2.9.7
      7. springfox-swagger2 2.2.2
@@ -88,10 +74,9 @@ tycloud
    
     1.entity需要继承BaseEntity
         对应的数据表不能缺少通用字段
-       
+     
          SEQUENCE_NBR    bigint	20    物理主键
          REC_USER_ID    varchar	32    最后更新者的id
-         REC_STATUS    varchar	16     数据状态（这字段计划用于逻辑删除。。但从未这么干过。）
          REC_DATE    datetime        最后更新时间
          
     2.使用了mybatisplus，所以实例项目中不需要引入mapper.xml，baseMapper的方法足够使用。
@@ -102,7 +87,7 @@ tycloud
     
     1.继承baseService
   ```JAVA
-    public class LocationInfoService extends BaseService<LocationInfoModel,LocationInfo,LocationInfoMapper> implements IService<LocationInfo> 
+    public class LocationInfoService extends BaseService<LocationInfoModel,LocationInfo,LocationInfoMapper> 
     {}
   ````
     2.在service中不提倡引入mapper，因为mapper只有接口，没有实现类，在IDE中会有报错提示，与逼格不符。
@@ -120,7 +105,7 @@ tycloud
                                                        @Condition(Operator.like) String dictName,
                                                        String dictCode) throws Exception
             {
-                return this.queryForPage(page,null,false,agencyCode,buType,dictAlias,dictName,dictCode);
+                return this.queryForPage(page,"排序字段",false,agencyCode,buType,dictAlias,dictName,dictCode);
             }
 ```
           作为查询条件的参数名称需要和对应model中的属性名称一致。
@@ -137,7 +122,7 @@ tycloud
                                                       @Condition(Operator.like)String dictName,
                                                      String dictCode) throws Exception
           {
-              return this.queryForList(null,false,agencyCode,buType,dictAlias,dictName,dictCode);
+              return this.queryForList("排序字段",false,agencyCode,buType,dictAlias,dictName,dictCode);
           }
 ```
 
@@ -151,11 +136,9 @@ tycloud
     
    **关于缓存**
     
-    1.对象缓存
-        。。。
-    2.列表缓存
-    3.缓存刷新和删除
-    4.特定业务场景的缓存方案
+    1.单表单对象缓存，单表列表缓存都已经集成到baseService的方法中,可以随着对象的更新刷新或删除缓存，可以查看方法备注以选择是使用。
+    2.其他缓存场景建议直接使用rediTemplate进行操作
+    3.tyboot-component-cache模块提供了基于redis Zset分页查询；地理位置计算和查询；redis管道的使用
    
    **代码生成器的使用**
    
@@ -170,13 +153,5 @@ tycloud
    ###  后续计划
    
     1.完善基础模块
-    2.集成spingcloud配置中心，接口网关，注册中心
     3.完善通用业务模型
     4.集成web端
-    
-   ###  后记
-   
-    多年开发生涯，使用过很多优秀的开源软件，所谓站在巨人的肩膀上，也就是这样了，深受其益。
-    然后有了开源自己代码的想法，觉得能拿得出手的也就是这个框架了，代码算不上规范，设计算不上优秀。
-    但其中也是包含了鄙人的些许想法和业务积累，应该可以为需要的人提供一个参考，或者能提高生产效率就更好了。
-    心态最重要。还希望过路大神不吝赐教，有什么想法和建议可以发出来，一起讨论。
