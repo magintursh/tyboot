@@ -21,7 +21,7 @@ public class AlipayChannelImpl extends BaseChannelProcess implements ChannelProc
 
 	private final Logger logger = LogManager.getLogger(AlipayChannelImpl.class) ;
 
-	private static final String ALIPAY_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmH6OBWjZy6cM8gr9eu+XX/5DOfa18rztc96MtywuWXA5KkW888X9xm6yZQ4ZQApuVpur++I2lWFovuc6ADgt/mc8aN4zI+DoCafecLS4wp1PTkV7HYGI//V91XZZbi6vKcqeqx1wuPH1h1okSDnElkBlFN68ldALWMOXCWcdKkvoJ9VTPKBX+IxrUio52fBOiQm6RP+uirw1S3rbq6r9/PqXC8z3OQiD5UHCHSmexUPF1OJKsGhxHYOSIc5Cwl9iCWnMNQU6PBIG/+HTyZoBt3rHjH0diPbjjCCmMdvfdA6L/wT2fCFBBHQKRZDnAJIEvYehs/+efAVD57G2a2MDJQIDAQAB";
+	private static final String ALIPAY_PUBLIC_KEY = "gongyao";
 
 
 	private static final String CHANNEL_PIX = "alipay";
