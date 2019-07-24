@@ -61,14 +61,11 @@ public class SsoSessionsService extends BaseService<SsoSessionsModel,SsoSessions
      */
     public  SsoSessionsModel refreshSession(String token,String actionByProduct) throws Exception{
 
-        //SsoSessionsModel sessionsModel             = this.refreshCacheExpire(token,actionByProduct);
-        SsoSessionsModel sessionsModel = (SsoSessionsModel)this.redisTemplate.opsForValue().get(sessionCacheKeyWithToken(token,actionByProduct));
-
+        SsoSessionsModel sessionsModel =
+                (SsoSessionsModel)this.redisTemplate.opsForValue().get(sessionCacheKeyWithToken(token,actionByProduct));
         if(!ValidationUtil.isEmpty(sessionsModel))
         {
-
             redisTemplate.expire(sessionCacheKeyWithToken(token,actionByProduct),DEFAULT_SESSION_EXPIRATION, TimeUnit.SECONDS);
-
             LoginInfoModel loginInfo            = loginInfoService.selectByLoginId(sessionsModel.getLoginId());
             if(ValidationUtil.isEmpty(loginInfo))
                 throw new Exception("用户信息异常.");

@@ -19,4 +19,6 @@ public class RestfulConstans {
     public final static String USER_AGENT = "User-agent";
 
     public static final String APPKEY = "appKey";
+
+    public static final String DEVICE_ID = "deviceId";
 }

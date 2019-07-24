@@ -19,7 +19,6 @@ import org.typroject.tyboot.core.auth.face.model.LoginInfoModel;
 import org.typroject.tyboot.core.foundation.enumeration.UserType;
 import org.typroject.tyboot.core.restful.doc.TycloudOperation;
 import org.typroject.tyboot.core.restful.doc.TycloudResource;
-import org.typroject.tyboot.core.restful.utils.APILevel;
 import org.typroject.tyboot.core.restful.utils.ResponseHelper;
 import org.typroject.tyboot.core.restful.utils.ResponseModel;
 
@@ -31,7 +30,7 @@ import java.util.HashMap;
  */
 @TycloudResource(module = "auth",value = "agency")
 @RequestMapping(value = "/v1/auth/agency")
-@Api(value = "auth-机构用户登录验证")
+@Api(tags = "auth-机构用户登录验证",value = "value")
 @RestController
 public class AgencyAuthResource {
     private final Logger logger = LogManager.getLogger(AgencyAuthResource.class) ;
@@ -42,12 +41,12 @@ public class AgencyAuthResource {
 
 
 
-    @TycloudOperation( ApiLevel = APILevel.ALL,needAuth = false)
+    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @ApiOperation(value="机构用户名密码登录")
     @RequestMapping(value = "/agency/idpassword", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> idPasswordAuthForAgency(@RequestBody IdPasswordAuthModel model) throws Exception
     {
-        return  this.doAuthenticate(IdType.userName, AuthType.ID_PASSWORD, UserType.AGENCY_USER,model);
+        return  this.doAuthenticate(IdType.userName, AuthType.ID_PASSWORD, UserType.AGENCY,model);
     }
 
     private ResponseModel doAuthenticate(IdType idType, ProvidedAuthType authType, UserType userType, AuthModel authModel) throws Exception

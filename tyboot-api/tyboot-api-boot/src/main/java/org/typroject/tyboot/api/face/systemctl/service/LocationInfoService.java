@@ -20,13 +20,18 @@ public class LocationInfoService extends BaseService<LocationInfoModel,LocationI
 
     public List<LocationInfoModel> getByParent(String  parentCode) throws Exception
     {
-       return this.queryForListWithCache(genCacheKeyForModelList(parentCode),null,false,parentCode);
+        //return this.queryForListWithCache(genCacheKeyForModelList(parentCode),null,false,parentCode);
+        return this.queryForList(null,false,parentCode);
     }
 
 
     public LocationInfoModel getByCode(String  locationCode) throws Exception
     {
-        return queryModelByParamsWithCache(locationCode);
+        long time = System.currentTimeMillis();
+        LocationInfoModel model = queryModelByParamsWithCache(locationCode);
+
+       System.out.println(System.currentTimeMillis()-time);
+        return model;
     }
 
 

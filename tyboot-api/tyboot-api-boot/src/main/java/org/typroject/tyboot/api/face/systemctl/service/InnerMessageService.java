@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * <p>
- * 内部消息 服务类
+ * 简单内部消息 服务类
  * </p>
  *
  * @author 子杨

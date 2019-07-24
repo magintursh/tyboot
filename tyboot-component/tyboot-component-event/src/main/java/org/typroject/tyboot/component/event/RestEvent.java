@@ -33,13 +33,23 @@ public class RestEvent extends ApplicationEvent
 
 	private RequestContextModel requestContextModel;
 
+	private String methodName;
+
+	private String methodLabel;
+
 	private Object [] params;
-	
-	public RestEvent(String restEventName,Object [] params,Object eventSource,RequestContextModel contextModel){
+
+	public RestEvent(Object source) {
+		super(source);
+	}
+
+	public RestEvent(String restEventName, Object [] params, Object eventSource, RequestContextModel contextModel,String methodName,String methodLabel){
 		super(eventSource);
 		this.restEventName = restEventName;
 		this.requestContextModel = contextModel;
 		this.params = params;
+		this.methodName = methodName;
+		this.methodLabel = methodLabel;
 	}
 
 	public RequestContextModel getRequestContextModel() {
@@ -54,4 +64,13 @@ public class RestEvent extends ApplicationEvent
 	public Object[] getParams() {
 		return params;
 	}
+
+
+	public String getMethodName() {
+		return methodName;
+	}
+
+    public String getMethodLabel() {
+        return methodLabel;
+    }
 }

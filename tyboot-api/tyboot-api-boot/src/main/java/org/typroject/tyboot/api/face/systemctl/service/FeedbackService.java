@@ -19,23 +19,10 @@ import org.typroject.tyboot.core.rdbms.service.BaseService;
  * @since 2017-12-01
  */
 @Component
-public class FeedbackService extends BaseService<FeedbackModel, Feedback, FeedbackMapper>
-{
+public class FeedbackService extends BaseService<FeedbackModel, Feedback, FeedbackMapper> {
 
-
-
-    public  FeedbackModel createFeedBack(FeedbackModel model)throws Exception
-    {
-        model.setUserId(RequestContext.getExeUserId());
-        return this.createWithModel(model);
+    public Page<FeedbackModel> queryForfeedPage(Page page, String userId, String contact) throws Exception {
+        return this.queryForPage(page, "REC_DATE", false, userId, contact);
     }
-
-        /**
-        * 分页查询
-        */
-        public Page<FeedbackModel> queryForfeedPage(Page page, String userId, String contact) throws Exception
-        {
-            return this.queryForPage(page,"REC_DATE",false,userId,contact);
-        }
 
 }

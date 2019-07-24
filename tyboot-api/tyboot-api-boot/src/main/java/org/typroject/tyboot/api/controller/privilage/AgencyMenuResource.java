@@ -16,7 +16,7 @@ import org.typroject.tyboot.core.restful.doc.TycloudResource;
 @RestController
 @TycloudResource(module = "privilege",value = "agencymenu")
 @RequestMapping(value = "/v1/privilege/agencymenu")
-@Api(value = "privilege-机构菜单权限")
+@Api(tags = "privilege-机构菜单权限")
 public class AgencyMenuResource {
 	
 }

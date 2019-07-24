@@ -12,10 +12,10 @@ import org.typroject.tyboot.component.event.RestEventTrigger;
 import org.typroject.tyboot.core.foundation.constans.CoreConstans;
 import org.typroject.tyboot.core.foundation.constans.PropertyValueConstants;
 import org.typroject.tyboot.core.foundation.context.RequestContext;
+import org.typroject.tyboot.core.foundation.enumeration.UserType;
 import org.typroject.tyboot.core.foundation.utils.Bean;
 import org.typroject.tyboot.core.restful.doc.TycloudOperation;
 import org.typroject.tyboot.core.restful.doc.TycloudResource;
-import org.typroject.tyboot.core.restful.utils.APILevel;
 import org.typroject.tyboot.core.restful.utils.ResponseHelper;
 import org.typroject.tyboot.core.restful.utils.ResponseModel;
 
@@ -24,6 +24,7 @@ import java.util.List;
 
 /**
  * <p>
+ *
  * 角色表 前端控制器
  * </p>
  *
@@ -32,7 +33,7 @@ import java.util.List;
  */
 @TycloudResource(module = "privilege",value = "role")
 @RequestMapping(value = "/v1/privilege/role")
-@Api(value = "privilege-角色管理")
+@Api(tags = "privilege-角色管理")
 @RestController
 public class RoleResource {
 
@@ -45,7 +46,7 @@ public class RoleResource {
     @Autowired
     private UserRoleService userRoleService;
 
-    @TycloudOperation( ApiLevel = APILevel.AGENCY,needAuth = false)
+    @TycloudOperation( ApiLevel = UserType.AGENCY,needAuth = false)
     @ApiOperation(value = "分页查询角色信息")
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseModel<Page<RoleModel>> queryForPage (
@@ -68,7 +69,7 @@ public class RoleResource {
 
 
 
-    @TycloudOperation( ApiLevel = APILevel.AGENCY)
+    @TycloudOperation( ApiLevel = UserType.AGENCY)
     @ApiOperation(value = "获取当前机构所有的角色")
     @RequestMapping(value = "/agency", method = RequestMethod.GET)
     public ResponseModel<List<RoleModel>> selectByAgency () throws Exception
@@ -83,15 +84,15 @@ public class RoleResource {
 
 
 
-    @TycloudOperation( ApiLevel = APILevel.AGENCY,needAuth = false)
+    @TycloudOperation( ApiLevel = UserType.AGENCY,needAuth = false)
     @ApiOperation(value = "查询单个角色信息")
     @RequestMapping(value = "/{sequenceNBR}", method = RequestMethod.GET)
     public ResponseModel<RoleModel> queryByCode(
-            @PathVariable(value = "sequenceNBR") String sequenceNBR) throws Exception {
-        return ResponseHelper.buildResponse(Bean.toModel(roleService.queryForPropertiesValue("sequenceNbr",sequenceNBR,"roleName"),new RoleModel()));
+            @PathVariable(value = "sequenceNBR") Long  sequenceNBR) throws Exception {
+        return ResponseHelper.buildResponse(roleService.queryBySeq(sequenceNBR));
     }
 
-    @TycloudOperation( ApiLevel = APILevel.AGENCY)
+    @TycloudOperation( ApiLevel = UserType.AGENCY)
     @ApiOperation(value="创建角色")
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseModel<RoleModel> createRole(@RequestBody RoleModel roleModel) throws Exception
@@ -104,7 +105,7 @@ public class RoleResource {
         return ResponseHelper.buildResponse(roleModel);
     }
 
-    @TycloudOperation( ApiLevel = APILevel.AGENCY)
+    @TycloudOperation( ApiLevel = UserType.AGENCY)
     @ApiOperation(value="更新角色")
     @RequestMapping(value = "/{sequenceNBR}", method = RequestMethod.PUT)
     @RestEventTrigger("roleUpdateEventHandler")
@@ -116,7 +117,7 @@ public class RoleResource {
 
 
 
-    @TycloudOperation( ApiLevel = APILevel.SUPERADMIN)
+    @TycloudOperation( ApiLevel = UserType.SUPER_ADMIN)
     @ApiOperation(value="删除角色")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseModel<Boolean> deleteMenu(@PathVariable Long   id) throws Exception

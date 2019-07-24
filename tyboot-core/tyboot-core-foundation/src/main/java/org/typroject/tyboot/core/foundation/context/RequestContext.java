@@ -30,17 +30,13 @@ public class RequestContext {
 
 	private static final Logger logger = LoggerFactory.getLogger(RequestContext.class);
 
-	private static ThreadLocal<RequestContextModel> requestContext = new ThreadLocal<RequestContextModel>() {
-		protected RequestContextModel initialValue() {
-			return new RequestContextModel();
-		}
-	};
+	private static ThreadLocal<RequestContextModel> requestContext = ThreadLocal.withInitial(() -> new RequestContextModel());
 
 	private static RequestContextModel getRequestContext() {
 		return requestContext.get();
 	}
 
-	public static RequestContextModel cloneRequestContext() throws Exception
+	public static RequestContextModel cloneRequestContext()
 	{
 		RequestContextModel contextModel = new RequestContextModel();
 		BeanUtils.copyProperties(requestContext.get(),contextModel);
@@ -144,6 +140,23 @@ public class RequestContext {
 
 	public static Object getAttribute(RequestContextEntityType key) {
 		return getRequestContext().getAttribute(key);
+	}
+
+	public static  void setRequestTimeMills(Long requestTimeMills) {
+		getRequestContext().setRequestTimeMills(requestTimeMills);
+	}
+
+
+	public static String getDeviceId() {
+		return getRequestContext().getDeviceId();
+	}
+
+	public static void setDeviceId(String deviceId) {
+		getRequestContext().setDeviceId(deviceId);
+	}
+
+	public static  Long getRequestTimeMills() {
+		return getRequestContext().getRequestTimeMills();
 	}
 
 	public static void clean() {

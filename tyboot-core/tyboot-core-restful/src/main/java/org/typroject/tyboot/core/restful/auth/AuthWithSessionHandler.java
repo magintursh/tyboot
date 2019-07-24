@@ -10,23 +10,13 @@ public interface AuthWithSessionHandler {
 
 
     /**
-     * 获取session之后验证
+     * 刷新session之后执行
      * @param ssoSessionsModel
      * @param handlerMethod
      * @param token
      * @param appKey
      * @param product
+     * @throws Exception
      */
-    void doAuth(SsoSessionsModel ssoSessionsModel, HandlerMethod handlerMethod,
-                String token, String appKey, String product) throws Exception;
-
-
-
-
-    /**
-     * 执行顺序
-     * @return
-     */
-    int  order();
-
+    void doAuth(SsoSessionsModel ssoSessionsModel, HandlerMethod handlerMethod, String token, String appKey, String product)throws Exception;
 }

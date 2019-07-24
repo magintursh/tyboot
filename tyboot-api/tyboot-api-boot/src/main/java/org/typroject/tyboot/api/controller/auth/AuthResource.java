@@ -20,7 +20,6 @@ import org.typroject.tyboot.core.auth.face.model.SmsAuthModel;
 import org.typroject.tyboot.core.foundation.enumeration.UserType;
 import org.typroject.tyboot.core.restful.doc.TycloudOperation;
 import org.typroject.tyboot.core.restful.doc.TycloudResource;
-import org.typroject.tyboot.core.restful.utils.APILevel;
 import org.typroject.tyboot.core.restful.utils.ResponseHelper;
 import org.typroject.tyboot.core.restful.utils.ResponseModel;
 
@@ -32,7 +31,7 @@ import java.util.HashMap;
  */
 @TycloudResource(module = "privilege",value = "AuthResource")
 @RequestMapping(value = "/v1/privilege/auth")
-@Api(value = "privilege-登录验证")
+@Api(tags = "privilege-登录验证")
 @RestController
 public class AuthResource {
     private final Logger logger = LogManager.getLogger(AuthResource.class) ;
@@ -42,23 +41,23 @@ public class AuthResource {
     LoginAuthenticator loginAuthenticator;
 
 
-    @TycloudOperation( ApiLevel = APILevel.ALL,needAuth = false)
+    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @ApiOperation(value="公网用户名密码登录")
     @RequestMapping(value = "/public/idpassword", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> idPasswordAuthForPublic(@RequestBody IdPasswordAuthModel model) throws Exception
     {
-        return  this.doAuthenticate(IdType.userName, AuthType.ID_PASSWORD, UserType.PUBLIC_USER,model);
+        return  this.doAuthenticate(IdType.userName, AuthType.ID_PASSWORD, UserType.PUBLIC,model);
     }
 
-    @TycloudOperation( ApiLevel = APILevel.ALL,needAuth = false)
+    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @ApiOperation(value="机构用户名密码登录")
     @RequestMapping(value = "/agency/idpassword", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> idPasswordAuthForAgency(@RequestBody IdPasswordAuthModel model) throws Exception
     {
-        return  this.doAuthenticate(IdType.userName, AuthType.ID_PASSWORD, UserType.AGENCY_USER,model);
+        return  this.doAuthenticate(IdType.userName, AuthType.ID_PASSWORD, UserType.AGENCY,model);
     }
 
-    @TycloudOperation( ApiLevel = APILevel.ALL,needAuth = false)
+    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @ApiOperation(value="平台用户名密码登录")
     @RequestMapping(value = "/super/idpassword", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> idPasswordAuthForSuper(@RequestBody IdPasswordAuthModel model) throws Exception
@@ -67,7 +66,7 @@ public class AuthResource {
     }
 
 
-    @TycloudOperation( ApiLevel = APILevel.ALL,needAuth = false)
+    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @ApiOperation(value="短信登录")
     @RequestMapping(value = "/sms", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> smsAuth(@RequestBody SmsAuthModel model) throws Exception
@@ -76,7 +75,7 @@ public class AuthResource {
     }
 
 
-    @TycloudOperation( ApiLevel = APILevel.ALL,needAuth = false)
+    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @ApiOperation(value="第三方登录")
     @RequestMapping(value = "/openId", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> thirdPartyAuth(@RequestBody IdPasswordAuthModel model) throws Exception
@@ -84,7 +83,7 @@ public class AuthResource {
         return null;
     }
 
-    @TycloudOperation( ApiLevel = APILevel.ALL,needAuth = false)
+    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @ApiOperation(value="匿名用户登录")
     @RequestMapping(value = "/anonymous", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> anonymousAuth(@RequestBody IdPasswordAuthModel model) throws Exception

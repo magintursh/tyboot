@@ -31,11 +31,11 @@ public class TreeBuilder {
             while (var5.hasNext()) {
                 N it = (N) var5.next();
                 if (it.getMyParentId().equals(treeNode.getMyId())) {
-                    if (ValidationUtil.isEmpty(treeNode.getChilds())) {
-                        treeNode.setChilds(new TreeSet<>());
+                    if (ValidationUtil.isEmpty(treeNode.getChildren())) {
+                        treeNode.setChildren(new TreeSet<>());
                     }
 
-                    treeNode.getChilds().add(it);
+                    treeNode.getChildren().add(it);
                 }
             }
         }
@@ -71,10 +71,10 @@ public class TreeBuilder {
         while (var2.hasNext()) {
             N it = (N) var2.next();
             if (node.getMyId().equals(it.getMyParentId())) {
-                if (ValidationUtil.isEmpty(node.getChilds())) {
-                    node.setChilds(new TreeSet());
+                if (ValidationUtil.isEmpty(node.getChildren())) {
+                    node.setChildren(new TreeSet());
                 }
-                node.getChilds().add(findChildren(it, treeNodes));
+                node.getChildren().add(findChildren(it, treeNodes));
             }
         }
         return node;

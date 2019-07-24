@@ -3,15 +3,13 @@ package org.typroject.tyboot.api.controller.systemctl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.typroject.tyboot.component.opendata.storage.Storage;
+import org.typroject.tyboot.core.foundation.enumeration.UserType;
 import org.typroject.tyboot.core.foundation.utils.StringUtil;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.core.restful.doc.TycloudOperation;
 import org.typroject.tyboot.core.restful.doc.TycloudResource;
-import org.typroject.tyboot.core.restful.utils.APILevel;
 import org.typroject.tyboot.core.restful.utils.ResponseHelper;
 import org.typroject.tyboot.core.restful.utils.ResponseModel;
 
@@ -42,18 +40,18 @@ import java.util.Set;
 @RestController
 @RequestMapping(value = "/v1/systemctl/storage")
 @TycloudResource(module = "systemctl",value = "storage", description = "存储服务")
-@Api(value = "systemctl-存储服务")
+@Api(tags = "systemctl-存储服务")
 public class StorageResource {
 
-	@Autowired
+	//@Autowired
 	private Storage storage;
 
-	@Value("${qiniu.bucket}")
+	//@Value("${qiniu.bucket}")
 	private String qiniuBucket;
 
 	private static Set<String> spaceNames;
 	
-	@TycloudOperation( ApiLevel = APILevel.ALL)
+	@TycloudOperation( ApiLevel = UserType.ANONYMOUS)
 	@ApiOperation(value="根据空间获取七牛token")
 	@RequestMapping(value = "/token/{space}", method = RequestMethod.GET)
 	public ResponseModel<String> flushQiniuToken(@PathVariable String space) throws Exception {
@@ -61,7 +59,7 @@ public class StorageResource {
 	}
 
 
-	@TycloudOperation( ApiLevel = APILevel.ALL)
+	@TycloudOperation( ApiLevel = UserType.ANONYMOUS)
 	@ApiOperation(value="获取图片空间accessToken")
 	@RequestMapping(value = "/token/zoulu/image", method = RequestMethod.GET)
 	public ResponseModel<String> flushQiniuToken() throws Exception {
@@ -70,7 +68,7 @@ public class StorageResource {
 
 
 	
-	@TycloudOperation( ApiLevel = APILevel.ALL)
+	@TycloudOperation( ApiLevel = UserType.ANONYMOUS)
 	@RequestMapping(value = "/{space}", method = RequestMethod.DELETE)
 	public ResponseModel<String> deleteFile(
 			@PathVariable String space,

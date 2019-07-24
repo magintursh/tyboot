@@ -92,8 +92,10 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @param propertiesValue  model的属性值作为后缀，多个值得拼接起来即可
      * @return
      */
-    protected String genCacheKeyForModel(String propertiesValue)
+    protected String genCacheKeyForModel(String propertiesValue) throws Exception
     {
+        if(ValidationUtil.isEmpty(propertiesValue))
+            throw new Exception("propertiesValue can not be empty or null");
         return Redis.genKey(CacheType.ERASABLE.name(),this.getModelClass().getSimpleName().toUpperCase(),propertiesValue);
     }
 
@@ -111,11 +113,11 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
 
     /**
      * 保存缓存信息  ,默认保存都使用Value类型
-     * @param cacheKey  完整键值
+     * @param cacheKey  完整key
      * @param t         要缓存的值
      * @param <T>
      */
-   private   <T>  void saveCache(String cacheKey, T t)
+    public   <T>  void saveCache(String cacheKey, T t)
    {
        if(!ValidationUtil.isEmpty(cacheKey))
             Redis.getRedisTemplate().opsForValue().set(cacheKey,t,cacheExpire, TimeUnit.SECONDS);
@@ -123,9 +125,9 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
 
     /**
      * 删除缓存
-     * @param cacheKey 完整的缓存键
+     * @param cacheKey 完整的key
      */
-   private static void deleteFromCache(String[] cacheKey)
+   public  static void deleteFromCache(String[] cacheKey)
    {
        if(!ValidationUtil.isEmpty(cacheKey))
            for(String key:cacheKey)
@@ -134,15 +136,19 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
 
     /**
      * 从缓存中获取值，  默认都使用Value类型
-     * @param cacheKey   完整的键值
+     * @param cacheKey   完整的key
      * @param <T>    要返回的对象类型
      * @return
      */
-    private static <T> T  queryFromCache(String cacheKey)
+
+    public static <T> T  queryFromCache(String cacheKey)
     {
+        long time = System.currentTimeMillis();
         T t = null;
         if(!ValidationUtil.isEmpty(cacheKey))
             t = (T)Redis.getRedisTemplate().opsForValue().get(cacheKey);
+
+        System.out.println(System.currentTimeMillis()-time);
         return t;
     }
 
@@ -186,7 +192,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @return
      * @throws Exception
      */
-    public final    V queryBySeqWithCache(Long  seq) throws Exception {
+    protected final    V queryBySeqWithCache(Long  seq) throws Exception {
        V v = queryFromCache(genCacheKeyForModel(String.valueOf(seq)));
        if(ValidationUtil.isEmpty(v))
        {
@@ -205,7 +211,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @return
      * @throws Exception
      */
-    public final   V queryByModelWithCache(V model,String propertyValueAsCacheKey) throws Exception
+    protected final   V queryByModelWithCache(V model,String propertyValueAsCacheKey) throws Exception
     {
         V v = queryFromCache(genCacheKeyForModel(propertyValueAsCacheKey));
         if(ValidationUtil.isEmpty(v))
@@ -217,36 +223,6 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
         return v;
     }
 
-
-    protected final    V queryModelByParamsWithCache(Object... params) throws Exception
-    {
-
-        String [] asKey = new String[params.length];
-        for(int i=0;i<params.length;i++)
-            asKey[i]=String.valueOf(params[i]);
-
-        V v = queryFromCache(genCacheKeyForModel(Redis.genKey(asKey)));
-        if(ValidationUtil.isEmpty(v))
-        {
-            P entity    = this.getPoClass().newInstance();
-            Class clzz  = Bean.getClassByName(Thread.currentThread().getStackTrace()[2].getClassName());
-            Method crurrntMethod                = Bean.getMethodByName(Thread.currentThread().getStackTrace()[2].getMethodName(),clzz);
-            String[] parameterNames             = Bean.getMethodParameterNamesByAsm4(clzz, crurrntMethod);
-
-            for(int i=0;i<params.length;i++)
-            {
-                if(!ValidationUtil.isEmpty(params[i]))
-                    Bean.setPropertyValue(parameterNames[i],params[i],entity);
-            }
-
-            QueryWrapper wrapper = new QueryWrapper();
-            wrapper.setEntity(entity);
-            v = Bean.toModel(this.getOne(wrapper),this.getModelClass().newInstance());
-            if(!ValidationUtil.isEmpty(v))
-                saveCache(genCacheKeyForModel(Redis.genKey(asKey)),v);
-        }
-        return v;
-    }
 
 
     /**
@@ -269,7 +245,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @return model
      * @throws Exception
      */
-    public final   V createWithCache(V model,String propertyValueAsCacheKey,String... deleteCacheKey) throws Exception {
+    protected final   V createWithCache(V model,String propertyValueAsCacheKey,String... deleteCacheKey) throws Exception {
         model = this.createWithModel(model);
         saveCache(genCacheKeyForModel(propertyValueAsCacheKey),model);
         deleteFromCache(deleteCacheKey);
@@ -323,11 +299,11 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
         return Bean.toModels(this.baseMapper.selectBatchIds(seqs), getModelClass());
     }
 
-    public final   V queryByModel(V model) throws Exception
+    protected final   V queryByModel(V model) throws Exception
     {
         P  entity = Bean.toPo(model,this.getPoClass().newInstance());
 
-        QueryWrapper wrapper = new QueryWrapper();
+        QueryWrapper<P> wrapper = new QueryWrapper<>();
         wrapper.setEntity(entity);
         return Bean.toModel(this.getOne(wrapper),model);
     }
@@ -341,6 +317,9 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      */
     protected final    V queryModelByParams(Object... params) throws Exception
     {
+        if(allParamsIsNull(params))
+            throw new Exception("parameter params can not be empty or null  for method queryModelByParams.");
+
         P entity    = this.getPoClass().newInstance();
         Class clzz  = Bean.getClassByName(Thread.currentThread().getStackTrace()[2].getClassName());
         Method crurrntMethod                = Bean.getMethodByName(Thread.currentThread().getStackTrace()[2].getMethodName(),clzz);
@@ -351,9 +330,42 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
             if(!ValidationUtil.isEmpty(params[i]))
                 Bean.setPropertyValue(parameterNames[i],params[i],entity);
         }
-        QueryWrapper wrapper  = new QueryWrapper();
+        QueryWrapper<P> wrapper  = new QueryWrapper<>();
         wrapper.setEntity(entity);
         return Bean.toModel(this.getOne(wrapper),this.getModelClass().newInstance());
+    }
+
+
+    protected final    V queryModelByParamsWithCache(Object... params) throws Exception
+    {
+        if(allParamsIsNull(params))
+            throw new Exception("parameter params can not be empty or null  for method queryModelByParamsWithCache.");
+
+        String [] asKey = new String[params.length];
+        for(int i=0;i<params.length;i++)
+            asKey[i]=String.valueOf(params[i]);
+
+        V v = queryFromCache(genCacheKeyForModel(Redis.genKey(asKey)));
+        if(ValidationUtil.isEmpty(v))
+        {
+            P entity    = this.getPoClass().newInstance();
+            Class clzz  = Bean.getClassByName(Thread.currentThread().getStackTrace()[2].getClassName());
+            Method crurrntMethod                = Bean.getMethodByName(Thread.currentThread().getStackTrace()[2].getMethodName(),clzz);
+            String[] parameterNames             = Bean.getMethodParameterNamesByAsm4(clzz, crurrntMethod);
+
+            for(int i=0;i<params.length;i++)
+            {
+                if(!ValidationUtil.isEmpty(params[i]))
+                    Bean.setPropertyValue(parameterNames[i],params[i],entity);
+            }
+
+            QueryWrapper<P> wrapper = new QueryWrapper<>();
+            wrapper.setEntity(entity);
+            v = Bean.toModel(this.getOne(wrapper),this.getModelClass().newInstance());
+            if(!ValidationUtil.isEmpty(v))
+                saveCache(genCacheKeyForModel(Redis.genKey(asKey)),v);
+        }
+        return v;
     }
 
 
@@ -365,10 +377,10 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @return
      * @throws Exception
      */
-    public final V queryForPropertiesValue(String indexName,Object indexValue,String... propertyNames)throws Exception
+    protected final V queryForPropertiesValue(String indexName,Object indexValue,String... propertyNames)throws Exception
     {
-        this.queryFromCache(this.genCacheKeyForModel(String.valueOf(indexValue)));
-        QueryWrapper wrapper = new QueryWrapper();
+        queryFromCache(this.genCacheKeyForModel(String.valueOf(indexValue)));
+        QueryWrapper<P> wrapper = new QueryWrapper<>();
         wrapper.select(Bean.propertyToColums(propertyNames));
         wrapper.eq(Bean.propertyToColum(indexName),indexValue);
         return Bean.toModel(this.getOne(wrapper),this.getModelClass().newInstance());
@@ -384,7 +396,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      */
     public final List<V> queryForMultPropertyValue(String indexName,Object indexValue,String... propertyNames)throws Exception
     {
-        QueryWrapper wrapper = new QueryWrapper();
+        QueryWrapper<P> wrapper = new QueryWrapper<>();
         wrapper.select(Bean.propertyToColums(propertyNames));
         wrapper.eq(Bean.propertyToColum(indexName),indexValue);
         return Bean.toModels(this.list(wrapper),this.getModelClass());
@@ -399,7 +411,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      */
     protected final int queryCount(Object... params) throws Exception
     {
-        Wrapper wrapper = this.assemblyWrapperParams(
+        Wrapper<P> wrapper = this.assemblyWrapperParams(
                 Thread.currentThread().getStackTrace()[2].getMethodName(),
                 Bean.getClassByName(Thread.currentThread().getStackTrace()[2].getClassName()),
                 params
@@ -418,13 +430,37 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      */
     protected final   List<V> queryForList(String orderBy,boolean isAsc,Object... params)throws Exception
     {
-        QueryWrapper wrapper = this.assemblyWrapperParams(
+        QueryWrapper<P> wrapper = this.assemblyWrapperParams(
                 Thread.currentThread().getStackTrace()[2].getMethodName(),
                 Bean.getClassByName(Thread.currentThread().getStackTrace()[2].getClassName()),
                 params
         );
         if(!ValidationUtil.isEmpty(orderBy))
             wrapper.orderBy(true,isAsc,orderBy);
+        return Bean.toModels(this.list(wrapper),this.getModelClass());
+    }
+
+    /**
+     * 简化service单表查询，@TODO orderBy可以是一个字段数组
+     * 限制数量的列表查询
+     * @param orderBy 排序字段（数据库字段名）
+     * @param isAsc   排序规则
+     * @param top     取top数量
+     * @param params 前置方法参数列表，參數順序保持一致，參數名稱需要和數據庫字段名稱相互對應符合轉換規則
+     * @return
+     * @throws Exception
+     */
+    protected final   List<V> queryForTopList(int top,String orderBy,boolean isAsc,Object... params)throws Exception
+    {
+        QueryWrapper<P> wrapper = this.assemblyWrapperParams(
+                Thread.currentThread().getStackTrace()[2].getMethodName(),
+                Bean.getClassByName(Thread.currentThread().getStackTrace()[2].getClassName()),
+                params
+        );
+        if(!ValidationUtil.isEmpty(orderBy))
+            wrapper.orderBy(true,isAsc,orderBy);
+
+        wrapper.last("LIMIT 0,"+top);
         return Bean.toModels(this.list(wrapper),this.getModelClass());
     }
 
@@ -471,7 +507,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
     {
         Page<P> entiryPage = new Page<>(page.getCurrent(),page.getSize());
 
-        QueryWrapper wrapper = this.assemblyWrapperParams(
+        QueryWrapper<P> wrapper = this.assemblyWrapperParams(
                 Thread.currentThread().getStackTrace()[2].getMethodName(),
                 Bean.getClassByName(Thread.currentThread().getStackTrace()[2].getClassName()),
                 params
@@ -505,7 +541,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      */
     protected  final   Map<String,Object> assemblyMapParams(String methodName, Class clzz, Object... params) throws Exception
     {
-        Map<String,Object> queryParamMap    = new HashMap();
+        Map<String,Object> queryParamMap    = new HashMap<>();
         Method crurrntMethod                = Bean.getMethodByName(methodName,clzz);
 
 
@@ -553,15 +589,15 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @return Wrapper   返回mybatisplus的查询组装器
      * @throws Exception
      */
-    protected  final QueryWrapper assemblyWrapperParams(String methodName, Class clzz, Object... params) throws Exception
+    protected  final QueryWrapper<P> assemblyWrapperParams(String methodName, Class clzz, Object... params) throws Exception
     {
 
-        QueryWrapper returnWrapper         =new QueryWrapper();
+        QueryWrapper<P> returnWrapper         = new QueryWrapper<>();
         //returnWrapper.where("1=1");
         Method crurrntMethod                = Bean.getMethodByName(methodName,clzz);
 
         if(ValidationUtil.isEmpty(params) || allParamsIsNull(params))
-            return returnWrapper;
+            return new QueryWrapper<>();
 
         if(!ValidationUtil.isEmpty(crurrntMethod))
         {
@@ -621,7 +657,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @return
      * @throws Exception
      */
-    private  QueryWrapper paresWrapper(QueryWrapper wrapper,Operator operator,String cloumn,Object paramValue)throws Exception
+    private  QueryWrapper<P> paresWrapper(QueryWrapper<P> wrapper,Operator operator,String cloumn,Object paramValue)throws Exception
     {
         switch (operator)
         {

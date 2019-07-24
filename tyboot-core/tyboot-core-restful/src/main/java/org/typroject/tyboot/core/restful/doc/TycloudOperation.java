@@ -1,6 +1,6 @@
 package org.typroject.tyboot.core.restful.doc;
 
-import org.typroject.tyboot.core.restful.utils.APILevel;
+import org.typroject.tyboot.core.foundation.enumeration.UserType;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -58,7 +58,7 @@ public @interface TycloudOperation {
 	/**
 	 * API可见级别 PUBLIC,AGENCY,ALL,SUPERADMIN
 	 */
-	APILevel ApiLevel();
+	UserType ApiLevel();
 }
 
 /*

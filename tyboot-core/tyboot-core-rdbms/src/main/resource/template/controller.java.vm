@@ -28,7 +28,7 @@ import org.typroject.tyboot.core.restful.utils.ResponseModel;
 @RestController
 @TycloudResource(module = "${package.ModuleName}" , value = "${table.entityPath}")
 @RequestMapping(value = "/v1/${package.ModuleName}/${entity}")
-@Api(value = "${package.ModuleName}-${table.comment}")
+@Api(tags = "${package.ModuleName}-${table.comment}")
 public class ${table.controllerName} {
 
 private final Logger logger=LogManager.getLogger(${table.controllerName}.class);

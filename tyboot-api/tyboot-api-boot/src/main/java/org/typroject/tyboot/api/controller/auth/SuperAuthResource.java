@@ -19,7 +19,6 @@ import org.typroject.tyboot.core.auth.face.model.LoginInfoModel;
 import org.typroject.tyboot.core.foundation.enumeration.UserType;
 import org.typroject.tyboot.core.restful.doc.TycloudOperation;
 import org.typroject.tyboot.core.restful.doc.TycloudResource;
-import org.typroject.tyboot.core.restful.utils.APILevel;
 import org.typroject.tyboot.core.restful.utils.ResponseHelper;
 import org.typroject.tyboot.core.restful.utils.ResponseModel;
 
@@ -31,7 +30,7 @@ import java.util.HashMap;
  */
 @TycloudResource(module = "auth",value = "super")
 @RequestMapping(value = "/v1/auth/super")
-@Api(value = "auth-超级管理员登录验证")
+@Api(tags = "auth-超级管理员登录验证")
 @RestController
 public class SuperAuthResource {
     private final Logger logger = LogManager.getLogger(SuperAuthResource.class) ;
@@ -41,7 +40,7 @@ public class SuperAuthResource {
     LoginAuthenticator loginAuthenticator;
 
 
-    @TycloudOperation( ApiLevel = APILevel.ALL,needAuth = false)
+    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @ApiOperation(value="平台用户名密码登录")
     @RequestMapping(value = "/super/idpassword", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> idPasswordAuthForSuper(@RequestBody IdPasswordAuthModel model) throws Exception

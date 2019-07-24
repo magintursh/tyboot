@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import org.typroject.tyboot.api.face.systemctl.service.InnerMessageService;
 import org.typroject.tyboot.core.foundation.context.RequestContext;
+import org.typroject.tyboot.core.foundation.enumeration.UserType;
 import org.typroject.tyboot.core.restful.doc.TycloudOperation;
 import org.typroject.tyboot.core.restful.doc.TycloudResource;
-import org.typroject.tyboot.core.restful.utils.APILevel;
 import org.typroject.tyboot.core.restful.utils.ResponseHelper;
 import org.typroject.tyboot.core.restful.utils.ResponseModel;
 
@@ -31,7 +30,7 @@ import org.typroject.tyboot.core.restful.utils.ResponseModel;
 @RestController
 @TycloudResource(module = "systemctl", value = "innermessage")
 @RequestMapping(value = "/v1/systemctl/innermessage")
-@Api(value = "systemctl-内部消息")
+@Api(tags = "systemctl-内部消息")
 
 
 public class InnerMessageResource {
@@ -43,7 +42,7 @@ public class InnerMessageResource {
     private InnerMessageService innerMessageService;
 
 
-    @TycloudOperation(ApiLevel = APILevel.PUBLIC)
+    @TycloudOperation(ApiLevel = UserType.PUBLIC)
     @ApiOperation(value = "分页查询")
     @RequestMapping(value = "/public/page", method = RequestMethod.GET)
     public ResponseModel<Page> queryForInnerMessagePage(

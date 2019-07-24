@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import org.typroject.tyboot.api.face.privilage.model.RoleMenuModel;
 import org.typroject.tyboot.api.face.privilage.service.RoleMenuService;
 import org.typroject.tyboot.core.foundation.context.RequestContext;
+import org.typroject.tyboot.core.foundation.enumeration.UserType;
 import org.typroject.tyboot.core.restful.doc.TycloudOperation;
 import org.typroject.tyboot.core.restful.doc.TycloudResource;
-import org.typroject.tyboot.core.restful.utils.APILevel;
 import org.typroject.tyboot.core.restful.utils.ResponseHelper;
 import org.typroject.tyboot.core.restful.utils.ResponseModel;
 
@@ -26,7 +26,7 @@ import java.util.List;
 
 @TycloudResource(module = "privilege",value = "rolemenu")
 @RequestMapping(value = "/v1/privilege/rolemenu")
-@Api(value = "privilege-角色菜单")
+@Api(tags = "privilege-角色菜单")
 @RestController
 public class RoleMenuResource {
 
@@ -40,7 +40,7 @@ public class RoleMenuResource {
 
 
 
-    @TycloudOperation( ApiLevel = APILevel.AGENCY)
+    @TycloudOperation( ApiLevel = UserType.AGENCY)
     @ApiOperation(value="更新角色菜单权限")
     @RequestMapping(value = "/role/{sequenceNBR}", method = RequestMethod.PUT)
     public ResponseModel<List<RoleMenuModel>> updateByRole(@PathVariable Long sequenceNBR, @RequestBody String [] menuIds) throws Exception

@@ -303,10 +303,9 @@ public class Bean {
 	 */
 	public static <T> Map<Object, T> listToMap(List<T> list, String keyProperty, Class<?> beanClass) throws Exception {
 		Map<Object, T> returnMap = new HashMap<Object, T>();
-		PropertyDescriptor currentPd = null;
 			for (T t : list) {
 				MethodAccess methodAccess = getMethodAccess(beanClass);
-				if (!ValidationUtil.isEmpty(currentPd)) {
+				if (!ValidationUtil.isEmpty(methodAccess)) {
 					Object obj = methodAccess.invoke(t,property2GetMethod(keyProperty));
 					if (!ValidationUtil.isEmpty(obj)) {
 						returnMap.put(obj, t);

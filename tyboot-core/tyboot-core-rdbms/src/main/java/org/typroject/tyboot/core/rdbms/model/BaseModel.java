@@ -1,9 +1,6 @@
 package org.typroject.tyboot.core.rdbms.model;
 
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,10 +13,8 @@ public class BaseModel implements Serializable {
 
     protected Long  sequenceNbr;
 
-    @JsonIgnore
     protected Date recDate;
 
-    @JsonIgnore
     protected String recUserId;
 
 

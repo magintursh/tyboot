@@ -52,6 +52,27 @@ public class RequestContextModel implements Serializable {
 
 	private String loginId;
 
+	private Long requestTimeMills;
+
+	private String deviceId;
+
+
+	public String getDeviceId() {
+		return deviceId;
+	}
+
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
+	}
+
+	public Long getRequestTimeMills() {
+		return requestTimeMills;
+	}
+
+	public void setRequestTimeMills(Long requestTimeMills) {
+		this.requestTimeMills = requestTimeMills;
+	}
+
 	public String getLoginId() {
 		return loginId;
 	}
@@ -166,6 +187,9 @@ public class RequestContextModel implements Serializable {
 		this.businessTransactionId = null;
 		this.product = null;
 		this.appVersion = null;
+		this.requestTimeMills = null;
+		this.requestIP = null;
+		this.token = null;
 		if (this.extra != null) {
 			this.extra = null;
 		}

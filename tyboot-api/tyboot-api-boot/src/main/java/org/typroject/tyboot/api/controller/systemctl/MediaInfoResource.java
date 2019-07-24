@@ -7,12 +7,12 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.typroject.tyboot.api.face.systemctl.service.MediaInfoService;
+import org.typroject.tyboot.core.foundation.enumeration.UserType;
 import org.typroject.tyboot.core.foundation.utils.StringUtil;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.core.restful.doc.TycloudOperation;
 import org.typroject.tyboot.core.restful.doc.TycloudResource;
 import org.typroject.tyboot.core.restful.exception.instance.BadRequest;
-import org.typroject.tyboot.core.restful.utils.APILevel;
 import org.typroject.tyboot.core.restful.utils.ResponseHelper;
 import org.typroject.tyboot.core.restful.utils.ResponseModel;
 
@@ -31,7 +31,7 @@ import java.util.Map;
 @RestController
 @TycloudResource(module = "systemctl",value = "mediainfo")
 @RequestMapping(value = "/v1/systemctl/mediainfo")
-@Api(value = "systemctl-多媒体信息关联")
+@Api(tags = "systemctl-多媒体信息关联")
 public class MediaInfoResource {
 
     private final Logger logger = LogManager.getLogger(FeedbackResource.class);
@@ -39,7 +39,7 @@ public class MediaInfoResource {
     @Autowired
     private MediaInfoService mediaInfoService;
 
-    @TycloudOperation( ApiLevel = APILevel.PUBLIC)
+    @TycloudOperation( ApiLevel = UserType.PUBLIC)
     @ApiOperation(value="删除媒体文件信息")
     @RequestMapping(value = "/{ids}", method = RequestMethod.DELETE)
     public ResponseModel deleteMediaInfo(@PathVariable String ids) throws Exception
@@ -49,7 +49,7 @@ public class MediaInfoResource {
     }
 
 
-    @TycloudOperation( ApiLevel = APILevel.PUBLIC)
+    @TycloudOperation( ApiLevel = UserType.PUBLIC)
     @ApiOperation(value="封禁指定图片")
     @RequestMapping(value = "/media/disabled", method = RequestMethod.PUT)
     public ResponseModel disabled(@RequestBody Map<String,String> map) throws Exception

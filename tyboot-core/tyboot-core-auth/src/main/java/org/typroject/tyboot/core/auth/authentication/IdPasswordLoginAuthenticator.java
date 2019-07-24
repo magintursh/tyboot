@@ -42,6 +42,10 @@ public class IdPasswordLoginAuthenticator implements LoginAuthenticatorHandler {
 
         LoginInfoModel loginInfoModel = this.loginInfoService.selectByLoginId(loginId);
 
+
+        if(ValidationUtil.isEmpty(loginInfoModel))
+            throw new AuthException("找不到用户信息.");
+
         if(PropertyValueConstants.LOCK_STATUS_LOCK.equals(loginInfoModel.getLockStatus()))
         {
             throw new AuthException("当前账号已经禁用,请联系管理员");

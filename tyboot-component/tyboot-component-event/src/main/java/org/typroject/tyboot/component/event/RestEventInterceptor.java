@@ -86,7 +86,7 @@ public class RestEventInterceptor {
                         // 根据不同的事件类型，构造不同的事件处理器所需要的事件源数据
 
                         RequestContextModel contextModel = RequestContext.cloneRequestContext();
-                        applicationContext.publishEvent(new RestEvent(event, params,eventSourceData,contextModel));
+                        applicationContext.publishEvent(new RestEvent(event, params,eventSourceData,contextModel, method.getName(),eventTrigger.label()));
                     }
                 }
             }

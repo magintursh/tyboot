@@ -115,12 +115,9 @@ public   class LoginAuthenticator {
     {
 
 
-            RequestContext.setExeUserId(ssoSessionsModel.getUserId().toString());
-
+            RequestContext.setExeUserId(ssoSessionsModel.getUserId());
             RequestContext.setAgencyCode(ssoSessionsModel.getAgencyCode());
-
-            RequestContext.setUserType(UserType.getUserType(ssoSessionsModel.getUserType()));
-
+            RequestContext.setUserType(UserType.valueOf(ssoSessionsModel.getUserType()));
 
             //清理旧的session
             ssoSessionsService.removeSession(ssoSessionsModel.getActionByProduct(),ssoSessionsModel.getLoginId());

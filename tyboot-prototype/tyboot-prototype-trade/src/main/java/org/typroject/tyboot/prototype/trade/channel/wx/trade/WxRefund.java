@@ -18,12 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.typroject.tyboot.core.foundation.utils.Encrypt;
-import org.typroject.tyboot.prototype.trade.constants.TradeConstants;
-import org.typroject.tyboot.prototype.trade.Trade;
-import org.typroject.tyboot.prototype.trade.TradeResultModel;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.face.trade.model.TransactionsSerialModel;
 import org.typroject.tyboot.face.trade.service.TransactionsSerialService;
+import org.typroject.tyboot.prototype.trade.Trade;
+import org.typroject.tyboot.prototype.trade.TradeResultModel;
+import org.typroject.tyboot.prototype.trade.constants.TradeConstants;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -37,6 +37,7 @@ import java.util.*;
 
 @Component(value = "wxRefund")
 public class WxRefund implements Trade {
+
 
 	@Autowired
 	private TransactionsSerialService transactionsSerialService;

@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.typroject.tyboot.api.face.systemctl.enumeration.SmsType;
 import org.typroject.tyboot.api.face.systemctl.service.SmsRecordService;
 import org.typroject.tyboot.core.foundation.context.RequestContext;
+import org.typroject.tyboot.core.foundation.enumeration.UserType;
 import org.typroject.tyboot.core.restful.doc.TycloudOperation;
 import org.typroject.tyboot.core.restful.doc.TycloudResource;
-import org.typroject.tyboot.core.restful.utils.APILevel;
 import org.typroject.tyboot.core.restful.utils.ResponseHelper;
 import org.typroject.tyboot.core.restful.utils.ResponseModel;
 
@@ -25,7 +25,7 @@ import org.typroject.tyboot.core.restful.utils.ResponseModel;
 
 @TycloudResource(module = "systemctl", value = "sms")
 @RequestMapping(path = "/v1/systemctl/sms")
-@Api(value = "systemctl-短信")
+@Api(tags = "systemctl-短信")
 @RestController
 public class SmsResource {
     private final Logger logger = LogManager.getLogger(FeedbackResource.class);
@@ -35,7 +35,7 @@ public class SmsResource {
     private SmsRecordService smsRecordService;
 
 
-    @TycloudOperation(ApiLevel = APILevel.ALL, needAuth = false)
+    @TycloudOperation(ApiLevel = UserType.ANONYMOUS, needAuth = false)
     @ApiOperation(value = "发送短信验证码")
     @RequestMapping(value = "/{smsType}/verify/{mobile}", method = RequestMethod.POST)
     public ResponseModel sendVerifyCode(@PathVariable String smsType, @PathVariable String mobile) throws Exception {
@@ -45,7 +45,7 @@ public class SmsResource {
     }
 
 
-    @TycloudOperation(ApiLevel = APILevel.ALL, needAuth = false)
+    @TycloudOperation(ApiLevel = UserType.ANONYMOUS, needAuth = false)
     @ApiOperation(value = "认证手机和验证码")
     @RequestMapping(value = "/{smsType}/verify/{mobile}/{verifyCode}/verification", method = RequestMethod.GET)
     public ResponseModel smsForLogin(@PathVariable String smsType, @PathVariable String mobile, @PathVariable String verifyCode) throws Exception {

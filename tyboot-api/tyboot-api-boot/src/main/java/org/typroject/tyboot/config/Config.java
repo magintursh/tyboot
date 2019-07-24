@@ -3,7 +3,6 @@ package org.typroject.tyboot.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.typroject.tyboot.component.activemq.JmsReceiver;
-import org.typroject.tyboot.component.opendata.storage.Storage;
 
 @Configuration
 public class Config {
@@ -21,11 +20,11 @@ public class Config {
         return new JmsReceiver();
     }
 
-    @Bean
+    /*@Bean
     public Storage storage()
     {
         return new Storage(qiniuConfigAccessKey,qiniuConfigSecretKey);
-    }
+    }*/
 
 
 

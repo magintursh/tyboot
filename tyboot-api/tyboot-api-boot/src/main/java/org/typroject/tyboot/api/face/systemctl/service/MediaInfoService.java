@@ -32,17 +32,17 @@ import java.util.List;
 public class MediaInfoService extends BaseService<MediaInfoModel, MediaInfo, MediaInfoMapper>  {
 
 
-    @Value("${qiniu.baseurl}")
+    //@Value("${qiniu.baseurl}")
     private String baseUrl;
 
-    @Value("${qiniu.bucket}")
+    //@Value("${qiniu.bucket}")
     private String spaceName;
 
 
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @Autowired
+    //@Autowired
     private Storage storage;
 
 

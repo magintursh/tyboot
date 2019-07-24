@@ -11,12 +11,12 @@ import java.util.Collection;
  * @param <N>
  * @param <ID>
  */
-public interface TreeNode<N,ID> {
+public interface TreeNode<N,ID> extends Comparable<N> {
     ID getMyParentId();
 
     ID getMyId();
 
-    Collection<N> getChilds();
+    Collection<N> getChildren();
 
-    void setChilds(Collection<N> childs);
+    void setChildren(Collection<N> childs);
 }

@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.toolkit.Sequence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -19,18 +19,13 @@ import org.typroject.tyboot.core.foundation.context.RequestContext;
 import org.typroject.tyboot.core.foundation.enumeration.UserType;
 import org.typroject.tyboot.core.foundation.utils.DateUtil;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
-import org.typroject.tyboot.core.restful.auth.AuthHandler;
-import org.typroject.tyboot.core.restful.auth.AuthWithSessionHandler;
 import org.typroject.tyboot.core.restful.auth.ExtendAuthHandler;
 import org.typroject.tyboot.core.restful.doc.TycloudOperation;
-import org.typroject.tyboot.core.restful.utils.APILevel;
 import org.typroject.tyboot.core.restful.utils.RequestUtil;
 import org.typroject.tyboot.core.restful.utils.RestfulConstans;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 /**
  * 自定义拦截器1
@@ -61,32 +56,30 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-    //System.out.println(">>>AuthInterceptor>>>>>>>在请求处理之前进行调用（Controller方法调用之前）");
-
-        if(HttpMethod.OPTIONS.name().equals(request.getMethod()))
-        {
-            return true;
-        }
 
     HandlerMethod handlerMethod = (HandlerMethod) handler;
     RequestContext.clean();
+    RequestContext.setRequestTimeMills(System.currentTimeMillis());
 
     String appkey       = request.getHeader(RestfulConstans.APPKEY);
     String token        = request.getHeader(RestfulConstans.TOKEN);
     String product      = request.getHeader(RestfulConstans.PRODUCT);
     String traceId      = request.getHeader(RestfulConstans.TRACEID);
+    String deviceId      = request.getHeader(RestfulConstans.DEVICE_ID);
     String requestIp    = RequestUtil.getRemoteIp(request);
     String userAgent    = request.getHeader(RestfulConstans.USER_AGENT);
 
 
     //设置请求标识
-    traceId =setTraceId(traceId);
+    traceId = ValidationUtil.isEmpty(traceId)?String.valueOf(sequence.nextId()):traceId;
 
     RequestContext.setTraceId(traceId);
     RequestContext.setRequestIP(requestIp);
     RequestContext.setProduct(product);
     RequestContext.setUserAgent(userAgent);
     RequestContext.setToken(token);
+    RequestContext.setDeviceId(deviceId);
+
 
     StringBuilder logInfo = new StringBuilder();
     logInfo.append("\n**********************************************************");
@@ -99,33 +92,27 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     logInfo.append("\n* HANDLER     :" + handlerMethod.getBean().getClass());
     logInfo.append("\n* METHOD      :" + handlerMethod.getMethod().getName());
     logInfo.append("\n* ACCESS_TIME :" + DateUtil.getNow(DateUtil.Y_M_D_HMS));
-    logInfo.append("\n**********************************************************");
     logger.info(logInfo.toString());
-
-
 
     return doAuth(handlerMethod,token,appkey,product);
 }
 
 
-
-
     private boolean doAuth(HandlerMethod handlerMethod,
                            String token, String appKey, String product) throws Exception {
 
+        TycloudOperation tycloudOperation = handlerMethod.getMethodAnnotation(TycloudOperation.class);
 
-        //执行扩展规则验证
+
+        //在刷新session之前执行扩展规则验证
         ExtendAuthHandler.doAuth(handlerMethod,token,appKey,product);
 
-
-        TycloudOperation tycloudOperation = handlerMethod.getMethodAnnotation(TycloudOperation.class);
 
         if(!tycloudOperation.needAuth())
             return true;
 
         if(ValidationUtil.isEmpty(token) && tycloudOperation.needAuth())
             throw new AuthException("请求未包含认证信息.");
-
 
         SsoSessionsModel sessionsModel = null;
         if(!ValidationUtil.isEmpty(token))
@@ -135,49 +122,25 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             if(ValidationUtil.isEmpty(sessionsModel))
                 throw new AuthException("登录信息失效，请重新登录");
 
-            //执行扩展规则验证
-            ExtendAuthHandler.doAuthWithSession(sessionsModel,handlerMethod,token,appKey,product);
-        }
-        if (!ValidationUtil.isEmpty(sessionsModel)) {
-            setUser2ThreadLocal(sessionsModel);
+
+            //设置上下文信息
+            RequestContext.setExeUserId(sessionsModel.getUserId());
+            RequestContext.setAgencyCode(sessionsModel.getAgencyCode());
+            RequestContext.setUserType(UserType.valueOf(sessionsModel.getUserType()));
+
+            //刷新session之后执行扩展规则验证
+            ExtendAuthHandler.doAuth(sessionsModel,handlerMethod,token,appKey,product);
         }
         return true;
     }
 
 
-    private void setUser2ThreadLocal(SsoSessionsModel session) {
-
-        RequestContext.setExeUserId(session.getUserId());
-
-        RequestContext.setAgencyCode(session.getAgencyCode());
-
-        RequestContext.setUserType(UserType.getUserType(session.getUserType()));
-
-    }
 
 
-
-    private void checkUserType(String userTypeStr, APILevel apiLevel) throws Exception
-    {
-        UserType userType = UserType.getUserType(userTypeStr);
-        if(userType.getValue() < apiLevel.getValue())
-        {
-            throw new AuthException("用户权限不够.");
-        }
-    }
-
-
-
-
-    /**
-     * 设置请求的跟踪ID
-     * @param traceId
-     */
-    private String setTraceId(String traceId) throws Exception {
-        if (ValidationUtil.isEmpty(traceId)) {
-            traceId = String.valueOf(sequence.nextId());
-        }
-
-        return traceId;
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
+        StringBuilder logInfo = new StringBuilder();
+        logInfo.append("\n* 请求耗时      :" + (System.currentTimeMillis()-RequestContext.getRequestTimeMills()) +"毫秒;  (TRACE_ID:"+RequestContext.getTraceId()+")");
+        logInfo.append("\n**********************************************************");
+        logger.info(logInfo.toString());
     }
 }

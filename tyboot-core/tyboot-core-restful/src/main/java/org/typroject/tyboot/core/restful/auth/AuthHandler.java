@@ -9,21 +9,12 @@ public interface AuthHandler {
 
 
     /**
-     * 刷新session之前进行验证
+     * 刷新session之前执行
      * @param handlerMethod
      * @param token
      * @param appKey
      * @param product
+     * @throws Exception
      */
-    void doAuth(HandlerMethod handlerMethod,
-                String token, String appKey, String product)throws Exception;
-
-
-
-    /**
-     * 执行顺序
-     * @return
-     */
-    int  order();
-
+    void doAuth(HandlerMethod handlerMethod, String token, String appKey, String product)throws Exception;
 }

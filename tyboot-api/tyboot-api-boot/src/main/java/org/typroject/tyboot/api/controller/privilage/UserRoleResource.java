@@ -15,7 +15,7 @@ import org.typroject.tyboot.core.restful.doc.TycloudResource;
  */
 @TycloudResource(module = "privilege",value = "userrole")
 @RequestMapping(value = "/v1/privilege/userrole")
-@Api(value = "privilege-用户角色")
+@Api(tags = "privilege-用户角色")
 @RestController
 public class UserRoleResource {
 

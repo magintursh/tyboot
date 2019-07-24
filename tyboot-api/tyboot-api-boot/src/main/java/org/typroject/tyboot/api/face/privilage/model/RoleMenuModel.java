@@ -1,5 +1,6 @@
 package org.typroject.tyboot.api.face.privilage.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
 import java.util.Date;
