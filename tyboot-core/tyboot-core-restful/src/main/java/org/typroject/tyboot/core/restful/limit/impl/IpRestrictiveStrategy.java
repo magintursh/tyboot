@@ -24,7 +24,7 @@ public class IpRestrictiveStrategy implements LimitStrategy {
    public static final String CACHE_KEY_PREFIX_IP = "IP";
 
     static {
-        //每分钟 每个token 最多发起100个请求
+        //每分钟 每个IP 最多发起100个请求
         frequency = new Frequency(TimeUnit.MINUTES,1L,100L);
     }
     @Override

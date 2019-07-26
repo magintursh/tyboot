@@ -40,17 +40,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     private static final Sequence sequence = new Sequence();
 
-
-
-
-
-
     @Autowired
     private SsoSessionsService ssoSessionsService;
-
-
-
-
 
 
     @Override

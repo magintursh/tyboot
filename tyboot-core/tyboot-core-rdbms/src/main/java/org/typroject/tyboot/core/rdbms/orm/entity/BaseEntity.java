@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
 import java.util.Date;
+
 /**
  * Created by magintursh on 2017-06-17.
  */

@@ -55,13 +55,4 @@ public class AgencyAuthResource {
         return ResponseHelper.buildResponse(result);
     }
 
-
-
-
-
-
-
-
-
-
 }

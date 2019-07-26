@@ -5,6 +5,7 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.typroject.tyboot.core.restful.exception.GlobalExceptionHandler;
 
 /**
  * Created by magintursh on 2017-05-03.
@@ -17,5 +18,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class TybootApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder(TybootApplication.class).web(WebApplicationType.SERVLET).run(args);
+        GlobalExceptionHandler.setAlwaysOk(false);
     }
 }
