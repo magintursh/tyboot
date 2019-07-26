@@ -27,10 +27,7 @@ public class LocationInfoService extends BaseService<LocationInfoModel,LocationI
 
     public LocationInfoModel getByCode(String  locationCode) throws Exception
     {
-        long time = System.currentTimeMillis();
         LocationInfoModel model = queryModelByParamsWithCache(locationCode);
-
-       System.out.println(System.currentTimeMillis()-time);
         return model;
     }
 

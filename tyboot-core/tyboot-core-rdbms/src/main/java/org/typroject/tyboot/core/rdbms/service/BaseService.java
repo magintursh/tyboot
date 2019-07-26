@@ -143,12 +143,9 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
 
     public static <T> T  queryFromCache(String cacheKey)
     {
-        long time = System.currentTimeMillis();
         T t = null;
         if(!ValidationUtil.isEmpty(cacheKey))
             t = (T)Redis.getRedisTemplate().opsForValue().get(cacheKey);
-
-        System.out.println(System.currentTimeMillis()-time);
         return t;
     }
 
@@ -698,21 +695,21 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
                 wrapper.isNotNull(cloumn);
                 break;
             case in:
-                if(paramValue instanceof  Collection || paramValue instanceof Object[])
+                if(paramValue instanceof Object[])
                 {
-                    wrapper.in(cloumn, paramValue);
+                    wrapper.in(cloumn, ((Object[])paramValue));
                 }else
                 {
-                    throw new Exception("can not be case to Collection or Object[]");
+                    throw new Exception("can not be case  or Object[]");
                 }
                 break;
             case notIn:
-                if(paramValue instanceof  Collection || paramValue instanceof Object[])
+                if(paramValue instanceof Object[])
                 {
-                    wrapper.notIn(cloumn ,paramValue);
+                    wrapper.notIn(cloumn ,((Object[])paramValue));
                 }else
                 {
-                    throw new Exception("can not be case to Collection or  Object[]");
+                    throw new Exception("can not be case or  Object[]");
                 }
                 break;
             case between:
