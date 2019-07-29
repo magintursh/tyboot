@@ -518,6 +518,8 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
 
             page.setTotal(entiryPage.getTotal());
             page.setPages(entiryPage.getPages());
+            page.setCurrent(entiryPage.getCurrent());
+            page.setSize(entiryPage.getSize());
 
             if(!ValidationUtil.isEmpty(entiryPage.getRecords()))
                 page.setRecords(Bean.toModels(entiryPage.getRecords(),this.getModelClass()));

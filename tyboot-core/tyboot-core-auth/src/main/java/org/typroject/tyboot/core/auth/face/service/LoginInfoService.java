@@ -86,6 +86,11 @@ public class LoginInfoService extends BaseService<LoginInfoModel,LoginInfo,Login
         return this.lockLoginInfo(this.selectByLoginId(loginId));
     }
 
+    public LoginInfoModel unlockWithLoginId(String loginId) throws Exception
+    {
+        return this.unlockLoginInfo(this.selectByLoginId(loginId));
+    }
+
 
     private LoginInfoModel lockLoginInfo(LoginInfoModel loginInfoModel) throws Exception
     {
@@ -95,7 +100,20 @@ public class LoginInfoService extends BaseService<LoginInfoModel,LoginInfo,Login
             loginInfoModel.setLockStatus(PropertyValueConstants.LOCK_STATUS_LOCK);
             loginInfoModel.setLockUserId(RequestContext.getExeUserId());
 
-            loginInfoModel = this.updateWithModel(loginInfoModel);
+            loginInfoModel = this.updateWithCache(loginInfoModel,loginInfoModel.getLoginId());
+        }
+        return loginInfoModel;
+    }
+
+    private LoginInfoModel unlockLoginInfo(LoginInfoModel loginInfoModel) throws Exception
+    {
+        if(!ValidationUtil.isEmpty(loginInfoModel) && PropertyValueConstants.LOCK_STATUS_LOCK.equals(loginInfoModel.getLockStatus()))
+        {
+            loginInfoModel.setLockDate(new Date());
+            loginInfoModel.setLockStatus(PropertyValueConstants.LOCK_STATUS_UNLOCK);
+            loginInfoModel.setLockUserId(RequestContext.getExeUserId());
+
+            loginInfoModel = this.updateWithCache(loginInfoModel,loginInfoModel.getLoginId());
         }
         return loginInfoModel;
     }
