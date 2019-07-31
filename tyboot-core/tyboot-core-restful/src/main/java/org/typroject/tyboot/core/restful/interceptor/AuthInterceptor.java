@@ -48,7 +48,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
 
-    HandlerMethod handlerMethod = (HandlerMethod) handler;
+
     RequestContext.clean();
     RequestContext.setRequestTimeMills(System.currentTimeMillis());
 
@@ -70,6 +70,13 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     RequestContext.setUserAgent(userAgent);
     RequestContext.setToken(token);
     RequestContext.setDeviceId(deviceId);
+
+
+
+
+    if(! (handler instanceof HandlerMethod)) //TODO 临时处理，再做打算
+        return true;
+    HandlerMethod handlerMethod = (HandlerMethod) handler;
 
 
     StringBuilder logInfo = new StringBuilder();
@@ -118,6 +125,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             RequestContext.setExeUserId(sessionsModel.getUserId());
             RequestContext.setAgencyCode(sessionsModel.getAgencyCode());
             RequestContext.setUserType(UserType.valueOf(sessionsModel.getUserType()));
+            RequestContext.setLoginId(sessionsModel.getLoginId());
 
             //刷新session之后执行扩展规则验证
             ExtendAuthHandler.doAuth(sessionsModel,handlerMethod,token,appKey,product);

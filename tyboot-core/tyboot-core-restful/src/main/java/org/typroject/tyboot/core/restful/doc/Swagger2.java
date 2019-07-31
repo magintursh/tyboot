@@ -61,7 +61,7 @@ public class Swagger2 {
                 .license("Apache-2.0")
                 .description("tyboot是一个基于springboot的服务端脚手架，面向单体服务快速开发框架")
                 .contact(new Contact("子杨","https://gitee.com/magintursh/tyboot","magintursh69@163.com"))
-                .version("1.1.0")
+                .version("1.1.x")
                 .build();
     }
 }
