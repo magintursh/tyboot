@@ -5,7 +5,6 @@ import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.objectweb.asm.*;
 
-import java.beans.PropertyDescriptor;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

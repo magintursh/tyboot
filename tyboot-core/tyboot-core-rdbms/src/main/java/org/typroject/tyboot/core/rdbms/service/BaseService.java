@@ -274,6 +274,16 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
         return this.removeById(seq);
     }
 
+    /**
+     * 批量删除
+     * @param seqs
+     * @return
+     * @throws Exception
+     */
+    public final   boolean deleteBatchSeq(List<Long> seqs)throws Exception
+    {
+        return removeByIds(seqs);
+    }
 
     /**
      * 根据物理主键查询对象
@@ -293,7 +303,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @throws Exception
      */
     public final    List<V> queryBatchSeq(List<Long>  seqs) throws Exception {
-        return Bean.toModels(this.baseMapper.selectBatchIds(seqs), getModelClass());
+        return Bean.toModels(this.getBaseMapper().selectBatchIds(seqs), getModelClass());
     }
 
     protected final   V queryByModel(V model) throws Exception

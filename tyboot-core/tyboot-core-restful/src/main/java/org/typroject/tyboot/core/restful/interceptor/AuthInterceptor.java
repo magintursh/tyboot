@@ -56,7 +56,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     String token        = request.getHeader(RestfulConstans.TOKEN);
     String product      = request.getHeader(RestfulConstans.PRODUCT);
     String traceId      = request.getHeader(RestfulConstans.TRACEID);
-    String deviceId      = request.getHeader(RestfulConstans.DEVICE_ID);
+    String deviceId     = request.getHeader(RestfulConstans.DEVICE_ID);
     String requestIp    = RequestUtil.getRemoteIp(request);
     String userAgent    = request.getHeader(RestfulConstans.USER_AGENT);
 
@@ -64,6 +64,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     //设置请求标识
     traceId = ValidationUtil.isEmpty(traceId)?String.valueOf(sequence.nextId()):traceId;
 
+    RequestContext.setAppKey(appkey);
     RequestContext.setTraceId(traceId);
     RequestContext.setRequestIP(requestIp);
     RequestContext.setProduct(product);
@@ -71,11 +72,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     RequestContext.setToken(token);
     RequestContext.setDeviceId(deviceId);
 
-
-
-
     if(! (handler instanceof HandlerMethod)) //TODO 临时处理，再做打算
         return true;
+
     HandlerMethod handlerMethod = (HandlerMethod) handler;
 
 

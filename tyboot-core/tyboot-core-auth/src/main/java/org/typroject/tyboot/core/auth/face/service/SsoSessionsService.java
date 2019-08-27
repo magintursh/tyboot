@@ -32,7 +32,7 @@ public class SsoSessionsService extends BaseService<SsoSessionsModel,SsoSessions
     public static final String SESSION_TOKEN = "SESSION_TOKEN";
 
 
-    public static final Long DEFAULT_SESSION_EXPIRATION = 2592000L;
+    public static  Long DEFAULT_SESSION_EXPIRATION = 2592000L;
 
 
     @Autowired
@@ -41,6 +41,11 @@ public class SsoSessionsService extends BaseService<SsoSessionsModel,SsoSessions
     @Autowired
     private LoginInfoService loginInfoService;
 
+
+    public static void setDefaultExpiration(Long expiration)
+    {
+        DEFAULT_SESSION_EXPIRATION = expiration;
+    }
 
     public static String sessionCacheKeyWithToken(String token,String actionByProduct)
     {

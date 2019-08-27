@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
 
     private final Logger logger = LogManager.getLogger(GlobalExceptionHandler.class);
 
-    private static Boolean alwaysOk = true;//http返回码永远都是200
+    private static Boolean alwaysOk = false;//默认使用真实的http状态码
 
 
     @ExceptionHandler(value = {Exception.class,BaseException.class,RuntimeException.class,Throwable.class})

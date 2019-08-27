@@ -159,6 +159,15 @@ public class RequestContext {
 		return getRequestContext().getRequestTimeMills();
 	}
 
+	public static  String getAppKey() {
+		return getRequestContext().getAppKey();
+	}
+
+	public static void setAppKey(String appKey) {
+		getRequestContext().setAppKey(appKey); 
+	}
+
+
 	public static void clean() {
 		RequestContextModel requestModel = getRequestContext();
 		if (requestModel != null) {
