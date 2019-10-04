@@ -27,21 +27,13 @@ public class Dictionarie extends BaseEntity{
      */
 	@TableField("DICT_NAME")
 	private String dictName;
-    /**
-     * 字典别名
-     */
-	@TableField("DICT_ALIAS")
-	private String dictAlias;
+
     /**
      * 字典值描述
      */
 	@TableField("DICT_DESC")
 	private String dictDesc;
-    /**
-     * 业务类型
-     */
-	@TableField("BU_TYPE")
-	private String buType;
+
     /**
      * 机构编码
      */
@@ -66,13 +58,7 @@ public class Dictionarie extends BaseEntity{
 		this.dictName = dictName;
 	}
 
-	public String getDictAlias() {
-		return dictAlias;
-	}
 
-	public void setDictAlias(String dictAlias) {
-		this.dictAlias = dictAlias;
-	}
 
 	public String getDictDesc() {
 		return dictDesc;
@@ -80,14 +66,6 @@ public class Dictionarie extends BaseEntity{
 
 	public void setDictDesc(String dictDesc) {
 		this.dictDesc = dictDesc;
-	}
-
-	public String getBuType() {
-		return buType;
-	}
-
-	public void setBuType(String buType) {
-		this.buType = buType;
 	}
 
 	public String getAgencyCode() {

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.typroject</groupId>
 		<artifactId>tyboot-component</artifactId>
-		<version>1.1.7-Ty</version>
+		<version>1.1.8-Ty</version>
 	</parent>
 
 	<groupId>org.typroject</groupId>
@@ -20,12 +20,18 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-core-foundation</artifactId>
-			<version>1.1.7-Ty</version>
+			<version>1.1.8-Ty</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.7.0</version>
 		</dependency>
 
 

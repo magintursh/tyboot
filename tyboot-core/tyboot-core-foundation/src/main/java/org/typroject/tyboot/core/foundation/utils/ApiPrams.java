@@ -28,23 +28,20 @@ public  class ApiPrams {
         return new ApiPrams(apiInfo);
     }
 
+
     /**
-     * 填写地址参数，按参数名称的字典顺序填写。
-     * @param pathparams
+     * 填写地址参数
+     * @param paramName
+     * @param paramValue
      * @return
      */
-    public final ApiPrams putPathparams(String...pathparams)
+    public final ApiPrams putPathparams(String paramName,String paramValue)
     {
 
-        if(!ValidationUtil.isEmpty(pathparams) && pathparams.length == this.apiInfo.getPathVariableNames().size())
+        if(!ValidationUtil.isEmpty(paramName) && !ValidationUtil.isEmpty(paramValue) && this.apiInfo.getPathVariableNames().contains(paramName))
         {
-            Iterator<String> it = this.apiInfo.getPathVariableNames().iterator();
-            for(int i=0 ;i<pathparams.length && it.hasNext();i++)
-            {
-                this.pathParmas.put(it.next(),pathparams[i]);
-            }
+           this.pathParmas.put(paramName,paramValue);
         }
-
         return this;
     }
 

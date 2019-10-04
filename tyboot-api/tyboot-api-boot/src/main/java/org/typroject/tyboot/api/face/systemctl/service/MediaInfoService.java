@@ -29,7 +29,7 @@ import java.util.List;
  * @since 2018-12-04
  */
 @Component
-public class MediaInfoService extends BaseService<MediaInfoModel, MediaInfo, MediaInfoMapper>  {
+public class MediaInfoService extends BaseService<MediaInfoModel, MediaInfo, MediaInfoMapper> {
 
 
     //@Value("${qiniu.baseurl}")
@@ -102,7 +102,7 @@ public class MediaInfoService extends BaseService<MediaInfoModel, MediaInfo, Med
     private String getUrl(String mediaTypeStr, String fileName) throws Exception {
         String url = "";
 
-        if(ValidationUtil.isEmpty(mediaTypeStr) || ValidationUtil.isEmpty(fileName))
+        if (ValidationUtil.isEmpty(mediaTypeStr) || ValidationUtil.isEmpty(fileName))
             return url;
 
         MediaType mediaType = MediaType.valueOf(mediaTypeStr);
@@ -132,30 +132,30 @@ public class MediaInfoService extends BaseService<MediaInfoModel, MediaInfo, Med
      * @throws Exception
      */
     public List<MediaInfoModel> queryByEntityList(String entityType, String entityId) throws Exception {
-        List<MediaInfoModel> returnModels = this.queryForListWithCache(genCacheKeyForModelList(Redis.genKey(entityType,entityId)),"ORDER_NUM",false,entityType, entityId);
+        List<MediaInfoModel> returnModels = this.queryForListWithCache("ORDER_NUM", false, entityType, entityId);
 
-            if (!ValidationUtil.isEmpty(returnModels)) {
-                for (MediaInfoModel model : returnModels) {
-                    model.setMediaUrl(this.getUrl(model.getMediaType(), model.getMediaFilename()));
-                }
+        if (!ValidationUtil.isEmpty(returnModels)) {
+            for (MediaInfoModel model : returnModels) {
+                model.setMediaUrl(this.getUrl(model.getMediaType(), model.getMediaFilename()));
             }
+        }
         return returnModels;
     }
 
 
     public MediaInfoModel queryByAlias(String entityType, String entityId, String mediaAlias) throws Exception {
-        MediaInfoModel postMediaInfoModel  =  this.queryModelByParamsWithCache(entityType,entityId,mediaAlias);
-        if(!ValidationUtil.isEmpty(postMediaInfoModel))
-            postMediaInfoModel.setMediaUrl(this.getUrl(postMediaInfoModel.getMediaType(),postMediaInfoModel.getMediaFilename()));
+        MediaInfoModel postMediaInfoModel = this.queryModelByParamsWithCache(entityType, entityId, mediaAlias);
+        if (!ValidationUtil.isEmpty(postMediaInfoModel))
+            postMediaInfoModel.setMediaUrl(this.getUrl(postMediaInfoModel.getMediaType(), postMediaInfoModel.getMediaFilename()));
         return postMediaInfoModel;
     }
 
     public List<MediaInfoModel> queryByAliasForList(String entityType, String entityId, String mediaAlias) throws Exception {
 
-        List<MediaInfoModel> list = this.queryForListWithCache(genCacheKeyForModelList(Redis.genKey(entityType, entityId, mediaAlias)),"ORDER_NUM", false, entityType, entityId, mediaAlias);
-        if(!ValidationUtil.isEmpty(list))
-            for(MediaInfoModel model:list)
-                model.setMediaUrl(this.getUrl(model.getMediaType(),model.getMediaFilename()));
+        List<MediaInfoModel> list = this.queryForListWithCache("ORDER_NUM", false, entityType, entityId, mediaAlias);
+        if (!ValidationUtil.isEmpty(list))
+            for (MediaInfoModel model : list)
+                model.setMediaUrl(this.getUrl(model.getMediaType(), model.getMediaFilename()));
         return list;
     }
 
@@ -166,12 +166,11 @@ public class MediaInfoService extends BaseService<MediaInfoModel, MediaInfo, Med
         postMediaInfoModel.setEntityType(entityType);
         postMediaInfoModel.setMediaFilename(mediaFilename);
         postMediaInfoModel.setMediaAlias(mediaAlias);
-        postMediaInfoModel =  this.queryByModel(postMediaInfoModel);
-        if(!ValidationUtil.isEmpty(postMediaInfoModel))
-            postMediaInfoModel.setMediaUrl(this.getUrl(postMediaInfoModel.getMediaType(),postMediaInfoModel.getMediaFilename()));
+        postMediaInfoModel = this.queryByModel(postMediaInfoModel);
+        if (!ValidationUtil.isEmpty(postMediaInfoModel))
+            postMediaInfoModel.setMediaUrl(this.getUrl(postMediaInfoModel.getMediaType(), postMediaInfoModel.getMediaFilename()));
         return postMediaInfoModel;
     }
-
 
 
     public List<Long> deleteMedia(List<MediaInfoModel> mediaInfoModels) throws Exception {
@@ -193,7 +192,7 @@ public class MediaInfoService extends BaseService<MediaInfoModel, MediaInfo, Med
             MediaInfoModel mediaInfoModel = this.queryBySeq(id);
             if (!ValidationUtil.isEmpty(mediaInfoModel)) {
                 //从mysql中删除
-                this.deleteBySeqWithCache(id,genCacheKeyForModelList(Redis.genKey(mediaInfoModel.getEntityType(),mediaInfoModel.getEntityId())));
+                this.deleteBySeqWithCache(id, genCacheKeyForModelList(Redis.genKey(mediaInfoModel.getEntityType(), mediaInfoModel.getEntityId())));
 
                 //从七牛中删除
                 //storage.deleteFile(MediaType.valueOf(mediaInfoModel.getMediaType()).getQiniuSpaceName(), mediaInfoModel.getMediaFilename());
@@ -257,9 +256,9 @@ public class MediaInfoService extends BaseService<MediaInfoModel, MediaInfo, Med
     private MediaInfoModel queryByFilename(String filename) throws Exception {
         MediaInfoModel model = new MediaInfoModel();
         model.setMediaFilename(filename);
-        model =  this.queryByModel(model);
-        if(!ValidationUtil.isEmpty(model))
-            model.setMediaUrl(this.getUrl(model.getMediaType(),model.getMediaFilename()));
+        model = this.queryByModel(model);
+        if (!ValidationUtil.isEmpty(model))
+            model.setMediaUrl(this.getUrl(model.getMediaType(), model.getMediaFilename()));
         return model;
 
     }

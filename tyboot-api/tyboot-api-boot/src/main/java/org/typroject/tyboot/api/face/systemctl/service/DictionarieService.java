@@ -78,34 +78,12 @@ public class DictionarieService extends BaseService<DictionarieModel,Dictionarie
         return this.queryModelByParamsWithCache(agencyCode,dictCode);
     }
 
-    public List<DictionarieModel> queryByAgencyCode(String agencyCode) throws Exception
-    {
-        return this.queryForListWithCache(genCacheKeyForModelList(agencyCode),"REC_DATE", false,agencyCode);
-    }
-
 
     public IPage<DictionarieModel> queryDictPage(Page page, String agencyCode ,
-                                                 String buType,
-                                                 String dictAlias,
                                                  @Condition(Operator.like) String dictName,
                                                  String dictCode) throws Exception
     {
         return this.queryForPage(page,null,false,
-                agencyCode,buType,dictAlias,dictName,dictCode);
+                agencyCode,dictName,dictCode);
     }
-
-
-
-    public List<DictionarieModel> queryDictList(String agencyCode ,
-                                               String buType,
-                                               String dictAlias,
-                                                @Condition(Operator.like)String dictName,
-                                               String dictCode) throws Exception
-    {
-        return this.queryForList(null,false,
-                agencyCode,buType,dictAlias,dictName,dictCode);
-
-    }
-
-
 }

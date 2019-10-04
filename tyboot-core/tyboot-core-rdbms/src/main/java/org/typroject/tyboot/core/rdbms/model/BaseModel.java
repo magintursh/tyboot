@@ -1,12 +1,15 @@
 package org.typroject.tyboot.core.rdbms.model;
 
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by magintursh on 2017-06-17.
  */
+@Data
 public class BaseModel implements Serializable {
     private static final long serialVersionUID = 457432767545432436L;
 
@@ -16,31 +19,4 @@ public class BaseModel implements Serializable {
     protected Date recDate;
 
     protected String recUserId;
-
-
-
-    public Long getSequenceNbr() {
-        return sequenceNbr;
-    }
-
-    public void setSequenceNbr(Long sequenceNbr) {
-        this.sequenceNbr = sequenceNbr;
-    }
-
-    public Date getRecDate() {
-        return recDate;
-    }
-
-    public void setRecDate(Date recDate) {
-        this.recDate = recDate;
-    }
-
-    public String getRecUserId() {
-        return recUserId;
-    }
-
-    public void setRecUserId(String recUserId) {
-        this.recUserId = recUserId;
-    }
-
 }

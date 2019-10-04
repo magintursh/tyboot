@@ -14,6 +14,7 @@ import org.typroject.tyboot.core.foundation.utils.Bean;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.core.rdbms.annotation.Condition;
 import org.typroject.tyboot.core.rdbms.annotation.Operator;
+import org.typroject.tyboot.core.rdbms.model.BaseModel;
 import org.typroject.tyboot.core.rdbms.orm.entity.BaseEntity;
 
 import java.lang.annotation.Annotation;
@@ -155,14 +156,18 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
     /**
      * 更新model，并更新缓存。并更新或删除指定的缓存
      * @param model         要更新的model
-     * @param propertyValueAsCacheKey 缓存model所用的其属性值
+     * @param propertyValueAsCacheKey 缓存model所用的其属性值  为null的时候默认使用sequenceNbr，用作key的组成
      * @param deleteCacheKey        要删除的缓存key，删除使用完整的key
      * @return model
      * @throws Exception
      */
     protected final   V updateWithCache(V model,String propertyValueAsCacheKey,String... deleteCacheKey) throws Exception {
         model = this.updateWithModel(model);
-        saveCache(genCacheKeyForModel(propertyValueAsCacheKey),model);
+
+        String cacheKey = genCacheKeyForModel(propertyValueAsCacheKey);
+        if(ValidationUtil.isEmpty(propertyValueAsCacheKey))
+            cacheKey =  genCacheKeyForModel(String.valueOf(((BaseModel) model).getSequenceNbr()));
+        saveCache(cacheKey,model);
         deleteFromCache(deleteCacheKey);
         return model;
     }
@@ -244,7 +249,10 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      */
     protected final   V createWithCache(V model,String propertyValueAsCacheKey,String... deleteCacheKey) throws Exception {
         model = this.createWithModel(model);
-        saveCache(genCacheKeyForModel(propertyValueAsCacheKey),model);
+        String cacheKey = genCacheKeyForModel(propertyValueAsCacheKey);
+        if(ValidationUtil.isEmpty(propertyValueAsCacheKey))
+            cacheKey =  genCacheKeyForModel(String.valueOf(((BaseModel) model).getSequenceNbr()));
+        saveCache(cacheKey,model);
         deleteFromCache(deleteCacheKey);
         return model;
     }
@@ -316,6 +324,8 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
     }
 
     /**
+     *
+     * 按指定参数获取单个对象
      * 简化service层操作，查询单个对象，参数顺序必须和前置方法一直，参数名称需要和对象的属性名称保持一样
      *
      * @param params
@@ -480,8 +490,15 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @return
      * @throws Exception
      */
-    protected final   List<V> queryForListWithCache(String cacheKey,String orderBy,boolean isAsc,Object... params)throws Exception
+    protected final   List<V> queryForListWithCache(String orderBy,boolean isAsc,Object... params)throws Exception
     {
+
+        String [] asKey = new String[params.length];
+        for(int i=0;i<params.length;i++)
+            asKey[i]=String.valueOf(params[i]);
+
+
+        String cacheKey = genCacheKeyForModelList(Redis.genKey(asKey));
         ArrayList<V>  list = queryFromCache(cacheKey);
         if(ValidationUtil.isEmpty(list))
         {

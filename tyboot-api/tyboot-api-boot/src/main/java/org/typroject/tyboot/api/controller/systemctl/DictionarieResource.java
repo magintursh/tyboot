@@ -85,8 +85,6 @@ public class DictionarieResource {
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseModel<IPage> queryForPage(
             @RequestParam(value = "agencyCode",required = false) String agencyCode,
-            @RequestParam(value = "buType", required = false) String buType,
-            @RequestParam(value = "di ctAlias", required = false) String dictAlias,
             @RequestParam(value = "dictName", required = false) String dictName,
             @RequestParam(value = "dictCode", required = false) String dictCode,
             @RequestParam(value ="current") int current,
@@ -95,7 +93,7 @@ public class DictionarieResource {
         Page page = new Page();
         page.setCurrent(current);
         page.setSize(size);
-        return ResponseHelper.buildResponse(dictionarieService.queryDictPage(page,agencyCode,buType,dictAlias,dictName,dictCode));
+        return ResponseHelper.buildResponse(dictionarieService.queryDictPage(page,agencyCode,dictName,dictCode));
     }
 
 

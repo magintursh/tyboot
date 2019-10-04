@@ -18,6 +18,6 @@ import org.typroject.tyboot.core.restful.exception.GlobalExceptionHandler;
 public class TybootApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder(TybootApplication.class).web(WebApplicationType.SERVLET).run(args);
-        GlobalExceptionHandler.setAlwaysOk(false);
+        GlobalExceptionHandler.setAlwaysOk(true);
     }
 }

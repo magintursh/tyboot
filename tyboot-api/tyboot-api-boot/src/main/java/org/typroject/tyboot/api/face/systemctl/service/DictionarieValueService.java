@@ -30,7 +30,7 @@ public class DictionarieValueService extends BaseService<DictionarieValueModel,D
 
     public List<DictionarieValueModel> queryByDictCode(String agencyCode,String dictCode) throws Exception
     {
-        return this.queryForListWithCache(genCacheKeyForModelList(Redis.genKey(agencyCode,dictCode)),"order_Num",true,agencyCode,dictCode);
+        return this.queryForListWithCache("order_Num",true,agencyCode,dictCode);
     }
 
 

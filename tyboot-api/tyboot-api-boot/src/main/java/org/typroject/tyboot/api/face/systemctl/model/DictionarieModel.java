@@ -23,17 +23,9 @@ public class DictionarieModel extends BaseModel {
      */
 	private String dictName;
     /**
-     * 字典别名
-     */
-	private String dictAlias;
-    /**
      * 字典值描述
      */
 	private String dictDesc;
-    /**
-     * 业务类型
-     */
-	private String buType;
     /**
      * 机构编码
      */
@@ -56,13 +48,6 @@ public class DictionarieModel extends BaseModel {
 		this.dictName = dictName;
 	}
 
-	public String getDictAlias() {
-		return dictAlias;
-	}
-
-	public void setDictAlias(String dictAlias) {
-		this.dictAlias = dictAlias;
-	}
 
 	public String getDictDesc() {
 		return dictDesc;
@@ -72,13 +57,6 @@ public class DictionarieModel extends BaseModel {
 		this.dictDesc = dictDesc;
 	}
 
-	public String getBuType() {
-		return buType;
-	}
-
-	public void setBuType(String buType) {
-		this.buType = buType;
-	}
 
 	public String getAgencyCode() {
 		return agencyCode;
