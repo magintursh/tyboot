@@ -1,5 +1,7 @@
 package org.typroject.tyboot.api.face.privilage.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
 import java.util.Date;
@@ -12,6 +14,8 @@ import java.util.Date;
  * @author magintursh
  * @since 2017-08-18
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class RoleMenuModel extends BaseModel {
 
     private static final long serialVersionUID = 28573735432548L;
@@ -33,46 +37,6 @@ public class RoleMenuModel extends BaseModel {
 
 
 
-	public String getAgencyCode() {
-		return agencyCode;
-	}
-
-	public void setAgencyCode(String agencyCode) {
-		this.agencyCode = agencyCode;
-	}
-
-
-	public Long getRoleSequenceNbr() {
-		return roleSequenceNbr;
-	}
-
-	public void setRoleSequenceNbr(Long roleSequenceNbr) {
-		this.roleSequenceNbr = roleSequenceNbr;
-	}
-
-	public Long getMenuSequenceNbr() {
-		return menuSequenceNbr;
-	}
-
-	public void setMenuSequenceNbr(Long menuSequenceNbr) {
-		this.menuSequenceNbr = menuSequenceNbr;
-	}
-
-	public String getCreateUserId() {
-		return createUserId;
-	}
-
-	public void setCreateUserId(String createUserId) {
-		this.createUserId = createUserId;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
 
 
 }

@@ -1,5 +1,7 @@
 package org.typroject.tyboot.face.trade.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
 import java.math.BigDecimal;
@@ -13,6 +15,8 @@ import java.util.Date;
  * @author 子杨
  * @since 2017-08-31
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class TransactionsBillModel extends BaseModel {
 
     private static final long serialVersionUID = 15615648132L;
@@ -59,93 +63,4 @@ public class TransactionsBillModel extends BaseModel {
      */
     private BigDecimal refundAmount;
 
-    public BigDecimal getRefundAmount() {
-        return refundAmount;
-    }
-
-    public void setRefundAmount(BigDecimal refundAmount) {
-        this.refundAmount = refundAmount;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-                    
-        public String getBillNo() {
-        return billNo;
-    }
-
-                    public void setBillNo(String billNo) {
-                this.billNo = billNo;
-            }
-                    
-        public BigDecimal getAmount() {
-        return amount;
-    }
-
-                    public void setAmount(BigDecimal amount) {
-                this.amount = amount;
-            }
-                    
-        public String getBillType() {
-        return billType;
-    }
-
-                    public void setBillType(String billType) {
-                this.billType = billType;
-            }
-                    
-        public String getBillStatus() {
-        return billStatus;
-    }
-
-                    public void setBillStatus(String billStatus) {
-                this.billStatus = billStatus;
-            }
-                    
-        public Date getCreateTime() {
-        return createTime;
-    }
-
-                    public void setCreateTime(Date createTime) {
-                this.createTime = createTime;
-            }
-                    
-        public Date getCheckoutTime() {
-        return checkoutTime;
-    }
-
-                    public void setCheckoutTime(Date checkoutTime) {
-                this.checkoutTime = checkoutTime;
-            }
-                    
-        public Date getRefundTime() {
-        return refundTime;
-    }
-
-                    public void setRefundTime(Date refundTime) {
-                this.refundTime = refundTime;
-            }
-                    
-        public String getAgencyCode() {
-        return agencyCode;
-    }
-
-                    public void setAgencyCode(String agencyCode) {
-                this.agencyCode = agencyCode;
-            }
-                    
-        public String getRefund() {
-        return refund;
-    }
-
-                    public void setRefund(String refund) {
-                this.refund = refund;
-            }
-    	
 }

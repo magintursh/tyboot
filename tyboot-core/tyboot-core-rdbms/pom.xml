@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.typroject</groupId>
 		<artifactId>tyboot-core</artifactId>
-		<version>1.1.8-Ty</version>
+		<version>1.1.9-Ty</version>
 	</parent>
 
 	<groupId>org.typroject</groupId>
@@ -20,7 +20,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-core-foundation</artifactId>
-			<version>1.1.8-Ty</version>
+			<version>1.1.9-Ty</version>
 		</dependency>
 
 		<dependency>
@@ -61,7 +61,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-component-cache</artifactId>
-			<version>1.1.8-Ty</version>
+			<version>1.1.9-Ty</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -69,5 +69,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+        </dependency>
 	</dependencies>
 </project>

@@ -1,5 +1,8 @@
 package org.typroject.tyboot.core.auth.face.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
  * 
  * <pre>
@@ -21,21 +24,11 @@ package org.typroject.tyboot.core.auth.face.model;
  *
  * </pre>
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class SmsAuthModel extends AuthModel{
 	private static final long serialVersionUID = -536412498052440039L;
-
-
 	private String identifyingCode;//验证码
-
-
-	public String getIdentifyingCode() {
-		return identifyingCode;
-	}
-
-	public void setIdentifyingCode(String identifyingCode) {
-		this.identifyingCode = identifyingCode;
-	}
-
 }
 
 /*

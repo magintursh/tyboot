@@ -1,5 +1,7 @@
 package org.typroject.tyboot.api.face.systemctl.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
 /**
@@ -10,6 +12,8 @@ import org.typroject.tyboot.core.rdbms.model.BaseModel;
  * @author magintursh
  * @since 2017-06-27
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class DictionarieModel extends BaseModel {
 
     private static final long serialVersionUID = 57438927329847L;
@@ -30,42 +34,4 @@ public class DictionarieModel extends BaseModel {
      * 机构编码
      */
 	private String agencyCode;
-
-
-	public String getDictCode() {
-		return dictCode;
-	}
-
-	public void setDictCode(String dictCode) {
-		this.dictCode = dictCode;
-	}
-
-	public String getDictName() {
-		return dictName;
-	}
-
-	public void setDictName(String dictName) {
-		this.dictName = dictName;
-	}
-
-
-	public String getDictDesc() {
-		return dictDesc;
-	}
-
-	public void setDictDesc(String dictDesc) {
-		this.dictDesc = dictDesc;
-	}
-
-
-	public String getAgencyCode() {
-		return agencyCode;
-	}
-
-	public void setAgencyCode(String agencyCode) {
-		this.agencyCode = agencyCode;
-	}
-
-
-
 }

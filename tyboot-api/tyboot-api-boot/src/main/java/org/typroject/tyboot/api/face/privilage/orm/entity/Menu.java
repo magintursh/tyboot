@@ -2,6 +2,8 @@ package org.typroject.tyboot.api.face.privilage.orm.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.orm.entity.BaseEntity;
 
 import java.util.Date;
@@ -14,6 +16,8 @@ import java.util.Date;
  * @author magintursh
  * @since 2017-08-18
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @TableName("privilege_menu")
 public class Menu extends BaseEntity {
 
@@ -67,88 +71,6 @@ public class Menu extends BaseEntity {
      */
 	@TableField("CREATE_TIME")
 	private Date createTime;
-
-
-
-	public String getAgencyCode() {
-		return agencyCode;
-	}
-
-	public void setAgencyCode(String agencyCode) {
-		this.agencyCode = agencyCode;
-	}
-
-	public String getParentId() {
-		return parentId;
-	}
-
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
-
-	public String getMenuName() {
-		return menuName;
-	}
-
-	public void setMenuName(String menuName) {
-		this.menuName = menuName;
-	}
-
-	public String getMenuType() {
-		return menuType;
-	}
-
-	public void setMenuType(String menuType) {
-		this.menuType = menuType;
-	}
-
-	public String getMenuIcon() {
-		return menuIcon;
-	}
-
-	public void setMenuIcon(String menuIcon) {
-		this.menuIcon = menuIcon;
-	}
-
-	public String getMenuTitle() {
-		return menuTitle;
-	}
-
-	public void setMenuTitle(String menuTitle) {
-		this.menuTitle = menuTitle;
-	}
-
-	public Integer getMenuLevel() {
-		return menuLevel;
-	}
-
-	public void setMenuLevel(Integer menuLevel) {
-		this.menuLevel = menuLevel;
-	}
-
-	public Integer getOrderNum() {
-		return orderNum;
-	}
-
-	public void setOrderNum(Integer orderNum) {
-		this.orderNum = orderNum;
-	}
-
-	public String getCreateUserId() {
-		return createUserId;
-	}
-
-	public void setCreateUserId(String createUserId) {
-		this.createUserId = createUserId;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
 
 
 }

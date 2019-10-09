@@ -2,6 +2,8 @@ package org.typroject.tyboot.api.face.systemctl.orm.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.orm.entity.BaseEntity;
 
 import java.util.Date;
@@ -14,6 +16,8 @@ import java.util.Date;
  * @author 子杨
  * @since 2018-12-04
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @TableName("systemctl_operation_record")
 public class OperationRecord extends BaseEntity {
 
@@ -41,47 +45,5 @@ public class OperationRecord extends BaseEntity {
 
 	@TableField("USER_ID")
 	private String userId;
-
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getOperationType() {
-		return operationType;
-	}
-
-	public void setOperationType(String operationType) {
-		this.operationType = operationType;
-	}
-
-
-	public String getEntityType() {
-		return entityType;
-	}
-
-	public void setEntityType(String entityType) {
-		this.entityType = entityType;
-	}
-
-	public String getEntityId() {
-		return entityId;
-	}
-
-	public void setEntityId(String entityId) {
-		this.entityId = entityId;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
 
 }

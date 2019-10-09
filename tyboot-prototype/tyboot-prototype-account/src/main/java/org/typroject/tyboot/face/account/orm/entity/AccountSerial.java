@@ -2,6 +2,8 @@ package org.typroject.tyboot.face.account.orm.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.orm.entity.BaseEntity;
 
 import java.math.BigDecimal;
@@ -15,6 +17,8 @@ import java.util.Date;
  * @author 子杨
  * @since 2018-01-23
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @TableName("account_serial")
 public class AccountSerial extends BaseEntity {
 
@@ -73,94 +77,5 @@ public class AccountSerial extends BaseEntity {
 
 	@TableField("USER_ID")
 	private String userId;
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-
-	public String getAccountNo() {
-		return accountNo;
-	}
-
-	public void setAccountNo(String accountNo) {
-		this.accountNo = accountNo;
-	}
-
-	public BigDecimal getInitialPrefundedBalance() {
-		return initialPrefundedBalance;
-	}
-
-	public void setInitialPrefundedBalance(BigDecimal initialPrefundedBalance) {
-		this.initialPrefundedBalance = initialPrefundedBalance;
-	}
-
-	public BigDecimal getChangeAmount() {
-		return changeAmount;
-	}
-
-	public void setChangeAmount(BigDecimal changeAmount) {
-		this.changeAmount = changeAmount;
-	}
-
-	public BigDecimal getFinalBalance() {
-		return finalBalance;
-	}
-
-	public void setFinalBalance(BigDecimal finalBalance) {
-		this.finalBalance = finalBalance;
-	}
-
-	public String getOperationType() {
-		return operationType;
-	}
-
-	public void setOperationType(String operationType) {
-		this.operationType = operationType;
-	}
-
-	public Date getOperateTime() {
-		return operateTime;
-	}
-
-	public void setOperateTime(Date operateTime) {
-		this.operateTime = operateTime;
-	}
-
-	public String getBillNo() {
-		return billNo;
-	}
-
-	public void setBillNo(String billNo) {
-		this.billNo = billNo;
-	}
-
-	public Long getUpdateVersion() {
-		return updateVersion;
-	}
-
-	public void setUpdateVersion(Long updateVersion) {
-		this.updateVersion = updateVersion;
-	}
-
-	public String getAccountType() {
-		return accountType;
-	}
-
-	public void setAccountType(String accountType) {
-		this.accountType = accountType;
-	}
-
-	public String getBookkeeping() {
-		return bookkeeping;
-	}
-
-	public void setBookkeeping(String bookkeeping) {
-		this.bookkeeping = bookkeeping;
-	}
 
 }

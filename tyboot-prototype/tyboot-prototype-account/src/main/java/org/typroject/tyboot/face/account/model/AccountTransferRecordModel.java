@@ -1,5 +1,7 @@
 package org.typroject.tyboot.face.account.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
 import java.math.BigDecimal;
@@ -14,6 +16,8 @@ import java.util.Date;
  * @author 子杨
  * @since 2018-01-24
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class AccountTransferRecordModel extends BaseModel {
 
     private static final long serialVersionUID = 1L;
@@ -61,92 +65,4 @@ public class AccountTransferRecordModel extends BaseModel {
 
     private String userId;
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getBillNo() {
-return billNo;
-}
-
-    public void setBillNo(String billNo) {
-this.billNo = billNo;
-}
-
-public String getSourceAccountNo() {
-return sourceAccountNo;
-}
-
-    public void setSourceAccountNo(String sourceAccountNo) {
-this.sourceAccountNo = sourceAccountNo;
-}
-
-public String getTargetAccountNo() {
-return targetAccountNo;
-}
-
-    public void setTargetAccountNo(String targetAccountNo) {
-this.targetAccountNo = targetAccountNo;
-}
-
-public String getTransferType() {
-return transferType;
-}
-
-    public void setTransferType(String transferType) {
-this.transferType = transferType;
-}
-
-public BigDecimal getTransferAmount() {
-return transferAmount;
-}
-
-    public void setTransferAmount(BigDecimal transferAmount) {
-this.transferAmount = transferAmount;
-}
-
-public String getTransferStatus() {
-return transferStatus;
-}
-
-    public void setTransferStatus(String transferStatus) {
-this.transferStatus = transferStatus;
-}
-
-public Date getTransferTime() {
-return transferTime;
-}
-
-    public void setTransferTime(Date transferTime) {
-this.transferTime = transferTime;
-}
-
-public String getTransferPostscript() {
-return transferPostscript;
-}
-
-    public void setTransferPostscript(String transferPostscript) {
-this.transferPostscript = transferPostscript;
-}
-
-public String getSourceAccountType() {
-return sourceAccountType;
-}
-
-    public void setSourceAccountType(String sourceAccountType) {
-this.sourceAccountType = sourceAccountType;
-}
-
-public String getTargetAccountType() {
-return targetAccountType;
-}
-
-    public void setTargetAccountType(String targetAccountType) {
-this.targetAccountType = targetAccountType;
-}
-	
 }

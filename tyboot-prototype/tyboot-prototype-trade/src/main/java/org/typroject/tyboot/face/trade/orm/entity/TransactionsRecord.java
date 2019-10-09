@@ -2,6 +2,8 @@ package org.typroject.tyboot.face.trade.orm.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.orm.entity.BaseEntity;
 
 import java.math.BigDecimal;
@@ -15,6 +17,8 @@ import java.util.Date;
  * @author 子杨
  * @since 2017-08-31
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @TableName("trade_transactions_record")
 public class TransactionsRecord extends BaseEntity {
 
@@ -71,87 +75,5 @@ public class TransactionsRecord extends BaseEntity {
 
 	@TableField("USER_ID")
 	private String userId;
-
-
-	public String getBillType() {
-		return billType;
-	}
-
-	public void setBillType(String billType) {
-		this.billType = billType;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getBillNo() {
-		return billNo;
-	}
-
-	public void setBillNo(String billNo) {
-		this.billNo = billNo;
-	}
-
-	public String getSerialNo() {
-		return serialNo;
-	}
-
-	public void setSerialNo(String serialNo) {
-		this.serialNo = serialNo;
-	}
-
-	public BigDecimal getTradeAmount() {
-		return tradeAmount;
-	}
-
-	public void setTradeAmount(BigDecimal tradeAmount) {
-		this.tradeAmount = tradeAmount;
-	}
-
-	public String getAgencyCode() {
-		return agencyCode;
-	}
-
-	public void setAgencyCode(String agencyCode) {
-		this.agencyCode = agencyCode;
-	}
-
-	public Date getFinishedTime() {
-		return finishedTime;
-	}
-
-	public void setFinishedTime(Date finishedTime) {
-		this.finishedTime = finishedTime;
-	}
-
-	public Date getAsyncFinishTime() {
-		return asyncFinishTime;
-	}
-
-	public void setAsyncFinishTime(Date asyncFinishTime) {
-		this.asyncFinishTime = asyncFinishTime;
-	}
-
-	public String getTradeType() {
-		return tradeType;
-	}
-
-	public void setTradeType(String tradeType) {
-		this.tradeType = tradeType;
-	}
-
-	public String getPayMethod() {
-		return payMethod;
-	}
-
-	public void setPayMethod(String payMethod) {
-		this.payMethod = payMethod;
-	}
-
 
 }

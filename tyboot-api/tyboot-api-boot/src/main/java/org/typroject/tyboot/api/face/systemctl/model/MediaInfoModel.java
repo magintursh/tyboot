@@ -1,6 +1,8 @@
 package org.typroject.tyboot.api.face.systemctl.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
 /**
@@ -11,6 +13,8 @@ import org.typroject.tyboot.core.rdbms.model.BaseModel;
  * @author 子杨
  * @since 2018-12-04
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class MediaInfoModel extends BaseModel {
 
     private static final long serialVersionUID = 1L;
@@ -45,62 +49,5 @@ public class MediaInfoModel extends BaseModel {
 
     @JsonIgnore
     private Integer orderNum;
-
-
-    public String getEntityType() {
-        return entityType;
-    }
-
-    public void setEntityType(String entityType) {
-        this.entityType = entityType;
-    }
-
-    public String getEntityId() {
-        return entityId;
-    }
-
-    public void setEntityId(String entityId) {
-        this.entityId = entityId;
-    }
-
-    public String getMediaType() {
-        return mediaType;
-    }
-
-    public void setMediaType(String mediaType) {
-        this.mediaType = mediaType;
-    }
-
-    public String getMediaFilename() {
-        return mediaFilename;
-    }
-
-    public void setMediaFilename(String mediaFilename) {
-        this.mediaFilename = mediaFilename;
-    }
-
-    public String getMediaUrl() {
-        return mediaUrl;
-    }
-
-    public void setMediaUrl(String mediaUrl) {
-        this.mediaUrl = mediaUrl;
-    }
-
-    public String getMediaAlias() {
-        return mediaAlias;
-    }
-
-    public void setMediaAlias(String mediaAlias) {
-        this.mediaAlias = mediaAlias;
-    }
-
-    public Integer getOrderNum() {
-        return orderNum;
-    }
-
-    public void setOrderNum(Integer orderNum) {
-        this.orderNum = orderNum;
-    }
 
 }

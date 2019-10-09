@@ -1,5 +1,7 @@
 package org.typroject.tyboot.api.face.systemctl.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
 import java.util.Date;
@@ -12,6 +14,8 @@ import java.util.Date;
  * @author 子杨
  * @since 2018-12-05
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class SystemctlSmsVerifyModel extends BaseModel {
 
     private static final long serialVersionUID = 1L;
@@ -36,46 +40,4 @@ public class SystemctlSmsVerifyModel extends BaseModel {
      * 发送时间
      */
     private Date sendTime;
-
-
-    public String getSmsCode() {
-        return smsCode;
-    }
-
-    public void setSmsCode(String smsCode) {
-        this.smsCode = smsCode;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getSmsType() {
-        return smsType;
-    }
-
-    public void setSmsType(String smsType) {
-        this.smsType = smsType;
-    }
-
-    public String getSmsVerify() {
-        return smsVerify;
-    }
-
-    public void setSmsVerify(String smsVerify) {
-        this.smsVerify = smsVerify;
-    }
-
-    public Date getSendTime() {
-        return sendTime;
-    }
-
-    public void setSendTime(Date sendTime) {
-        this.sendTime = sendTime;
-    }
-
 }

@@ -2,6 +2,8 @@ package org.typroject.tyboot.face.account.orm.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.orm.entity.BaseEntity;
 
 import java.math.BigDecimal;
@@ -15,6 +17,8 @@ import java.util.Date;
  * @author 子杨
  * @since 2018-01-23
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @TableName("account_cashout_record")
 public class AccountCashoutRecord extends BaseEntity {
 
@@ -79,11 +83,4 @@ public class AccountCashoutRecord extends BaseEntity {
 	@TableField("USER_ID")
 	private String userId;
 
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
 }

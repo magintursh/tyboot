@@ -1,5 +1,8 @@
 package org.typroject.tyboot.core.auth.face.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
  * 
  * <pre>
@@ -21,18 +24,12 @@ package org.typroject.tyboot.core.auth.face.model;
  *
  * </pre>
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class IdPasswordAuthModel extends AuthModel {
 	private static final long serialVersionUID = -5347656325432534L;
 
 	private String password;
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 }
 

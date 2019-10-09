@@ -1,5 +1,8 @@
 package org.typroject.tyboot.api.face.systemctl.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +10,7 @@ import java.util.Map;
 /**
  * Created by yaohelang on 2017/9/18.
  */
+@Data
 public class SmsTemplate implements Serializable{
 
        private HashMap<String,String> params;
@@ -27,66 +31,6 @@ public class SmsTemplate implements Serializable{
     }
 
 
-
-
-
-    public String getMessageHandler() {
-        return messageHandler;
-    }
-
-    public void setMessageHandler(String messageHandler) {
-        this.messageHandler = messageHandler;
-    }
-
-    public String getSmsType() {
-        return smsType;
-    }
-
-    public void setSmsType(String smsType) {
-        this.smsType = smsType;
-    }
-
-
-    public HashMap<String, String> getParams() {
-        return params;
-    }
-
-    public void setParams(HashMap<String, String> params) {
-        this.params = params;
-    }
-
-    public String getTemplateId() {
-        return templateId;
-    }
-
-    public void setTemplateId(String templateId) {
-        this.templateId = templateId;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-
-    public String getTemplateContent() {
-        return templateContent;
-    }
-
-    public void setTemplateContent(String templateContent) {
-        this.templateContent = templateContent;
-    }
-
-    public boolean isMultiMobile() {
-        return multiMobile;
-    }
-
-    public void setMultiMobile(boolean multiMobile) {
-        this.multiMobile = multiMobile;
-    }
 
 
 

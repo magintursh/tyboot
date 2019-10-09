@@ -1,5 +1,7 @@
 package org.typroject.tyboot.core.auth.face.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
 /**
@@ -10,6 +12,8 @@ import org.typroject.tyboot.core.rdbms.model.BaseModel;
  * @author magintursh
  * @since 2017-08-18
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class ResourceOperationModel extends BaseModel {
 
     private static final long serialVersionUID = 89784513154165465L;
@@ -71,121 +75,4 @@ public class ResourceOperationModel extends BaseModel {
      * 请求方式get,post,put,delete
      */
 	private String reqMethod;
-
-
-
-	public String getModuleCode() {
-		return moduleCode;
-	}
-
-	public void setModuleCode(String moduleCode) {
-		this.moduleCode = moduleCode;
-	}
-
-	public String getResourceCode() {
-		return resourceCode;
-	}
-
-	public void setResourceCode(String resourceCode) {
-		this.resourceCode = resourceCode;
-	}
-
-	public String getOprateCode() {
-		return oprateCode;
-	}
-
-	public void setOprateCode(String oprateCode) {
-		this.oprateCode = oprateCode;
-	}
-
-	public String getApiCode() {
-		return apiCode;
-	}
-
-	public void setApiCode(String apiCode) {
-		this.apiCode = apiCode;
-	}
-
-	public String getParentId() {
-		return parentId;
-	}
-
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
-
-	public String getResType() {
-		return resType;
-	}
-
-	public void setResType(String resType) {
-		this.resType = resType;
-	}
-
-	public String getLevelCode() {
-		return levelCode;
-	}
-
-	public void setLevelCode(String levelCode) {
-		this.levelCode = levelCode;
-	}
-
-	public String getModuleName() {
-		return moduleName;
-	}
-
-	public void setModuleName(String moduleName) {
-		this.moduleName = moduleName;
-	}
-
-	public String getResourceName() {
-		return resourceName;
-	}
-
-	public void setResourceName(String resourceName) {
-		this.resourceName = resourceName;
-	}
-
-	public String getOprateName() {
-		return oprateName;
-	}
-
-	public void setOprateName(String oprateName) {
-		this.oprateName = oprateName;
-	}
-
-	public String getOprateLevel() {
-		return oprateLevel;
-	}
-
-	public void setOprateLevel(String oprateLevel) {
-		this.oprateLevel = oprateLevel;
-	}
-
-	public String getAgencyCode() {
-		return agencyCode;
-	}
-
-	public void setAgencyCode(String agencyCode) {
-		this.agencyCode = agencyCode;
-	}
-
-	public String getReqUrl() {
-		return reqUrl;
-	}
-
-	public void setReqUrl(String reqUrl) {
-		this.reqUrl = reqUrl;
-	}
-
-	public String getReqMethod() {
-		return reqMethod;
-	}
-
-	public void setReqMethod(String reqMethod) {
-		this.reqMethod = reqMethod;
-	}
-
-
-
 }

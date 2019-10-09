@@ -1,5 +1,7 @@
 package org.typroject.tyboot.api.face.systemctl.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
 /**
@@ -23,6 +25,8 @@ import org.typroject.tyboot.core.rdbms.model.BaseModel;
  *
  * </pre>
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class LocationInfoModel extends BaseModel
 {
 
@@ -52,70 +56,5 @@ public class LocationInfoModel extends BaseModel
 	//维度
 
 	private String latitude;
-
-	public String getPinyinName() {
-		return this.pinyinName;
-	}
-	public void setPinyinName(String pinyinName) {
-		this.pinyinName = pinyinName;
-	}
-	
-
-	public String getLocationName() {
-		return this.locationName;
-	}
-	public void setLocationName(String locationName) {
-		this.locationName = locationName;
-	}
-	
-
-	public String getLocationCode() {
-		return this.locationCode;
-	}
-	public void setLocationCode(String locationCode) {
-		this.locationCode = locationCode;
-	}
-	
-
-
-	public String getParentCode() {
-		return this.parentCode;
-	}
-	public void setParentCode(String parentCode) {
-		this.parentCode = parentCode;
-	}
-	
-
-	public Integer getOrderNum() {
-		return this.orderNum;
-	}
-	public void setOrderNum(Integer orderNum) {
-		this.orderNum = orderNum;
-	}
-
-
-	public Integer getLocationLevel() {
-		return locationLevel;
-	}
-
-	public void setLocationLevel(Integer locationLevel) {
-		this.locationLevel = locationLevel;
-	}
-
-	public String getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(String longitude) {
-		this.longitude = longitude;
-	}
-
-	public String getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(String latitude) {
-		this.latitude = latitude;
-	}
 }
 

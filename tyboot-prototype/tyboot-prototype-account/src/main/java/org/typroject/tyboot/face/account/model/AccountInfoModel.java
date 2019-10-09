@@ -1,5 +1,8 @@
 package org.typroject.tyboot.face.account.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
 import java.math.BigDecimal;
@@ -13,6 +16,7 @@ import java.util.Date;
  * @author 子杨
  * @since 2018-01-23
  */
+@Data
 public class AccountInfoModel extends BaseModel {
 
     private static final long serialVersionUID = 1L;
@@ -52,85 +56,4 @@ public class AccountInfoModel extends BaseModel {
         private Date createTime;
 
         private String userId;
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getAgencyCode() {
-return agencyCode;
-}
-
-    public void setAgencyCode(String agencyCode) {
-this.agencyCode = agencyCode;
-}
-
-public String getAccountNo() {
-return accountNo;
-}
-
-    public void setAccountNo(String accountNo) {
-this.accountNo = accountNo;
-}
-
-public BigDecimal getBalance() {
-return balance;
-}
-
-    public void setBalance(BigDecimal balance) {
-this.balance = balance;
-}
-
-public String getAccountType() {
-return accountType;
-}
-
-    public void setAccountType(String accountType) {
-this.accountType = accountType;
-}
-
-public String getAccountStatus() {
-return accountStatus;
-}
-
-    public void setAccountStatus(String accountStatus) {
-this.accountStatus = accountStatus;
-}
-
-public String getPaymentPassword() {
-return paymentPassword;
-}
-
-    public void setPaymentPassword(String paymentPassword) {
-this.paymentPassword = paymentPassword;
-}
-
-public BigDecimal getCumulativeBalance() {
-return cumulativeBalance;
-}
-
-    public void setCumulativeBalance(BigDecimal cumulativeBalance) {
-this.cumulativeBalance = cumulativeBalance;
-}
-
-public Long getUpdateVersion() {
-return updateVersion;
-}
-
-    public void setUpdateVersion(Long updateVersion) {
-this.updateVersion = updateVersion;
-}
-
-public Date getCreateTime() {
-return createTime;
-}
-
-    public void setCreateTime(Date createTime) {
-this.createTime = createTime;
-}
-	
 }

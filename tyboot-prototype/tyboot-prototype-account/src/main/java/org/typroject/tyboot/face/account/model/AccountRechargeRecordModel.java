@@ -1,5 +1,7 @@
 package org.typroject.tyboot.face.account.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
 import java.math.BigDecimal;
@@ -13,6 +15,8 @@ import java.util.Date;
  * @author 子杨
  * @since 2018-01-23
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class AccountRechargeRecordModel extends BaseModel {
 
     private static final long serialVersionUID = 1L;
@@ -43,53 +47,4 @@ public class AccountRechargeRecordModel extends BaseModel {
          */
     private String accountType;
 
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getAccountNo() {
-return accountNo;
-}
-
-    public void setAccountNo(String accountNo) {
-this.accountNo = accountNo;
-}
-
-public Date getRechargeTime() {
-return rechargeTime;
-}
-
-    public void setRechargeTime(Date rechargeTime) {
-this.rechargeTime = rechargeTime;
-}
-
-public BigDecimal getRechargeAmount() {
-return rechargeAmount;
-}
-
-    public void setRechargeAmount(BigDecimal rechargeAmount) {
-this.rechargeAmount = rechargeAmount;
-}
-
-public String getBillNo() {
-return billNo;
-}
-
-    public void setBillNo(String billNo) {
-this.billNo = billNo;
-}
-
-public String getAccountType() {
-return accountType;
-}
-
-    public void setAccountType(String accountType) {
-this.accountType = accountType;
-}
-	
 }

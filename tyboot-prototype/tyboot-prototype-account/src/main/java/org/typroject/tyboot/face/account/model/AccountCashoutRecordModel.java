@@ -1,5 +1,7 @@
 package org.typroject.tyboot.face.account.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
 import java.math.BigDecimal;
@@ -13,6 +15,8 @@ import java.util.Date;
  * @author 子杨
  * @since 2018-01-23
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class AccountCashoutRecordModel extends BaseModel {
 
     private static final long serialVersionUID = 1L;
@@ -64,100 +68,5 @@ public class AccountCashoutRecordModel extends BaseModel {
 
     private String userId;
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getApplayNo() {
-        return applayNo;
-    }
-
-    public void setApplayNo(String applayNo) {
-        this.applayNo = applayNo;
-    }
-
-    public String getApplayType() {
-        return applayType;
-    }
-
-    public void setApplayType(String applayType) {
-        this.applayType = applayType;
-    }
-
-    public String getTransferAccount() {
-        return transferAccount;
-    }
-
-    public void setTransferAccount(String transferAccount) {
-        this.transferAccount = transferAccount;
-    }
-
-    public String getTransferName() {
-        return transferName;
-    }
-
-    public void setTransferName(String transferName) {
-        this.transferName = transferName;
-    }
-
-    public String getOpenBank() {
-        return openBank;
-    }
-
-    public void setOpenBank(String openBank) {
-        this.openBank = openBank;
-    }
-
-    public BigDecimal getOutAmount() {
-        return outAmount;
-    }
-
-    public void setOutAmount(BigDecimal outAmount) {
-        this.outAmount = outAmount;
-    }
-
-    public String getApplyStatus() {
-        return applyStatus;
-    }
-
-    public void setApplyStatus(String applyStatus) {
-        this.applyStatus = applyStatus;
-    }
-
-    public Date getFinishTime() {
-        return finishTime;
-    }
-
-    public void setFinishTime(Date finishTime) {
-        this.finishTime = finishTime;
-    }
-
-    public BigDecimal getPoundage() {
-        return poundage;
-    }
-
-    public void setPoundage(BigDecimal poundage) {
-        this.poundage = poundage;
-    }
-
-    public BigDecimal getApplayAmount() {
-        return applayAmount;
-    }
-
-    public void setApplayAmount(BigDecimal applayAmount) {
-        this.applayAmount = applayAmount;
-    }
 
 }

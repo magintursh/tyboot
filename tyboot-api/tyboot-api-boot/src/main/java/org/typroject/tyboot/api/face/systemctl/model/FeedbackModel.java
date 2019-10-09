@@ -1,5 +1,7 @@
 package org.typroject.tyboot.api.face.systemctl.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
 /**
@@ -10,6 +12,8 @@ import org.typroject.tyboot.core.rdbms.model.BaseModel;
  * @author 子杨
  * @since 2017-12-01
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class FeedbackModel extends BaseModel {
 
     private static final long serialVersionUID = 1L;
@@ -21,30 +25,5 @@ public class FeedbackModel extends BaseModel {
     private String contact;
 
     private String userId;
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
 
 }

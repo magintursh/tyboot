@@ -1,5 +1,7 @@
 package org.typroject.tyboot.face.order.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
 import java.math.BigDecimal;
@@ -14,6 +16,8 @@ import java.util.Date;
  * @author 子杨
  * @since 2018-01-14
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class OrderInfoModel extends BaseModel {
 
     private static final long serialVersionUID = 1L;

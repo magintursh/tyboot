@@ -2,6 +2,8 @@ package org.typroject.tyboot.face.order.orm.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.orm.entity.BaseEntity;
 
 import java.math.BigDecimal;
@@ -14,6 +16,8 @@ import java.math.BigDecimal;
  * @author 子杨
  * @since 2018-01-14
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @TableName("order_product_relation")
 public class OrderProductRelation extends BaseEntity {
 
@@ -49,54 +53,5 @@ public class OrderProductRelation extends BaseEntity {
      */
 	@TableField("PRODUCT_PRICE")
 	private BigDecimal productPrice;
-
-
-	public String getOrderSn() {
-		return orderSn;
-	}
-
-	public void setOrderSn(String orderSn) {
-		this.orderSn = orderSn;
-	}
-
-	public Long getProductSeq() {
-		return productSeq;
-	}
-
-	public void setProductSeq(Long productSeq) {
-		this.productSeq = productSeq;
-	}
-
-	public String getProductType() {
-		return productType;
-	}
-
-	public void setProductType(String productType) {
-		this.productType = productType;
-	}
-
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
-	public Integer getCount() {
-		return count;
-	}
-
-	public void setCount(Integer count) {
-		this.count = count;
-	}
-
-	public BigDecimal getProductPrice() {
-		return productPrice;
-	}
-
-	public void setProductPrice(BigDecimal productPrice) {
-		this.productPrice = productPrice;
-	}
 
 }

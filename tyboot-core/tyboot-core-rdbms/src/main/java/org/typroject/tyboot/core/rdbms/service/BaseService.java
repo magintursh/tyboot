@@ -483,7 +483,6 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
 
     /**
      * 列表查询，先从缓存中获取
-     * @param cacheKey  完整缓存键值
      * @param orderBy 排序字段
      * @param isAsc 排序规则
      * @param params 参数胡列表

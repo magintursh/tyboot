@@ -2,6 +2,8 @@ package org.typroject.tyboot.face.order.orm.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.orm.entity.BaseEntity;
 
 import java.math.BigDecimal;
@@ -16,6 +18,8 @@ import java.util.Date;
  * @author 子杨
  * @since 2018-01-14
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 @TableName("order_info")
 public class OrderInfo extends BaseEntity {
 
@@ -93,125 +97,5 @@ public class OrderInfo extends BaseEntity {
 
 	@TableField("REMARK")
 	private String remark;
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getOrderSn() {
-		return orderSn;
-	}
-
-	public void setOrderSn(String orderSn) {
-		this.orderSn = orderSn;
-	}
-
-	public String getBillNo() {
-		return billNo;
-	}
-
-	public void setBillNo(String billNo) {
-		this.billNo = billNo;
-	}
-
-	public BigDecimal getAmount() {
-		return amount;
-	}
-
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
-
-	public BigDecimal getProductAmount() {
-		return productAmount;
-	}
-
-	public void setProductAmount(BigDecimal productAmount) {
-		this.productAmount = productAmount;
-	}
-
-	public BigDecimal getCouponDeduction() {
-		return couponDeduction;
-	}
-
-	public void setCouponDeduction(BigDecimal couponDeduction) {
-		this.couponDeduction = couponDeduction;
-	}
-
-	public String getOrderType() {
-		return orderType;
-	}
-
-	public void setOrderType(String orderType) {
-		this.orderType = orderType;
-	}
-
-	public String getOrderStatus() {
-		return orderStatus;
-	}
-
-	public void setOrderStatus(String orderStatus) {
-		this.orderStatus = orderStatus;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public Date getPayTime() {
-		return payTime;
-	}
-
-	public void setPayTime(Date payTime) {
-		this.payTime = payTime;
-	}
-
-	public String getPayMethod() {
-		return payMethod;
-	}
-
-	public void setPayMethod(String payMethod) {
-		this.payMethod = payMethod;
-	}
-
-	public String getPayStatus() {
-		return payStatus;
-	}
-
-	public void setPayStatus(String payStatus) {
-		this.payStatus = payStatus;
-	}
-
-	public String getAgencyCode() {
-		return agencyCode;
-	}
-
-	public void setAgencyCode(String agencyCode) {
-		this.agencyCode = agencyCode;
-	}
-
-	public String getSource() {
-		return source;
-	}
-
-	public void setSource(String source) {
-		this.source = source;
-	}
 
 }

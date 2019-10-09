@@ -2,6 +2,8 @@ package org.typroject.tyboot.api.face.systemctl.orm.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.orm.entity.BaseEntity;
 
 /**
@@ -12,6 +14,9 @@ import org.typroject.tyboot.core.rdbms.orm.entity.BaseEntity;
  * @author magintursh
  * @since 2017-06-27
  */
+
+@EqualsAndHashCode(callSuper = true)
+@Data
 @TableName("systemctl_dictionarie")
 public class Dictionarie extends BaseEntity{
 
@@ -40,41 +45,5 @@ public class Dictionarie extends BaseEntity{
 
 	@TableField("AGENCY_CODE")
 	private String agencyCode;
-
-
-	public String getDictCode() {
-		return dictCode;
-	}
-
-	public void setDictCode(String dictCode) {
-		this.dictCode = dictCode;
-	}
-
-	public String getDictName() {
-		return dictName;
-	}
-
-	public void setDictName(String dictName) {
-		this.dictName = dictName;
-	}
-
-
-
-	public String getDictDesc() {
-		return dictDesc;
-	}
-
-	public void setDictDesc(String dictDesc) {
-		this.dictDesc = dictDesc;
-	}
-
-	public String getAgencyCode() {
-		return agencyCode;
-	}
-
-	public void setAgencyCode(String agencyCode) {
-		this.agencyCode = agencyCode;
-	}
-
 
 }

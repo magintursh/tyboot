@@ -2,6 +2,8 @@ package org.typroject.tyboot.api.face.systemctl.orm.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.orm.entity.BaseEntity;
 
 import java.util.Date;
@@ -14,6 +16,9 @@ import java.util.Date;
  * @author magintursh
  * @since 2017-06-27
  */
+
+@EqualsAndHashCode(callSuper = true)
+@Data
 @TableName("systemctl_dictionarie_value")
 public class DictionarieValue extends BaseEntity {
 
@@ -53,81 +58,4 @@ public class DictionarieValue extends BaseEntity {
 	private String lockUserId;
 	@TableField("LOCK_DATE")
 	private Date lockDate;
-
-
-
-	public String getDictCode() {
-		return dictCode;
-	}
-
-	public void setDictCode(String dictCode) {
-		this.dictCode = dictCode;
-	}
-
-	public String getDictDataKey() {
-		return dictDataKey;
-	}
-
-	public void setDictDataKey(String dictDataKey) {
-		this.dictDataKey = dictDataKey;
-	}
-
-	public String getDictDataValue() {
-		return dictDataValue;
-	}
-
-	public void setDictDataValue(String dictDataValue) {
-		this.dictDataValue = dictDataValue;
-	}
-
-	public String getDictDataDesc() {
-		return dictDataDesc;
-	}
-
-	public void setDictDataDesc(String dictDataDesc) {
-		this.dictDataDesc = dictDataDesc;
-	}
-
-	public Integer getOrderNum() {
-		return orderNum;
-	}
-
-	public void setOrderNum(Integer orderNum) {
-		this.orderNum = orderNum;
-	}
-
-	public String getAgencyCode() {
-		return agencyCode;
-	}
-
-	public void setAgencyCode(String agencyCode) {
-		this.agencyCode = agencyCode;
-	}
-
-
-	public String getLockStatus() {
-		return lockStatus;
-	}
-
-	public void setLockStatus(String lockStatus) {
-		this.lockStatus = lockStatus;
-	}
-
-	public String getLockUserId() {
-		return lockUserId;
-	}
-
-	public void setLockUserId(String lockUserId) {
-		this.lockUserId = lockUserId;
-	}
-
-	public Date getLockDate() {
-		return lockDate;
-	}
-
-	public void setLockDate(Date lockDate) {
-		this.lockDate = lockDate;
-	}
-
-
 }
