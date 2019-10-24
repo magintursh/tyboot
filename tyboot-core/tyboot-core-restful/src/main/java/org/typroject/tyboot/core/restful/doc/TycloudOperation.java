@@ -1,6 +1,8 @@
 package org.typroject.tyboot.core.restful.doc;
 
 import org.typroject.tyboot.core.foundation.enumeration.UserType;
+import org.typroject.tyboot.core.restful.limit.Frequency;
+import org.typroject.tyboot.core.restful.limit.Strategy;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -8,6 +10,7 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -48,6 +51,40 @@ public @interface TycloudOperation {
 	 * API可见级别 PUBLIC,AGENCY,ALL,SUPERADMIN
 	 */
 	UserType ApiLevel();
+
+
+	/**
+	 * 请求频次限制所用到的时间周期单位
+	 */
+	TimeUnit frequencyTimeUnit() default  TimeUnit.SECONDS;
+
+
+	/**
+	 * 请求频次限制所用到的时间周期长度。
+	 */
+	long frequencyPeriod() default  60;
+
+
+	/**
+	 * 请求频次限制所用到的限制请求数量。
+	 */
+	long frequencyQuantity() default  30;
+
+	/**
+	 * 限制策略
+	 * @return
+	 */
+	Strategy strategy() default Strategy.USERID;
+
+	/**
+	 * 默认不启用限制策略
+	 * @return
+	 */
+	boolean enableLimitStrategy() default false;
+
+
+
+
 }
 
 /*

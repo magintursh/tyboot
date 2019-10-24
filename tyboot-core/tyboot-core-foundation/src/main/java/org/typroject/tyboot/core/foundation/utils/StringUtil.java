@@ -294,7 +294,10 @@ public final class StringUtil
 	 * 加带逗号的字符串分割为数组
 	 */
     public static String[] string2Array(String s){
-		String[] strings = s.split(",");
+		String[] strings = new String[]{};
+		if(ValidationUtil.isEmpty(s))
+			return strings;
+		strings = s.split(",");
     	return strings;
     }
 

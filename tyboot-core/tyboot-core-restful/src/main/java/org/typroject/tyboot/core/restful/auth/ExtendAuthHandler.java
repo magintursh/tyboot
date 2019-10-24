@@ -1,5 +1,7 @@
 package org.typroject.tyboot.core.restful.auth;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,11 +12,10 @@ import org.typroject.tyboot.core.restful.auth.impl.UserTypeAuthHandler;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 @Component
 public class ExtendAuthHandler implements InitializingBean {
+    private static final Logger logger = LogManager.getLogger(ExtendAuthHandler.class);
 
     //这里边的验证规则，每个请求都会执行，请慎重所添加的验证器数量，和执行时间，执行顺序为添加的顺序
     private static List<AuthHandler> authHandlers                       = new ArrayList<>();
@@ -44,7 +45,7 @@ public class ExtendAuthHandler implements InitializingBean {
 
         long currentDuration = System.currentTimeMillis() - time;
         if(currentDuration > duration)
-            throw new Exception("扩展验证规则执行时间过长，超过了"+duration+"毫秒.当前执行时间为："+currentDuration);
+            logger.warn("扩展验证规则执行时间过长，超过了"+duration+"毫秒.当前执行时间为："+currentDuration);
     }
 
 
@@ -59,7 +60,7 @@ public class ExtendAuthHandler implements InitializingBean {
 
         long currentDuration = System.currentTimeMillis() - time;
         if(currentDuration > duration)
-            throw new Exception("扩展验证规则执行时间过长，超过了"+duration+"毫秒.当前执行时间为："+currentDuration);
+            logger.warn("扩展验证规则执行时间过长，超过了"+duration+"毫秒.当前执行时间为："+currentDuration);
 
     }
 

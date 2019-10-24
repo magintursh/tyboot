@@ -23,17 +23,9 @@ public interface LimitStrategy {
 
     /**
      * 限制策略的缓存计数key
-     * @param ssoSessionsModel
      * @param handlerMethod
      * @return
      * @throws Exception
      */
-    String incrementKey(SsoSessionsModel ssoSessionsModel, HandlerMethod handlerMethod)throws Exception;
-
-
-    /**
-     * 刷新session之后再执行限制校验
-     * @return
-     */
-    boolean afterRefreshSession();
+    String incrementKey(HandlerMethod handlerMethod)throws Exception;
 }

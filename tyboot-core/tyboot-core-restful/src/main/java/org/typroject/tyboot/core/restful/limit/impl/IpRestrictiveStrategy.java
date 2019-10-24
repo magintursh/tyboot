@@ -19,16 +19,24 @@ import java.util.concurrent.TimeUnit;
 public class IpRestrictiveStrategy implements LimitStrategy {
 
 
-   private  static Frequency frequency;
+    //每分钟 每个IP 最多发起100个请求
+   private   Frequency frequency = new Frequency(TimeUnit.MINUTES,1L,100L);;
 
-   public static final String CACHE_KEY_PREFIX_IP = "IP";
+   private static final String CACHE_KEY_PREFIX_IP = "IP";
 
-    static {
-        //每分钟 每个IP 最多发起100个请求
-        frequency = new Frequency(TimeUnit.MINUTES,1L,100L);
+
+   public IpRestrictiveStrategy()
+   {
+
+   }
+
+    public IpRestrictiveStrategy(Frequency frequency)
+    {
+        this.frequency = frequency;
     }
+
     @Override
-    public String  incrementKey(SsoSessionsModel ssoSessionsModel, HandlerMethod handlerMethod) throws Exception {
+    public String  incrementKey(HandlerMethod handlerMethod) throws Exception {
 
         return Redis.genKey(
                 CacheType.ERASABLE.name(),
@@ -40,11 +48,5 @@ public class IpRestrictiveStrategy implements LimitStrategy {
     @Override
     public Frequency getFrequency() {
         return frequency;
-    }
-
-
-    @Override
-    public boolean afterRefreshSession() {
-        return false;
     }
 }

@@ -4,6 +4,8 @@ import org.springframework.web.method.HandlerMethod;
 import org.typroject.tyboot.component.cache.Redis;
 import org.typroject.tyboot.component.cache.enumeration.CacheType;
 import org.typroject.tyboot.core.auth.face.model.SsoSessionsModel;
+import org.typroject.tyboot.core.foundation.context.RequestContext;
+import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.core.restful.limit.Frequency;
 import org.typroject.tyboot.core.restful.limit.LimitStrategy;
 
@@ -17,31 +19,34 @@ import java.util.concurrent.TimeUnit;
 public class TokenRestrictiveStrategy implements LimitStrategy {
 
 
-   private  static Frequency frequency;
+    //默认每分钟 每个token 最多发起50个请求
+   private   Frequency frequency = new Frequency(TimeUnit.MINUTES,1L,50L);
 
-   public static final String CACHE_KEY_PREFIX_TOKEN = "TOKEN";
+   private static final String CACHE_KEY_PREFIX_TOKEN = "TOKEN";
 
-    static {
-        //每分钟 每个token 最多发起100个请求
-        frequency = new Frequency(TimeUnit.MINUTES,1L,60L);
-    }
+   public TokenRestrictiveStrategy(Frequency frequency)
+   {
+        if(frequency != null)
+            this.frequency = frequency;
+   }
+
+   public TokenRestrictiveStrategy(){
+
+   }
+
+
     @Override
-    public String  incrementKey(SsoSessionsModel ssoSessionsModel, HandlerMethod handlerMethod) throws Exception {
+    public String  incrementKey(HandlerMethod handlerMethod) throws Exception {
 
         return Redis.genKey(
                 CacheType.ERASABLE.name(),
                 CACHE_KEY_PREFIX,
                 CACHE_KEY_PREFIX_TOKEN,
-                ssoSessionsModel.getToken());
+                RequestContext.getToken());
     }
 
     @Override
     public Frequency getFrequency() {
         return frequency;
-    }
-
-    @Override
-    public boolean afterRefreshSession() {
-        return true;
     }
 }

@@ -15,8 +15,8 @@ import org.typroject.tyboot.core.restful.exception.instance.TooManyRequests;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class LimitStrategyManager implements AuthWithSessionHandler, AuthHandler, InitializingBean {
+//@Component
+public class LimitStrategyManager implements  AuthWithSessionHandler, InitializingBean {
 
 
     private static List<LimitStrategy> restrictiveStrategyList = new ArrayList<>();
@@ -28,23 +28,14 @@ public class LimitStrategyManager implements AuthWithSessionHandler, AuthHandler
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        ExtendAuthHandler.addAuthHandler(this);
         ExtendAuthHandler.addAuthWithSessionHandler(this);
     }
 
-    @Override
-    public void doAuth(SsoSessionsModel ssoSessionsModel, HandlerMethod handlerMethod, String token, String appKey, String product) throws Exception {
-
-        if(!ValidationUtil.isEmpty(restrictiveStrategyList))
-            for(LimitStrategy restrictiveStrategy:restrictiveStrategyList)
-                if(restrictiveStrategy.afterRefreshSession())
-                    this.runRestrictiveStrategy(restrictiveStrategy,ssoSessionsModel,handlerMethod);
-    }
 
 
-    private void runRestrictiveStrategy(LimitStrategy restrictiveStrategy, SsoSessionsModel ssoSessionsModel, HandlerMethod handlerMethod) throws Exception
+    private void runRestrictiveStrategy(LimitStrategy restrictiveStrategy,HandlerMethod handlerMethod) throws Exception
     {
-        String cacheKey         = restrictiveStrategy.incrementKey(ssoSessionsModel, handlerMethod);
+        String cacheKey         = restrictiveStrategy.incrementKey( handlerMethod);
         Object previousValue    = redisTemplate.opsForValue().get(cacheKey);
 
         Long increment = redisTemplate.opsForValue().increment(cacheKey);
@@ -57,11 +48,10 @@ public class LimitStrategyManager implements AuthWithSessionHandler, AuthHandler
 
 
     @Override
-    public void doAuth(HandlerMethod handlerMethod, String token, String appKey, String product) throws Exception {
+    public void doAuth(SsoSessionsModel ssoSessionsModel,HandlerMethod handlerMethod, String token, String appKey, String product) throws Exception {
         if(!ValidationUtil.isEmpty(restrictiveStrategyList))
             for(LimitStrategy restrictiveStrategy:restrictiveStrategyList)
-                if(restrictiveStrategy.afterRefreshSession())
-                    this.runRestrictiveStrategy(restrictiveStrategy,null,handlerMethod);
+                    this.runRestrictiveStrategy(restrictiveStrategy,handlerMethod);
     }
 
 
