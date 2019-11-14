@@ -42,10 +42,16 @@ public class Swagger2 {
                 .modelRef(new ModelRef("string")).parameterType("header")
                 .required(false).build();
 
+        ParameterBuilder appKey = new ParameterBuilder();
+        appKey.name("appKey").defaultValue("appKey").description("appKey")
+                .modelRef(new ModelRef("string")).parameterType("header")
+                .required(false).build();
+
 
         pars.add(contentType.build());    //根据每个方法名也知道当前方法在设置什么参数
         pars.add(product.build());
         pars.add(token.build());
+        pars.add(appKey.build());
 
 
         return new Docket(DocumentationType.SWAGGER_2)

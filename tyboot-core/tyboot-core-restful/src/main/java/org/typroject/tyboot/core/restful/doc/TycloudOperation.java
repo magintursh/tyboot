@@ -48,7 +48,12 @@ public @interface TycloudOperation {
 	boolean needAuth() default true;
 
 	/**
-	 * API可见级别 PUBLIC,AGENCY,ALL,SUPERADMIN
+	 * API可见级别
+	 *  ANONYMOUS  匿名用户
+	 *  PUBLIC     公网用户
+	 *  CUSTOMER   
+	 *  AGENCY
+	 *  SUPER_ADMIN
 	 */
 	UserType ApiLevel();
 
@@ -83,7 +88,11 @@ public @interface TycloudOperation {
 	boolean enableLimitStrategy() default false;
 
 
-
+	/**
+	 * 是否用于生成feign客户端的方法
+	 * @return
+	 */
+	boolean enableFeignMethod() default true;
 
 }
 

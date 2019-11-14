@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.typroject</groupId>
 		<artifactId>tyboot-core</artifactId>
-		<version>1.1.10-Ty</version>
+		<version>1.1.11-Ty</version>
 	</parent>
 
 	<groupId>org.typroject</groupId>
@@ -50,7 +50,7 @@
 		<dependency>
 		<groupId>org.typroject</groupId>
 		<artifactId>tyboot-core-foundation</artifactId>
-			<version>1.1.10-Ty</version>
+			<version>1.1.11-Ty</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -62,7 +62,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-core-auth</artifactId>
-			<version>1.1.10-Ty</version>
+			<version>1.1.11-Ty</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-core-rdbms</artifactId>
-			<version>1.1.10-Ty</version>
+			<version>1.1.11-Ty</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -85,7 +85,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-component-cache</artifactId>
-			<version>1.1.10-Ty</version>
+			<version>1.1.11-Ty</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -95,4 +95,25 @@
 		</dependency>
 
 	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- 要将源码放上去，需要加入这个插件 -->
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.1</version>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

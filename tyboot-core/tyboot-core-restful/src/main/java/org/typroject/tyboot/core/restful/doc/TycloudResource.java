@@ -33,13 +33,15 @@ public @interface TycloudResource {
 
 	String module();
 
-    @AliasFor("value")
-    String resource() default "";
-
-    @AliasFor("resource")
     String value() default "";
 
     String description() default "";
+
+    /**
+     * 是否用于生成feign客户端
+     * @return
+     */
+    boolean enableFeignMethod() default true;
 }
 
 /*

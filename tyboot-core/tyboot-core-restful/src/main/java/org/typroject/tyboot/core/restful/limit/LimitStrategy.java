@@ -28,4 +28,20 @@ public interface LimitStrategy {
      * @throws Exception
      */
     String incrementKey(HandlerMethod handlerMethod)throws Exception;
+
+
+    /**
+     * 是否可执行限制策略
+     * @return
+     * @throws Exception
+     */
+    boolean isEnable(HandlerMethod handlerMethod) throws Exception;
+
+
+    /**
+     * 是否token认证之后执行
+     * @return
+     */
+    boolean afterTokenAuth();
+
 }

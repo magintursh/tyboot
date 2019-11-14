@@ -8,14 +8,21 @@ import java.util.List;
 
 
 @Component
-@ConfigurationProperties(prefix = "amos.emq")
+@ConfigurationProperties(prefix = "emqx")
 public class EmqProperties {
 
     private String broker; //emq服务器地址
     private String clientId;//客户端id
-    private  int qos = 2;//消息质量
-    private List<String> subTopics;//需要订阅的主题列表
+    private Boolean cleanSession;// 设置是否清空session,这里如果设置为false表示服务器会保留客户端的连接记录，这里设置为true表示每次连接到服务器都以新的身份连接
 
+
+    public Boolean getCleanSession() {
+        return cleanSession;
+    }
+
+    public void setCleanSession(Boolean cleanSession) {
+        this.cleanSession = cleanSession;
+    }
 
     public String getClientId() {
         return clientId;
@@ -26,21 +33,6 @@ public class EmqProperties {
     }
 
 
-    public int getQos() {
-        return qos;
-    }
-
-    public void setQos(int qos) {
-        this.qos = qos;
-    }
-
-    public List<String> getSubTopics() {
-        return subTopics;
-    }
-
-    public void setSubTopics(List<String> subTopics) {
-        this.subTopics = subTopics;
-    }
 
     public String getBroker() {
         return broker;

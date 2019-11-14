@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //@Component
-public class LimitStrategyManager implements  AuthWithSessionHandler, InitializingBean {
+public class LimitStrategyManager implements  AuthWithSessionHandler,AuthHandler, InitializingBean {
 
 
     private static List<LimitStrategy> restrictiveStrategyList = new ArrayList<>();
@@ -29,6 +29,7 @@ public class LimitStrategyManager implements  AuthWithSessionHandler, Initializi
     @Override
     public void afterPropertiesSet() throws Exception {
         ExtendAuthHandler.addAuthWithSessionHandler(this);
+        ExtendAuthHandler.addAuthHandler(this);
     }
 
 
@@ -36,14 +37,18 @@ public class LimitStrategyManager implements  AuthWithSessionHandler, Initializi
     private void runRestrictiveStrategy(LimitStrategy restrictiveStrategy,HandlerMethod handlerMethod) throws Exception
     {
         String cacheKey         = restrictiveStrategy.incrementKey( handlerMethod);
+        Frequency frequency     = restrictiveStrategy.getFrequency();
         Object previousValue    = redisTemplate.opsForValue().get(cacheKey);
 
         Long increment = redisTemplate.opsForValue().increment(cacheKey);
         if(increment > restrictiveStrategy.getFrequency().getQuantity())
             throw new TooManyRequests("请求过于频繁，请稍后重试.");
 
+        //自动过期之后重新设置过期时间
         if(ValidationUtil.isEmpty(previousValue))
-            redisTemplate.expire(cacheKey,restrictiveStrategy.getFrequency().getPeriod(),restrictiveStrategy.getFrequency().getTimeUnit());
+            redisTemplate.expire(cacheKey,
+                    frequency.getPeriod(),
+                    frequency.getTimeUnit());
     }
 
 
@@ -51,9 +56,18 @@ public class LimitStrategyManager implements  AuthWithSessionHandler, Initializi
     public void doAuth(SsoSessionsModel ssoSessionsModel,HandlerMethod handlerMethod, String token, String appKey, String product) throws Exception {
         if(!ValidationUtil.isEmpty(restrictiveStrategyList))
             for(LimitStrategy restrictiveStrategy:restrictiveStrategyList)
+                if(restrictiveStrategy.afterTokenAuth())
                     this.runRestrictiveStrategy(restrictiveStrategy,handlerMethod);
     }
 
+
+    @Override
+    public void doAuth(HandlerMethod handlerMethod, String token, String appKey, String product) throws Exception {
+        if(!ValidationUtil.isEmpty(restrictiveStrategyList))
+            for(LimitStrategy restrictiveStrategy:restrictiveStrategyList)
+                if(!restrictiveStrategy.afterTokenAuth())
+                    this.runRestrictiveStrategy(restrictiveStrategy,handlerMethod);
+    }
 
     /**
      *  添加限制策略实现，

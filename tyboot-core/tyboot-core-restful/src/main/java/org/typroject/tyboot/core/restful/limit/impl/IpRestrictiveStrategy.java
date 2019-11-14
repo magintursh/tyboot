@@ -49,4 +49,15 @@ public class IpRestrictiveStrategy implements LimitStrategy {
     public Frequency getFrequency() {
         return frequency;
     }
+
+
+    @Override
+    public boolean isEnable(HandlerMethod handlerMethod) throws Exception {
+        return true;
+    }
+
+    @Override
+    public boolean afterTokenAuth() {
+        return false;
+    }
 }

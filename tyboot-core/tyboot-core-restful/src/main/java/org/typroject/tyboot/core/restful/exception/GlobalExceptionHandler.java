@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.typroject.tyboot.core.foundation.exception.BaseException;
+import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.core.restful.utils.ResponseHelper;
 import org.typroject.tyboot.core.restful.utils.ResponseModel;
 
@@ -28,6 +29,10 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseModel<String> jsonErrorHandler(HttpServletRequest req, HttpServletResponse response, Exception e) throws Exception {
         ResponseModel responseModel = ResponseHelper.buildResponse("");
+        String clientType = req.getHeader("clientType");
+
+        boolean okByClient = "feignClient".equals(clientType);//feignClient 调用的时候返回正常的状态码
+
         responseModel.setPath(req.getServletPath());
         if(e instanceof BaseException)
         {
@@ -47,7 +52,7 @@ public class GlobalExceptionHandler {
             logger.error(e.getMessage(),e);
         }
 
-        if(alwaysOk)
+        if(alwaysOk && !okByClient)
             response.setStatus(HttpStatus.OK.value());//http返回码永远都是200，真是的返回码见responseBody中的status字段
 
         return responseModel;

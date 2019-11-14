@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by 子杨 on 2017/4/28.
  */
+@SuppressWarnings("Duplicates")
 public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P> implements IService<P> {
 
 
@@ -74,7 +75,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
     /**
      * 简化service层的创建操作,填充公有字段
      * @param model
-     * @return
+     * @return  P
      * @throws Exception
      */
     public final   P prepareEntity(V model) throws Exception {
@@ -91,7 +92,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
     /**
      * 拼接默认的对象缓存前缀   ERASABLE+ModelClassName+propertyValue
      * @param propertiesValue  model的属性值作为后缀，多个值得拼接起来即可
-     * @return
+     * @return String
      */
     protected String genCacheKeyForModel(String propertiesValue) throws Exception
     {
@@ -128,11 +129,12 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * 删除缓存
      * @param cacheKey 完整的key
      */
-   public  static void deleteFromCache(String[] cacheKey)
+   public  static void deleteFromCache(String... cacheKey)
    {
+       Boolean flag = true;
        if(!ValidationUtil.isEmpty(cacheKey))
            for(String key:cacheKey)
-            Redis.getRedisTemplate().delete(key);
+               flag = flag && Redis.getRedisTemplate().delete(key);
    }
 
     /**
@@ -274,7 +276,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
     /**
      * 根据物理主键删除对象
      * @param seq
-     * @return
+     * @return true/false
      * @throws Exception
      */
     public final   boolean deleteBySeq(Long seq)throws Exception
@@ -284,7 +286,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
 
     /**
      * 批量删除
-     * @param seqs
+     * @param seqs 物理主键列表
      * @return
      * @throws Exception
      */
@@ -295,7 +297,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
 
     /**
      * 根据物理主键查询对象
-     * @param seq
+     * @param seq   物理主键
      * @return
      * @throws Exception
      */
@@ -306,8 +308,8 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
 
     /**
      * 根据物理主键批量查询
-     * @param seqs
-     * @return
+     * @param seqs  物理主键列表
+     * @return  List<V>
      * @throws Exception
      */
     public final    List<V> queryBatchSeq(List<Long>  seqs) throws Exception {
@@ -328,7 +330,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * 按指定参数获取单个对象
      * 简化service层操作，查询单个对象，参数顺序必须和前置方法一直，参数名称需要和对象的属性名称保持一样
      *
-     * @param params
+     * @param params    前置方法参数列表
      * @return
      * @throws Exception
      */
@@ -391,7 +393,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @param indexName  业务主键名称
      * @param indexValue 业务主键值
      * @param propertyNames 指定属性名
-     * @return
+     * @return V
      * @throws Exception
      */
     protected final V queryForPropertiesValue(String indexName,Object indexValue,String... propertyNames)throws Exception
@@ -408,7 +410,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @param indexName  业务主键名称
      * @param indexValue  业务主键值
      * @param propertyNames 指定属性名
-     * @return
+     * @return List<V>
      * @throws Exception
      */
     public final List<V> queryForMultPropertyValue(String indexName,Object indexValue,String... propertyNames)throws Exception
@@ -442,7 +444,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @param orderBy 排序字段（数据库字段名）
      * @param isAsc   排序规则
      * @param params 前置方法参数列表，參數順序保持一致，參數名稱需要和數據庫字段名稱相互對應符合轉換規則
-     * @return
+     * @return List<V>
      * @throws Exception
      */
     protected final   List<V> queryForList(String orderBy,boolean isAsc,Object... params)throws Exception
@@ -464,7 +466,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @param isAsc   排序规则
      * @param top     取top数量
      * @param params 前置方法参数列表，參數順序保持一致，參數名稱需要和數據庫字段名稱相互對應符合轉換規則
-     * @return
+     * @return List<V>
      * @throws Exception
      */
     protected final   List<V> queryForTopList(int top,String orderBy,boolean isAsc,Object... params)throws Exception
@@ -486,7 +488,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @param orderBy 排序字段
      * @param isAsc 排序规则
      * @param params 参数胡列表
-     * @return
+     * @return 返回model列表
      * @throws Exception
      */
     protected final   List<V> queryForListWithCache(String orderBy,boolean isAsc,Object... params)throws Exception
@@ -501,7 +503,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
         ArrayList<V>  list = queryFromCache(cacheKey);
         if(ValidationUtil.isEmpty(list))
         {
-            QueryWrapper wrapper = this.assemblyWrapperParams(
+            QueryWrapper<P> wrapper = this.assemblyWrapperParams(
                     Thread.currentThread().getStackTrace()[2].getMethodName(),
                     Bean.getClassByName(Thread.currentThread().getStackTrace()[2].getClassName()),
                     params
@@ -559,8 +561,8 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * 组装查询条件，过滤为空的参数,參數順序保持一致
      * 參數名稱需要和數據庫字段名稱相互對應符合轉換規則
      * @param methodName  前置类当中不可以有方法重载
-     * @param clzz
-     * @param params
+     * @param clzz        前置方法所在类
+     * @param params      前置方法参数列表
      * @return Map<数据库字段,参数值>
      * @throws Exception
      */
@@ -687,10 +689,10 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
         switch (operator)
         {
             case eq:
-                wrapper.eq(cloumn,paramValue);
+                wrapper.eq(cloumn,paramValue);//=
                 break;
             case ne:
-                wrapper.ne(cloumn,paramValue);
+                wrapper.ne(cloumn,paramValue);//!=  <>
                 break;
             case gt:
                 wrapper.gt(cloumn,paramValue);
@@ -726,18 +728,24 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
                 if(paramValue instanceof Object[])
                 {
                     wrapper.in(cloumn, ((Object[])paramValue));
+                }else if(paramValue instanceof Collection)
+                {
+                    wrapper.in(cloumn, ((Collection)paramValue));
                 }else
                 {
-                    throw new Exception("can not be case  or Object[]");
+                    throw new Exception("can not be case  to Object[] or Collection");
                 }
                 break;
             case notIn:
                 if(paramValue instanceof Object[])
                 {
                     wrapper.notIn(cloumn ,((Object[])paramValue));
+                }else if(paramValue instanceof Collection)
+                {
+                    wrapper.notIn(cloumn ,((Collection)paramValue));
                 }else
                 {
-                    throw new Exception("can not be case or  Object[]");
+                    throw new Exception("can not be case to Object[] or Collection");
                 }
                 break;
             case between:

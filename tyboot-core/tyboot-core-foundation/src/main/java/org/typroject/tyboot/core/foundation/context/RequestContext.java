@@ -30,7 +30,7 @@ public class RequestContext {
 
 	private static final Logger logger = LoggerFactory.getLogger(RequestContext.class);
 
-	private static ThreadLocal<RequestContextModel> requestContext = ThreadLocal.withInitial(() -> new RequestContextModel());
+	private static ThreadLocal<RequestContextModel> requestContext = ThreadLocal.withInitial(RequestContextModel::new);
 
 	private static RequestContextModel getRequestContext() {
 		return requestContext.get();
