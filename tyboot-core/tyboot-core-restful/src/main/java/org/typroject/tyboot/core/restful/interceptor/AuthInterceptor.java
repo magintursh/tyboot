@@ -28,9 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 自定义拦截器1
- *
- * @author   Angel
+ * 自定义拦截器
+ * @author 子杨
  */
 @Component
 public class AuthInterceptor extends HandlerInterceptorAdapter {
@@ -102,7 +101,11 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
 
         //在刷新session之前执行扩展规则验证
-        ExtendAuthHandler.doAuth(handlerMethod,token,appKey,product);
+        Boolean flag = ExtendAuthHandler.doAuth(handlerMethod,token,appKey,product);
+
+        //跳过剩下所有校验.
+        if(flag)
+            return true;
 
 
         if(!tycloudOperation.needAuth())

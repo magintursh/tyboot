@@ -62,11 +62,12 @@ public class LimitStrategyManager implements  AuthWithSessionHandler,AuthHandler
 
 
     @Override
-    public void doAuth(HandlerMethod handlerMethod, String token, String appKey, String product) throws Exception {
+    public Boolean doAuth(HandlerMethod handlerMethod, String token, String appKey, String product) throws Exception {
         if(!ValidationUtil.isEmpty(restrictiveStrategyList))
             for(LimitStrategy restrictiveStrategy:restrictiveStrategyList)
                 if(!restrictiveStrategy.afterTokenAuth())
                     this.runRestrictiveStrategy(restrictiveStrategy,handlerMethod);
+         return false;
     }
 
     /**

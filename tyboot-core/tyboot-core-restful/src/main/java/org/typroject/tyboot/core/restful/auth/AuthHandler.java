@@ -14,7 +14,8 @@ public interface AuthHandler {
      * @param token
      * @param appKey
      * @param product
+     * @return 默认返回false，如果返回真，则会跳过剩下校验过程。
      * @throws Exception
      */
-    void doAuth(HandlerMethod handlerMethod, String token, String appKey, String product)throws Exception;
+    Boolean doAuth(HandlerMethod handlerMethod, String token, String appKey, String product)throws Exception;
 }

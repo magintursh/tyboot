@@ -49,19 +49,22 @@ public class ExtendAuthHandler implements InitializingBean {
     }
 
 
-    public static void doAuth(HandlerMethod handlerMethod, String token, String appKey, String product) throws Exception {
+    public static Boolean doAuth(HandlerMethod handlerMethod, String token, String appKey, String product) throws Exception {
 
 
         //扩展的验证规则
         long time = System.currentTimeMillis();
+        boolean flag = false;
         if(!ValidationUtil.isEmpty(authHandlers))
             for(AuthHandler authHandler :authHandlers)
-                authHandler.doAuth(handlerMethod,token,appKey,product);
+                flag = flag || authHandler.doAuth(handlerMethod,token,appKey,product);
 
         long currentDuration = System.currentTimeMillis() - time;
         if(currentDuration > duration)
             logger.warn("扩展验证规则执行时间过长，超过了"+duration+"毫秒.当前执行时间为："+currentDuration);
 
+        //如果返回真，则跳过剩下所有校验。
+        return flag;
     }
 
 

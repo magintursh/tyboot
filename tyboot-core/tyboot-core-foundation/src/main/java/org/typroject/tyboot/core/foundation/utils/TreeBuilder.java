@@ -23,12 +23,16 @@ public class TreeBuilder {
         Iterator var3 = treeNodes.iterator();
 
         while (var3.hasNext()) {
+            if(! (var3.next() instanceof TreeNode) )
+                continue;
             N treeNode = (N) var3.next();
             if (root.equals(treeNode.getMyParentId())) {
                 trees.add(treeNode);
             }
             Iterator var5 = treeNodes.iterator();
             while (var5.hasNext()) {
+                if(! (var5.next() instanceof TreeNode) )
+                    continue;
                 N it = (N) var5.next();
                 if (it.getMyParentId().equals(treeNode.getMyId())) {
                     if (ValidationUtil.isEmpty(treeNode.getChildren())) {
@@ -56,6 +60,8 @@ public class TreeBuilder {
         Iterator var3 = treeNodes.iterator();
 
         while (var3.hasNext()) {
+            if(! (var3.next() instanceof TreeNode) )
+                continue;
             N treeNode = (N) var3.next();
             if (root.equals(treeNode.getMyParentId())) {
                 trees.add(findChildren(treeNode, treeNodes));
@@ -69,6 +75,8 @@ public class TreeBuilder {
         Iterator var2 = treeNodes.iterator();
 
         while (var2.hasNext()) {
+            if(! (var2.next() instanceof TreeNode) )
+                continue;
             N it = (N) var2.next();
             if (node.getMyId().equals(it.getMyParentId())) {
                 if (ValidationUtil.isEmpty(node.getChildren())) {
