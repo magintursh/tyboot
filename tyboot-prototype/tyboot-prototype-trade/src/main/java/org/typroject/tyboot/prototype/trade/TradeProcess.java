@@ -14,7 +14,6 @@ import org.typroject.tyboot.face.trade.service.TransactionsRecordService;
 import org.typroject.tyboot.face.trade.service.TransactionsSerialService;
 import org.typroject.tyboot.prototype.trade.channel.ChannelProcessor;
 import org.typroject.tyboot.prototype.trade.channel.ChannelType;
-import org.typroject.tyboot.prototype.trade.channel.pingxx.PingxxConstants;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -73,7 +72,7 @@ public class TradeProcess {
 	private TradeResultModel sendPaymentRequest(TransactionsBillModel billModel, TradeType tradeType,ChannelType channelType, Map<String,Object> extraParams)throws Exception
 	{
 		TradeResultModel resultModel 			= new TradeResultModel();
-		Map<String,String>  matadata 			= (Map<String,String>)extraParams.get(PingxxConstants.METADATA);
+		Map<String,String>  matadata 			= (Map<String,String>)extraParams.get(PropertyConstants.METADATA);
 		if(ValidationUtil.isEmpty(matadata))
 		{
 			matadata = new HashMap<>();
@@ -84,11 +83,11 @@ public class TradeProcess {
 			TransactionsSerialModel serialModel 		= transactionsSerialService.createSerial( billModel, channelType,DefaultTradeType.PAYMENT);
 
 			//#2.附加參數
-			matadata.put(PingxxConstants.BILLNO, serialModel.getBillNo());
-			matadata.put(PingxxConstants.SERIALNO, serialModel.getSerialNo());
-			matadata.put(PingxxConstants.USERID,String.valueOf(serialModel.getUserId()));
-			matadata.put(PingxxConstants.AGENCYCODE, serialModel.getAgencyCode());
-			extraParams.put(PingxxConstants.METADATA,matadata);
+			matadata.put(PropertyConstants.BILLNO, serialModel.getBillNo());
+			matadata.put(PropertyConstants.SERIALNO, serialModel.getSerialNo());
+			matadata.put(PropertyConstants.USERID,String.valueOf(serialModel.getUserId()));
+			matadata.put(PropertyConstants.AGENCYCODE, serialModel.getAgencyCode());
+			extraParams.put(PropertyConstants.METADATA,matadata);
 
 			//发起交易
 			ChannelProcessor channelProcessor 	= (ChannelProcessor)SpringContextHelper.getBean(channelType.getChannelProcess());
@@ -111,7 +110,7 @@ public class TradeProcess {
 			//#1.生成流水单
 			TransactionsSerialModel serialModel 		= transactionsSerialService.createSerialByAmount( billModel.getAgencyCode(),billModel.getUserId(),billModel.getBillNo(),(BigDecimal) extraParams.get(PropertyConstants.REFUND_AMOUNT), channelType,billModel.getBillType(),DefaultTradeType.REFUND);
 
-			extraParams.put(PingxxConstants.SERIALNO,oldSerialModel.getSerialNo());
+			extraParams.put(PropertyConstants.SERIALNO,oldSerialModel.getSerialNo());
 				//发起交易
 				ChannelProcessor channelProcessor 	= (ChannelProcessor)SpringContextHelper.getBean(channelType.getChannelProcess());
 				resultModel 	  				  	= channelProcessor.processTradeRequest(serialModel, tradeType, extraParams);
