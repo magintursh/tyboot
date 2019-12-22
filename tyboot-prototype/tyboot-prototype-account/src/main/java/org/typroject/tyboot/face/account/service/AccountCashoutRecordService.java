@@ -14,7 +14,6 @@ import org.typroject.tyboot.face.account.orm.dao.AccountCashoutRecordMapper;
 import org.typroject.tyboot.face.account.orm.entity.AccountCashoutRecord;
 import org.typroject.tyboot.prototype.account.AccountManager;
 import org.typroject.tyboot.prototype.account.AccountType;
-import org.typroject.tyboot.prototype.account.CumulativeType;
 import org.typroject.tyboot.prototype.account.DefaultAccountType;
 import org.typroject.tyboot.prototype.account.trade.DefaultAccountTradeType;
 import org.typroject.tyboot.prototype.account.trade.impl.FreezeHandler;
@@ -36,7 +35,7 @@ import java.util.Map;
  * @since 2018-01-23
  */
 @Component
-public class AccountCashoutRecordService extends BaseService<AccountCashoutRecordModel, AccountCashoutRecord, AccountCashoutRecordMapper>
+public class AccountCashoutRecordService extends BaseService<AccountCashoutRecordModel,AccountCashoutRecord,AccountCashoutRecordMapper>
 {
 
     /**提现状态-待手工处理-大于指定金额的提现申请 需要后台审核之后才能实际转账*/
@@ -60,9 +59,7 @@ public class AccountCashoutRecordService extends BaseService<AccountCashoutRecor
 
     public AccountCashoutRecordModel queryByBillNo(String billNo)throws Exception
     {
-        AccountCashoutRecordModel recordModel = new AccountCashoutRecordModel();
-        recordModel.setApplayNo(billNo);
-        return queryByModel(recordModel);
+        return queryModelByParams(billNo);
     }
 
 
@@ -94,7 +91,7 @@ public class AccountCashoutRecordService extends BaseService<AccountCashoutRecor
         params.put(FreezeHandler.FreezeParams.userId.getParamCode(),cashoutRecordModel.getUserId());
         params.put(FreezeHandler.FreezeParams.billNo.getParamCode(),cashoutRecordModel.getApplayNo());
         params.put(FreezeHandler.FreezeParams.amount.getParamCode(),cashoutRecordModel.getApplayAmount());
-        params.put(FreezeHandler.FreezeParams.postscript.getParamCode(),"提现申请");
+        params.put(FreezeHandler.FreezeParams.postscript.getParamCode(),"冻结");
         params.put(FreezeHandler.FreezeParams.transferType.getParamCode(),DefaultAccountTradeType.CASHOUT.name());
         return accountManager.executeTrade(DefaultAccountTradeType.FREEZE,params);
     }
@@ -107,16 +104,11 @@ public class AccountCashoutRecordService extends BaseService<AccountCashoutRecor
         Map<String,Object> params = new HashMap<>();
         params.put(FreezeHandler.FreezeParams.userId.getParamCode(),cashoutRecordModel.getUserId());
         params.put(FreezeHandler.FreezeParams.billNo.getParamCode(),cashoutRecordModel.getApplayNo());
-        params.put(FreezeHandler.FreezeParams.postscript.getParamCode(),"提现申请");
+        params.put(FreezeHandler.FreezeParams.postscript.getParamCode(),"解冻");
         params.put(FreezeHandler.FreezeParams.transferType.getParamCode(),DefaultAccountTradeType.CASHOUT.name());
         return accountManager.executeTrade(DefaultAccountTradeType.UNFREEZE,params);
     }
 
-
-    public AccountCashoutRecordModel updateCashoutRecord(AccountCashoutRecordModel model)throws Exception
-    {
-        return this.updateWithModel(model);
-    }
 
 
 
@@ -137,6 +129,9 @@ public class AccountCashoutRecordService extends BaseService<AccountCashoutRecor
         {
             throw new Exception("找不到指定的申请记录.");
         }
+
+
+
         return cashoutRecordModel;
     }
 
@@ -156,7 +151,7 @@ public class AccountCashoutRecordService extends BaseService<AccountCashoutRecor
 
             //将冻结的资金出账
             AccountManager accountManager  = new AccountManager(cashoutRecordModel.getUserId(), DefaultAccountType.FROZEN);
-            accountManager.getAccountInstance().spend(cashoutRecordModel.getApplayAmount(),DefaultAccountTradeType.CASHOUT,cashoutRecordModel.getApplayNo(), CumulativeType.SPEND);
+            accountManager.getAccountInstance().spend(cashoutRecordModel.getApplayAmount(),DefaultAccountTradeType.CASHOUT,cashoutRecordModel.getApplayNo());
 
 
             //将申请记录设置为提现成功
@@ -196,7 +191,7 @@ public class AccountCashoutRecordService extends BaseService<AccountCashoutRecor
     }
 
 
-    public Page queryForRecordPage(Page page, String applyStatus)throws Exception
+    public Page queryForRecordPage(Page page,String applyStatus)throws Exception
     {
         return this.queryForPage(page,null,false,applyStatus);
     }

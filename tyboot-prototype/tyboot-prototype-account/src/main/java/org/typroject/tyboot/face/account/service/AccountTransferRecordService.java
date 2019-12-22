@@ -24,7 +24,7 @@ import java.util.Date;
  * @since 2018-01-24
  */
 @Component
-public class AccountTransferRecordService extends BaseService<AccountTransferRecordModel, AccountTransferRecord, AccountTransferRecordMapper>
+public class AccountTransferRecordService extends BaseService<AccountTransferRecordModel,AccountTransferRecord,AccountTransferRecordMapper>
 {
 
     public static final String TRANSFERSTATUS_SUCCESS = "SUCCESS";
@@ -32,13 +32,7 @@ public class AccountTransferRecordService extends BaseService<AccountTransferRec
 
       public AccountTransferRecordModel queryRecord(String  userId,String sourceAccountNo,String billNo,String transferType)throws Exception
       {
-          AccountTransferRecordModel recordModel = new AccountTransferRecordModel();
-
-          recordModel.setUserId(userId);
-          recordModel.setBillNo(billNo);
-          recordModel.setSourceAccountNo(sourceAccountNo);
-          recordModel.setTransferType(transferType);
-          return this.queryByModel(recordModel);
+          return this.queryModelByParams(userId,sourceAccountNo,billNo,transferType);
       }
 
 

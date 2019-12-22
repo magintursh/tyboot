@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component(value = "virtualPayment")
-public class VirtualPayment implements Trade {
+public class VirtualPayment implements Trade{
 
 	
 	private static final Logger logger = LoggerFactory.getLogger(VirtualPayment.class);

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.typroject.tyboot.prototype.account.Account;
 import org.typroject.tyboot.prototype.account.AccountConstants;
-import org.typroject.tyboot.prototype.account.CumulativeType;
 import org.typroject.tyboot.prototype.account.DefaultAccountType;
 import org.typroject.tyboot.prototype.account.trade.AccountTradeHandler;
 import org.typroject.tyboot.prototype.account.trade.BaseTradeParams;
@@ -84,7 +83,7 @@ public class CashoutHandler  implements AccountTradeHandler {
 	
 	
 	@Override
-	public boolean execute(Map<String, Object> params, Account account) throws Exception {
+	public boolean execute(Map<String, Object> params,Account account) throws Exception {
 		boolean flage = false;
 		 if(BaseTradeParams.checkPrams(params, CashoutParams.values()))
 		 {
@@ -103,10 +102,10 @@ public class CashoutHandler  implements AccountTradeHandler {
 			 {
 				// #2.更新提現記錄--默認是手動確認提現
 				 cashoutRecord.setApplyStatus(ValidationUtil.isEmpty(applyStatus)? AccountConstants.CASHOUT_STATUS_TRANSFERRED:applyStatus);
-				 accountCashoutRecordService.updateCashoutRecord(cashoutRecord);
+				 accountCashoutRecordService.updateWithModel(cashoutRecord);
 				 // #3.將凍結賬戶的對應的提現凍結金額做出賬處理\
 				 Account freezeAccount			  = Account.getAccountInstance(userId, DefaultAccountType.FROZEN);
-				 flage    						  = freezeAccount.spend(amount,DefaultAccountTradeType.CASHOUT,billNo, CumulativeType.UNCHANGED);
+				 flage    						  = freezeAccount.spend(amount,DefaultAccountTradeType.CASHOUT,billNo);
 			 }else{
 				 throw new Exception("提現交易參數有誤.");
 			 }

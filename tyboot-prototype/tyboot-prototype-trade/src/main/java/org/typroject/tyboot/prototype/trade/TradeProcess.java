@@ -14,8 +14,7 @@ import org.typroject.tyboot.face.trade.service.TransactionsRecordService;
 import org.typroject.tyboot.face.trade.service.TransactionsSerialService;
 import org.typroject.tyboot.prototype.trade.channel.ChannelProcessor;
 import org.typroject.tyboot.prototype.trade.channel.ChannelType;
-import org.typroject.tyboot.prototype.trade.constants.PropertyConstants;
-import org.typroject.tyboot.prototype.trade.constants.TradeConstants;
+import org.typroject.tyboot.prototype.trade.channel.pingxx.PingxxConstants;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -45,7 +44,7 @@ public class TradeProcess {
 	 * 发起交易
 	 * @param tradeType
 	 * @param channelType
-	 * @throws Exception
+	 * @throws Exception 
 	 * @param billModel  待结账的账单
 	 * @param tradeType	交易类型
 	 * @param channelType 交易渠道
@@ -74,7 +73,7 @@ public class TradeProcess {
 	private TradeResultModel sendPaymentRequest(TransactionsBillModel billModel, TradeType tradeType,ChannelType channelType, Map<String,Object> extraParams)throws Exception
 	{
 		TradeResultModel resultModel 			= new TradeResultModel();
-		Map<String,String>  matadata 			= (Map<String,String>)extraParams.get(TradeConstants.METADATA);
+		Map<String,String>  matadata 			= (Map<String,String>)extraParams.get(PingxxConstants.METADATA);
 		if(ValidationUtil.isEmpty(matadata))
 		{
 			matadata = new HashMap<>();
@@ -85,11 +84,11 @@ public class TradeProcess {
 			TransactionsSerialModel serialModel 		= transactionsSerialService.createSerial( billModel, channelType,DefaultTradeType.PAYMENT);
 
 			//#2.附加參數
-			matadata.put(TradeConstants.BILLNO, serialModel.getBillNo());
-			matadata.put(TradeConstants.SERIALNO, serialModel.getSerialNo());
-			matadata.put(TradeConstants.USERID,String.valueOf(serialModel.getUserId()));
-			matadata.put(TradeConstants.AGENCYCODE, serialModel.getAgencyCode());
-			extraParams.put(TradeConstants.METADATA,matadata);
+			matadata.put(PingxxConstants.BILLNO, serialModel.getBillNo());
+			matadata.put(PingxxConstants.SERIALNO, serialModel.getSerialNo());
+			matadata.put(PingxxConstants.USERID,String.valueOf(serialModel.getUserId()));
+			matadata.put(PingxxConstants.AGENCYCODE, serialModel.getAgencyCode());
+			extraParams.put(PingxxConstants.METADATA,matadata);
 
 			//发起交易
 			ChannelProcessor channelProcessor 	= (ChannelProcessor)SpringContextHelper.getBean(channelType.getChannelProcess());
@@ -112,7 +111,7 @@ public class TradeProcess {
 			//#1.生成流水单
 			TransactionsSerialModel serialModel 		= transactionsSerialService.createSerialByAmount( billModel.getAgencyCode(),billModel.getUserId(),billModel.getBillNo(),(BigDecimal) extraParams.get(PropertyConstants.REFUND_AMOUNT), channelType,billModel.getBillType(),DefaultTradeType.REFUND);
 
-			extraParams.put(TradeConstants.SERIALNO,oldSerialModel.getSerialNo());
+			extraParams.put(PingxxConstants.SERIALNO,oldSerialModel.getSerialNo());
 				//发起交易
 				ChannelProcessor channelProcessor 	= (ChannelProcessor)SpringContextHelper.getBean(channelType.getChannelProcess());
 				resultModel 	  				  	= channelProcessor.processTradeRequest(serialModel, tradeType, extraParams);
@@ -122,13 +121,13 @@ public class TradeProcess {
 					serialModel.setTradeStatus(DefaultTradeStatus.SUCCESS.getStatus());
 					serialModel.setFinishTime(new Date());
 					serialModel.setAsyncFinishTime(new Date());
-					transactionsSerialService.updateSerial(serialModel);
+					transactionsSerialService.updateWithModel(serialModel);
 
 
 					billModel.setRefund(String.valueOf(true));
 					billModel.setRefundTime(new Date());
-					billModel.setRefundAmount((BigDecimal) extraParams.get(PropertyConstants.REFUND_AMOUNT));
-					this.transactionsBillService.updateBill(billModel);
+
+					this.transactionsBillService.updateWithModel(billModel);
 				}
 		}else{
 			throw new Exception("賬單信息不存在.");
@@ -163,19 +162,20 @@ public class TradeProcess {
 		//交易账单和流水处理，并生成交易结果
 		if(!ValidationUtil.isEmpty(tradeResultModel) && tradeResultModel.isCalledSuccess())
 		{
+
 			//#1.將流水置為成功
 			TransactionsSerialModel serialModel = transactionsSerialService.selectBySeriaNo(serialNo);
 			serialModel.setTradeStatus(DefaultTradeStatus.SUCCESS.getStatus());
 			serialModel.setFinishTime(new Date());
 			serialModel.setChannelSerialNo(channelSerialNo);
 			serialModel.setAsyncFinishTime(new Date());
-			transactionsSerialService.updateSerial(serialModel);
+			transactionsSerialService.updateWithModel(serialModel);
 
 			//#2.將賬單設置為已結賬
 			TransactionsBillModel billModel	= transactionsBillService.selectByBillNo(serialModel.getBillNo());
 			billModel.setBillStatus(TransactionsBillService.BILL_STATUS_FINISHED);
 			billModel.setCheckoutTime(new Date());
-			transactionsBillService.updateBill(billModel);
+			transactionsBillService.updateWithModel(billModel);
 
 			//#生成交易記錄
 			record 	    = transactionsRecordService.createTransactionsRecord(serialModel);
@@ -193,11 +193,11 @@ public class TradeProcess {
 		}
 		return tradeResultModel;
 	}
+	
 
 
 
-
-
-
+	
+	
 }
 

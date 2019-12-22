@@ -17,9 +17,9 @@ import java.util.Date;
  * @author 子杨
  * @since 2018-01-23
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("account_serial")
+@EqualsAndHashCode(callSuper = true)
+@TableName("account_serial" )
 public class AccountSerial extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
@@ -27,55 +27,54 @@ public class AccountSerial extends BaseEntity {
     /**
      * 账户编号(预留字段，暂不启用)
      */
-	@TableField("ACCOUNT_NO")
-	private String accountNo;
+    @TableField("ACCOUNT_NO" )
+    private String accountNo;
     /**
      * 起始余额
      */
-	@TableField("INITIAL_PREFUNDED_BALANCE")
-	private BigDecimal initialPrefundedBalance;
+    @TableField("INITIAL_PREFUNDED_BALANCE" )
+    private BigDecimal initialPrefundedBalance;
     /**
      * 变更金额
      */
-	@TableField("CHANGE_AMOUNT")
-	private BigDecimal changeAmount;
+    @TableField("CHANGE_AMOUNT" )
+    private BigDecimal changeAmount;
     /**
      * 最终余额
      */
-	@TableField("FINAL_BALANCE")
-	private BigDecimal finalBalance;
+    @TableField("FINAL_BALANCE" )
+    private BigDecimal finalBalance;
     /**
      * 操作类型（充值recharge，消费consumption(消费类型还可以再分)，提现cash-out）
      */
-	@TableField("OPERATION_TYPE")
-	private String operationType;
+    @TableField("OPERATION_TYPE" )
+    private String operationType;
     /**
      * 操作时间
      */
-	@TableField("OPERATE_TIME")
-	private Date operateTime;
+    @TableField("OPERATE_TIME" )
+    private Date operateTime;
     /**
      * 交易账单编号
      */
-	@TableField("BILL_NO")
-	private String billNo;
+    @TableField("BILL_NO" )
+    private String billNo;
     /**
      * 账户信息的数据版本
      */
-	@TableField("UPDATE_VERSION")
-	private Long updateVersion;
+    @TableField("UPDATE_VERSION" )
+    private Long updateVersion;
     /**
      * 账户类型（用户虚拟账户，优惠额度账户、冻结资金账户）
      */
-	@TableField("ACCOUNT_TYPE")
-	private String accountType;
+    @TableField("ACCOUNT_TYPE" )
+    private String accountType;
     /**
      * 记账类型
      */
-	@TableField("BOOKKEEPING")
-	private String bookkeeping;
+    @TableField("BOOKKEEPING" )
+    private String bookkeeping;
 
-	@TableField("USER_ID")
-	private String userId;
-
+    @TableField("USER_ID" )
+    private String userId;
 }

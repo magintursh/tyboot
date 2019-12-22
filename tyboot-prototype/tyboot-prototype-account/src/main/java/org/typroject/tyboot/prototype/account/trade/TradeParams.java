@@ -7,13 +7,13 @@ public interface TradeParams {
 
 
     /**是否必填*/
-    public boolean isNotnull();
+    boolean isNotnull();
 
     /**参数名*/
-    public String getParesStr();
+    String getParesStr();
 
     /**参数Code*/
-    public String getParamCode();
+    String getParamCode();
 
 
 }

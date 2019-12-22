@@ -33,20 +33,28 @@ public abstract   class CallbackOrListener implements MqttCallback , IMqttMessag
     }
 
 
-    public abstract void processMessage(MqttMessage message)throws Exception;
+    public abstract void processMessage(String topic,MqttMessage message)throws Exception;
 
 
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-        // subscribe后得到的消息会执行到这里面
-        logger.info("message id             : " + message.getId());
-        logger.info("message topic          : " + topic);
-        logger.info("message Qos            : " + message.getQos());
-        byte [] messageContent                 = message.getPayload();
-        logger.info("message Payload        : " + new String(messageContent));
+        try
+        {
+            // subscribe后得到的消息会执行到这里面
+            logger.info("message id             : " + message.getId());
+            logger.info("message topic          : " + topic);
+            logger.info("message Qos            : " + message.getQos());
+            byte [] messageContent                 = message.getPayload();
+            logger.info("message Payload        : " + new String(messageContent));
 
-        processMessage(message);
+            processMessage(topic,message);
+        }catch (Exception e)
+        {
+            //报错后断掉的问题，临时将错误吃掉。
+            e.printStackTrace();
+        }
+
     }
 
     @Override

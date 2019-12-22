@@ -25,15 +25,13 @@ public class TransactionsBillService extends BaseService<TransactionsBillModel,T
 
 
 
-
     public static final String  BILL_STATUS_PENDING= "PENDING";//交易账单状态--待处理
     public static final String  BILL_STATUS_FINISHED= "FINISHED";//交易账单状态--处理完成
     public static final String  BILL_STATUS_REFUND= "REFUND";//交易账单状态--已退款
 
+
     public TransactionsBillModel selectByBillNo(String billNo) throws Exception {
-        TransactionsBillModel bill = new TransactionsBillModel();
-        bill.setBillNo(billNo);
-        return this.queryByModel(bill);
+       return this.queryModelByParams(billNo);
     }
 
 
@@ -90,10 +88,6 @@ public class TransactionsBillService extends BaseService<TransactionsBillModel,T
         return transactionsBillModel;
     }
 
-    public TransactionsBillModel updateBill(TransactionsBillModel model)throws Exception
-    {
-        return this.updateWithModel(model);
-    }
 
 
 

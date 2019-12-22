@@ -1,8 +1,8 @@
 package org.typroject.tyboot.prototype.order.state;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.typroject.tyboot.prototype.order.BaseOrder;
 import org.typroject.tyboot.face.order.service.OrderInfoService;
+import org.typroject.tyboot.prototype.order.BaseOrder;
 
 /**
  * 

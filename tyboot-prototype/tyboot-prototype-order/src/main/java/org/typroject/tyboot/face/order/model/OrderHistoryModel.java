@@ -15,63 +15,63 @@ import java.util.Date;
  * @author 子杨
  * @since 2018-01-14
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class OrderHistoryModel extends BaseModel {
 
     private static final long serialVersionUID = 1L;
 
-                /**
-         * 订单的唯一编号
-         */
+    /**
+     * 订单的唯一编号
+     */
     private String orderSn;
-                /**
-         * 账单编号
-         */
+    /**
+     * 账单编号
+     */
     private String billNo;
-                /**
-         * 订单总金额
-         */
+    /**
+     * 订单总金额
+     */
     private BigDecimal amount;
-                /**
-         * 商品总价
-         */
+    /**
+     * 商品总价
+     */
     private Integer productAmount;
-                /**
-         * 优惠抵扣金额
-         */
+    /**
+     * 优惠抵扣金额
+     */
     private Integer couponDeduction;
-                /**
-         * 订单类型（不同的订单类型可能会有不同的主线流程，慎重定义）
-         */
+    /**
+     * 订单类型（不同的订单类型可能会有不同的主线流程，慎重定义）
+     */
     private String orderType;
-                /**
-         * 订单状态（订单生命周期内的所有状态标识）
-         */
+    /**
+     * 订单状态（订单生命周期内的所有状态标识）
+     */
     private String orderStatus;
-                /**
-         * 订单生成时间
-         */
+    /**
+     * 订单生成时间
+     */
     private Date createTime;
-                /**
-         * 订单支付时间
-         */
+    /**
+     * 订单支付时间
+     */
     private Date payTime;
-                /**
-         * 支付方式（在交易模块定义)
-         */
+    /**
+     * 支付方式（在交易模块定义)
+     */
     private String payMethod;
-                /**
-         * 支付状态（未支付,1已支付）
-         */
+    /**
+     * 支付状态（未支付,1已支付）
+     */
     private String payStatus;
-                /**
-         * 机构编码
-         */
+    /**
+     * 机构编码
+     */
     private String agencyCode;
-                /**
-         * 订单来源（PUBLIC:公网, AGENCY:商家）
-         */
+    /**
+     * 订单来源（PUBLIC:公网, AGENCY:商家）
+     */
     private String source;
 
     private String userId;

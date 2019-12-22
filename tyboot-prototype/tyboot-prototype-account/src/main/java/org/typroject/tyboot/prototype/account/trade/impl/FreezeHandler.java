@@ -1,14 +1,14 @@
 package org.typroject.tyboot.prototype.account.trade.impl;
 
 import org.springframework.stereotype.Component;
-import org.typroject.tyboot.core.foundation.context.SpringContextHelper;
-import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.prototype.account.Account;
 import org.typroject.tyboot.prototype.account.DefaultAccountType;
 import org.typroject.tyboot.prototype.account.trade.AccountTradeHandler;
 import org.typroject.tyboot.prototype.account.trade.BaseTradeParams;
 import org.typroject.tyboot.prototype.account.trade.DefaultAccountTradeType;
 import org.typroject.tyboot.prototype.account.trade.TradeParams;
+import org.typroject.tyboot.core.foundation.context.SpringContextHelper;
+import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 
 import java.util.Map;
 
@@ -69,7 +69,7 @@ public class FreezeHandler  implements AccountTradeHandler {
 	
 	
 	@Override
-	public boolean execute(Map<String, Object> params, Account account) throws Exception {
+	public boolean execute(Map<String, Object> params,Account account) throws Exception {
 		boolean flage = false;
 		 if(BaseTradeParams.checkPrams(params, FreezeParams.values()))
 		 {
@@ -84,7 +84,7 @@ public class FreezeHandler  implements AccountTradeHandler {
 
 			 //將衹當金額從來源賬戶轉入凍結賬戶
 			 AccountTradeHandler transferHandler
-					 					= (AccountTradeHandler) SpringContextHelper.getBean("transferHandler");
+					 					= (AccountTradeHandler)SpringContextHelper.getBean("transferHandler");
 			 flage 						=  transferHandler.execute(params,account);
 		 }
 		return flage;	

@@ -3,7 +3,6 @@ package org.typroject.tyboot.prototype.account.trade.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.typroject.tyboot.prototype.account.Account;
-import org.typroject.tyboot.prototype.account.CumulativeType;
 import org.typroject.tyboot.prototype.account.trade.AccountTradeHandler;
 import org.typroject.tyboot.prototype.account.trade.BaseTradeParams;
 import org.typroject.tyboot.prototype.account.trade.DefaultAccountTradeType;
@@ -41,7 +40,7 @@ public class TransferHandler    implements AccountTradeHandler {
 
 
 	@Autowired
-    AccountTransferRecordService accountTransferRecordService;
+	AccountTransferRecordService accountTransferRecordService;
 
 	/**交易参数*/
 	private enum PaymentParams implements TradeParams {
@@ -73,7 +72,7 @@ public class TransferHandler    implements AccountTradeHandler {
 	
 	
 	@Override
-	public boolean execute(Map<String, Object> params, Account account) throws Exception {
+	public boolean execute(Map<String, Object> params,Account account) throws Exception {
 		boolean flage = false;
 		//解析参数
 		 if(BaseTradeParams.checkPrams(params, PaymentParams.values()))
@@ -87,9 +86,9 @@ public class TransferHandler    implements AccountTradeHandler {
 
 
 			 //从來源账户出账
-			boolean  spendResult   = account.spend(amount, DefaultAccountTradeType.TRANSFER_INTERNAL,billNo, CumulativeType.UNCHANGED);
+			boolean  spendResult   = account.spend(amount, DefaultAccountTradeType.TRANSFER_INTERNAL,billNo);
 			 //为目标账户入账
-			boolean incomeResult   = targetAccount.income(amount,DefaultAccountTradeType.TRANSFER_INTERNAL,billNo,CumulativeType.INCOME);
+			boolean incomeResult   = targetAccount.income(amount,DefaultAccountTradeType.TRANSFER_INTERNAL,billNo);
 			               flage   = spendResult && incomeResult;
 			if(!spendResult || !incomeResult)
 			{

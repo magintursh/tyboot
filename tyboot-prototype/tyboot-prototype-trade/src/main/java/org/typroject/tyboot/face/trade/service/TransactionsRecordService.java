@@ -1,5 +1,6 @@
 package org.typroject.tyboot.face.trade.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Component;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.core.rdbms.service.BaseService;
@@ -22,18 +23,20 @@ import java.util.Date;
 public class TransactionsRecordService extends BaseService<TransactionsRecordModel, TransactionsRecord, TransactionsRecordMapper> {
 
 
+    /**
+     * 分页查询
+     */
+    public Page queryForPage(Page page, String agencyCode) throws Exception {
+      return this.queryForPage(page,"",false,agencyCode);
+    }
 
 
     public TransactionsRecordModel selectBillNo(String billNo) throws Exception {
-        TransactionsRecordModel record = new TransactionsRecordModel();
-        record.setBillNo(billNo);
-        return this.queryByModel(record);
+        return this.queryModelByParams(billNo);
     }
 
     public TransactionsRecordModel selectSerialNo(String serialNo) throws Exception {
-        TransactionsRecordModel record = new TransactionsRecordModel();
-        record.setSerialNo(serialNo);
-        return this.queryByModel(record);
+        return queryModelByParams(serialNo);
     }
 
 
@@ -53,7 +56,7 @@ public class TransactionsRecordService extends BaseService<TransactionsRecordMod
             record.setBillType(serialModel.getBillType());
             this.createWithModel(record);
         } else {
-            throw new Exception("重复的交易记录.");
+            throw new Exception("重复的交易记录." );
         }
         return record;
     }

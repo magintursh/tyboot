@@ -26,7 +26,7 @@ public enum DefaultBranchOperationType implements BranchOperationType
 	CHECKOUT("结账","",""), 
 	
 	/**
-	 * 取消，即提前终止流程流转/
+	 * 取消，即提前终止流程流转
 	 */
 	CANCEL("取消","",""),
 	
@@ -43,7 +43,7 @@ public enum DefaultBranchOperationType implements BranchOperationType
 	private String oprationRuleHandler;
 	private String branchHandler;
 	
-	 DefaultBranchOperationType(String operationName,String oprationRuleHandler,String branchHandler)
+	private DefaultBranchOperationType(String operationName,String oprationRuleHandler,String branchHandler)
 	{
 		this.operationName = operationName;
 		this.oprationRuleHandler = oprationRuleHandler;

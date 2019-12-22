@@ -1,19 +1,19 @@
 package org.typroject.tyboot.prototype.trade.channel.wx;
 
 import org.springframework.stereotype.Component;
-import org.typroject.tyboot.core.foundation.context.SpringContextHelper;
-import org.typroject.tyboot.face.trade.model.TransactionsSerialModel;
+import org.typroject.tyboot.prototype.trade.channel.BaseChannelProcess;
+import org.typroject.tyboot.prototype.trade.channel.ChannelProcessor;
 import org.typroject.tyboot.prototype.trade.Trade;
 import org.typroject.tyboot.prototype.trade.TradeResultModel;
 import org.typroject.tyboot.prototype.trade.TradeStatus;
 import org.typroject.tyboot.prototype.trade.TradeType;
-import org.typroject.tyboot.prototype.trade.channel.BaseChannelProcess;
-import org.typroject.tyboot.prototype.trade.channel.ChannelProcessor;
+import org.typroject.tyboot.core.foundation.context.SpringContextHelper;
+import org.typroject.tyboot.face.trade.model.TransactionsSerialModel;
 
 import java.util.Map;
 
 @Component(value = "wxChannel")
-public class WxChannelImpl extends BaseChannelProcess implements ChannelProcessor {
+public class WxChannel extends BaseChannelProcess implements ChannelProcessor {
 
 
 

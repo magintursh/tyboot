@@ -3,7 +3,6 @@ package org.typroject.tyboot.prototype.account.trade.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.typroject.tyboot.prototype.account.Account;
-import org.typroject.tyboot.prototype.account.CumulativeType;
 import org.typroject.tyboot.prototype.account.trade.AccountTradeHandler;
 import org.typroject.tyboot.prototype.account.trade.BaseTradeParams;
 import org.typroject.tyboot.prototype.account.trade.DefaultAccountTradeType;
@@ -11,6 +10,7 @@ import org.typroject.tyboot.prototype.account.trade.TradeParams;
 import org.typroject.tyboot.face.account.service.AccountRechargeRecordService;
 
 import java.math.BigDecimal;
+import java.util.Enumeration;
 import java.util.Map;
 
 /** 
@@ -68,7 +68,7 @@ public class RechargeHandler    implements AccountTradeHandler {
 	
 	
 	@Override
-	public boolean execute(Map<String, Object> params, Account account) throws Exception {
+	public boolean execute(Map<String, Object> params,Account account) throws Exception {
 		boolean flage = false;
 		//解析参数
 		 if(BaseTradeParams.checkPrams(params, RechargeParams.values()))
@@ -76,7 +76,7 @@ public class RechargeHandler    implements AccountTradeHandler {
 			BigDecimal amount = (BigDecimal)params.get(RechargeParams.amount.name());
 			String billNo = params.get(RechargeParams.billNo.name()).toString();
 			//执行交易
-			flage = account.income(amount, DefaultAccountTradeType.RECHARGE,billNo, CumulativeType.INCOME);
+			flage = account.income(amount, DefaultAccountTradeType.RECHARGE,billNo);
 			if(flage)
 				accountRechargeRecordService.createRecord(account.getAccountInfoModel().getUserId(),
 						account.getAccountInfoModel().getAccountNo(),

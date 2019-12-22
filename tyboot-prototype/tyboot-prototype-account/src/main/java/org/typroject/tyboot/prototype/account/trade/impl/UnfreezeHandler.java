@@ -2,15 +2,15 @@ package org.typroject.tyboot.prototype.account.trade.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.typroject.tyboot.core.foundation.context.SpringContextHelper;
-import org.typroject.tyboot.face.account.model.AccountTransferRecordModel;
-import org.typroject.tyboot.face.account.service.AccountTransferRecordService;
 import org.typroject.tyboot.prototype.account.Account;
 import org.typroject.tyboot.prototype.account.DefaultAccountType;
 import org.typroject.tyboot.prototype.account.trade.AccountTradeHandler;
 import org.typroject.tyboot.prototype.account.trade.BaseTradeParams;
 import org.typroject.tyboot.prototype.account.trade.DefaultAccountTradeType;
 import org.typroject.tyboot.prototype.account.trade.TradeParams;
+import org.typroject.tyboot.core.foundation.context.SpringContextHelper;
+import org.typroject.tyboot.face.account.model.AccountTransferRecordModel;
+import org.typroject.tyboot.face.account.service.AccountTransferRecordService;
 
 import java.util.Map;
 
@@ -50,7 +50,7 @@ public class UnfreezeHandler    implements AccountTradeHandler {
 	
 	
 	@Override
-	public boolean execute(Map<String, Object> params, Account account) throws Exception {
+	public boolean execute(Map<String, Object> params,Account account) throws Exception {
 		boolean flage = false;
 		 if(BaseTradeParams.checkPrams(params, UnfreezeParams.values()))
 		 {
@@ -70,7 +70,7 @@ public class UnfreezeHandler    implements AccountTradeHandler {
 			 Account  freezeAccount 	= Account.getAccountInstance(userId, DefaultAccountType.FROZEN);
 			 //将冻结的资金转回原来账户
 			 AccountTradeHandler transferHandler
-					 					= (AccountTradeHandler) SpringContextHelper.getBean("transferHandler");
+					 					= (AccountTradeHandler)SpringContextHelper.getBean("transferHandler");
 			 flage 						=  transferHandler.execute(params,freezeAccount);
 		 }
 		return flage;	

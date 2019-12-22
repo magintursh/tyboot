@@ -66,22 +66,17 @@ public enum DefaultChannelType implements ChannelType {
 	 */
 	BANK_CARD("bank","cashChannel"),
 
-		WX_APP("APP","wxChannel"),
-
-	//JSAPI支付（或小程序支付）
-	WX_JSAPI("JSAPI","wxChannel"),
-	WX_MWEB("MWEB","wxChannel"),
-	WX_NATIVE("NATIVE","wxChannel"),
+		WX_APP("wx_app","wxChannel"),
 
 	ALIPAY_APP("alipay_app","alipayChannel");
 	
 	
-	DefaultChannelType(String channel,String channelProcess)
+	private DefaultChannelType(String channel,String channelProcess)
 	{
 		this.channel = channel;
 		this.channelProcess = channelProcess;
 	}
-
+	
 	private String channel;
 	
 	private String channelProcess;
@@ -93,7 +88,25 @@ public enum DefaultChannelType implements ChannelType {
 
 	public String parseString()
 	{
-		return this.name();
+		String str = "";
+		switch(this)
+		{
+			case PINGXX_ALIPAY : 
+				str = "支付宝";
+				break;
+			case PINGXX_WX:
+				str = "微信";
+				break;
+			case CASH:
+				str = "现金";
+				break;
+			case VIRTUAL:
+				str = "虚拟账户支付";
+				break;
+			default :
+				str = "";
+		}
+		return str;
 	}
 	
 	public static DefaultChannelType getInstance(String str)

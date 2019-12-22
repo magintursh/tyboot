@@ -92,6 +92,25 @@ public class LoginInfoService extends BaseService<LoginInfoModel,LoginInfo,Login
     }
 
 
+    /**
+     * 启用指定用户的所有登录信息
+     * @param userId 用户id
+     * @return
+     */
+    public boolean unlockWithUserId(String userId)throws Exception
+    {
+        boolean flag = false;
+        List<LoginInfoModel> models = this.queryByUserId(userId);
+        if(!ValidationUtil.isEmpty(models))
+        {
+            for(LoginInfoModel loginInfo:models)
+                this.unlockLoginInfo(loginInfo);
+            flag = true;
+        }
+        return flag;
+    }
+
+
     private LoginInfoModel lockLoginInfo(LoginInfoModel loginInfoModel) throws Exception
     {
         if(!ValidationUtil.isEmpty(loginInfoModel) && PropertyValueConstants.LOCK_STATUS_UNLOCK.equals(loginInfoModel.getLockStatus()))

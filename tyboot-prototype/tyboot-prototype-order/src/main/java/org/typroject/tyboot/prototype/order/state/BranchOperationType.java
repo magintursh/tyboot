@@ -37,7 +37,7 @@ public interface BranchOperationType
 	 * @return
 	 */
 	String getOprationRuleHandler();
-
+	
 	
 	/**
 	 * 分支操作处理器

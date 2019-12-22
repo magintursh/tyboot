@@ -3,6 +3,7 @@ package org.typroject.tyboot.prototype.order.rule;
 import org.typroject.tyboot.prototype.order.BaseOrder;
 
 
+
 public interface OperationLimitHandler{
 
 	/**

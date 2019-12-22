@@ -1,6 +1,6 @@
 package org.typroject.tyboot.face.account.orm.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;;
 import org.typroject.tyboot.face.account.orm.entity.AccountSerial;
 
 /**

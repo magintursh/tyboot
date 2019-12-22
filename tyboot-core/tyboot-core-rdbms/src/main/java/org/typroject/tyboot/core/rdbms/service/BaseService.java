@@ -325,6 +325,31 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
         return Bean.toModel(this.getOne(wrapper),model);
     }
 
+
+
+    protected final boolean queryForExits(Object... params) throws Exception
+    {
+        if(allParamsIsNull(params))
+            throw new Exception("parameter params can not be empty or null  for method queryModelByParams.");
+        P entity    = this.getPoClass().newInstance();
+        Class clzz  = Bean.getClassByName(Thread.currentThread().getStackTrace()[2].getClassName());
+        Method crurrntMethod                = Bean.getMethodByName(Thread.currentThread().getStackTrace()[2].getMethodName(),clzz);
+        String[] parameterNames             = Bean.getMethodParameterNamesByAsm4(clzz, crurrntMethod);
+
+        for(int i=0;i<params.length;i++)
+        {
+            if(!ValidationUtil.isEmpty(params[i]))
+                Bean.setPropertyValue(parameterNames[i],params[i],entity);
+        }
+        QueryWrapper<P> wrapper  = new QueryWrapper<>();
+        wrapper.setEntity(entity);
+        wrapper.select("SEQUENCE_NBR");
+        List list = this.list(wrapper);
+        return !ValidationUtil.isEmpty(list);
+    }
+
+
+
     /**
      *
      * 按指定参数获取单个对象

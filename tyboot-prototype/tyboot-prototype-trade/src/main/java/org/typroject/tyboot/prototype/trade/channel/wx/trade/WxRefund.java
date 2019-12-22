@@ -21,14 +21,16 @@ import org.typroject.tyboot.core.foundation.utils.Encrypt;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.face.trade.model.TransactionsSerialModel;
 import org.typroject.tyboot.face.trade.service.TransactionsSerialService;
+import org.typroject.tyboot.prototype.trade.PropertyConstants;
 import org.typroject.tyboot.prototype.trade.Trade;
 import org.typroject.tyboot.prototype.trade.TradeResultModel;
-import org.typroject.tyboot.prototype.trade.constants.TradeConstants;
+import org.typroject.tyboot.prototype.trade.channel.wx.WxpayProperty;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.*;
+import java.math.BigDecimal;
 import java.security.KeyStore;
 import java.security.MessageDigest;
 import java.security.cert.CertificateException;
@@ -36,8 +38,7 @@ import java.security.cert.X509Certificate;
 import java.util.*;
 
 @Component(value = "wxRefund")
-public class WxRefund implements Trade {
-
+public class WxRefund implements Trade{
 
 	@Autowired
 	private TransactionsSerialService transactionsSerialService;
@@ -48,28 +49,17 @@ public class WxRefund implements Trade {
 	
 	private static final Logger logger = LoggerFactory.getLogger(WxRefund.class);
 
-	private static final String wxPayUrl = "https://api.mch.weixin.qq.com/secapi/pay/refund";
 
-
-	@Value("${domain_url}")
-	private String domainUrl;
-	@Value("${wx.pay.mch_id}")
-	private String mch_id;
-	@Value("${wx.pay.apikey}")
-	private String apikey;
-
-
+	@Autowired
+	private WxpayProperty wxpayProperty;
 
 
 	private String configur(TransactionsSerialModel serialModel, Map<String, Object> extra) throws Exception
 	{
 
-		if(ValidationUtil.isEmpty(extra.get("appid")) || ValidationUtil.isEmpty(mch_id))
-			throw new Exception("商户信息不能为空.");
-
 
 		String xmlParams = "";
-		String oldSerialNo = (String)extra.get(TradeConstants.SERIALNO);
+		String oldSerialNo = (String)extra.get(PropertyConstants.SERIALNO);
 
 		TransactionsSerialModel oldSerialModel = transactionsSerialService.selectBySeriaNo(oldSerialNo);
 
@@ -78,22 +68,16 @@ public class WxRefund implements Trade {
 
 		SortedMap<String,Object> params  = new TreeMap<>();
 
-		params.put("appid",extra.get("appid"));//应用ID
-		params.put("mch_id",mch_id);//商户号
+		params.put("appid",wxpayProperty.getAppid());//应用ID
+		params.put("mch_id",wxpayProperty.getMchid());//商户号
 		params.put("nonce_str", Encrypt.md5WithoutPadding(serialModel.getSerialNo()));//随机字符串
 
 		params.put("out_refund_no",serialModel.getSerialNo());//附加数据
 		params.put("out_trade_no",oldSerialNo);//商户订单号
 
 		//params.put("total_fee",serialModel.getTradeAmount().multiply(new BigDecimal(100)).intValue());//总金额
-		//params.put("total_fee",oldSerialModel.getTradeAmount().multiply(new BigDecimal(100)).intValue());//总金额
-		//params.put("refund_fee", serialModel.getTradeAmount().multiply(new BigDecimal(100)).intValue());//终端IP
-
-		//@TODO 测试金额
-		params.put("total_fee",1);//总金额
-		params.put("refund_fee", 1);//终端IP
-
-
+		params.put("total_fee",oldSerialModel.getTradeAmount().multiply(new BigDecimal(100)).intValue());//总金额
+		params.put("refund_fee", serialModel.getTradeAmount().multiply(new BigDecimal(100)).intValue());//终端IP
 		//params.put("notify_url",domainUrl+"/apis/v1/trade/payment/wx");//通知地址
 		//params.put("trade_type","APP");//交易类型	APP
 
@@ -111,7 +95,7 @@ public class WxRefund implements Trade {
 
 		String timestamp = String.valueOf(System.currentTimeMillis()/1000);
 		TradeResultModel resultModel  = new TradeResultModel();
-		String resultXml = this.sendHttpsCoon(wxPayUrl,this.configur(serialModel,extra ));
+		String resultXml = this.sendHttpsCoon(wxpayProperty.getRefundUrl(),this.configur(serialModel,extra ));
 
 
 
@@ -190,7 +174,7 @@ public class WxRefund implements Trade {
 			params += key+"="+sortedMap.get(key)+"&";
 		}
 
-		params =  params+"key="+apikey;
+		params =  params+"key="+wxpayProperty.getPaymentKey();
 
 		return md5(params).toUpperCase();
 	}
@@ -259,10 +243,10 @@ public class WxRefund implements Trade {
 		try {
 			KeyStore keyStore = KeyStore.getInstance("PKCS12");
 			FileInputStream instream = new FileInputStream(new File(tradeWxCert));
-			keyStore.load(instream, mch_id.toCharArray());
+			keyStore.load(instream,wxpayProperty.getMchid().toCharArray());
 			// Trust own CA and all self-signed certs
 			SSLContext sslcontext = SSLContexts.custom()
-					.loadKeyMaterial(keyStore, mch_id.toCharArray())
+					.loadKeyMaterial(keyStore, wxpayProperty.getMchid().toCharArray())
 					.build();
 			// Allow TLSv1 protocol only
 			SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(

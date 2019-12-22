@@ -10,5 +10,5 @@ import java.util.Map;
  */
 public interface TradeResultProcessor {
 
-    TradeResultModel processResult(String billNo,String serialNo,Map<String, Object> infoMap) throws Exception;
+    TradeResultModel processResult(String billNo, String serialNo, Map<String, Object> infoMap) throws Exception;
 }

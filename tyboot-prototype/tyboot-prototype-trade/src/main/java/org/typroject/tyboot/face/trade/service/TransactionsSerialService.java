@@ -32,9 +32,7 @@ public class TransactionsSerialService extends BaseService<TransactionsSerialMod
 
     public TransactionsSerialModel selectBySeriaNo(String seriaNo) throws Exception
     {
-        TransactionsSerialModel model = new TransactionsSerialModel();
-        model.setSerialNo(seriaNo);
-        return this.queryByModel(model);
+        return queryModelByParams(seriaNo);
     }
 
     public TransactionsSerialModel selectByBillNo(String billNo,String tradeType)throws Exception
@@ -65,11 +63,6 @@ public class TransactionsSerialService extends BaseService<TransactionsSerialMod
         this.updateWithModel(transactionsSerial);
         TransactionsSerialModel transactionsSerialModel = Bean.copyExistPropertis(transactionsSerial, new TransactionsSerialModel());
         return transactionsSerialModel;
-    }
-
-    public TransactionsSerialModel updateSerial(TransactionsSerialModel model)throws Exception
-    {
-        return this.updateWithModel(model);
     }
 
 

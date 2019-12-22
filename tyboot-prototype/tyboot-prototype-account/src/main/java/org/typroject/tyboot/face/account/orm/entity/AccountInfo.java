@@ -17,9 +17,9 @@ import java.util.Date;
  * @author 子杨
  * @since 2018-01-23
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("account_info")
+@EqualsAndHashCode(callSuper = true)
+@TableName("account_info" )
 public class AccountInfo extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
@@ -27,46 +27,45 @@ public class AccountInfo extends BaseEntity {
     /**
      * agencycode
      */
-	@TableField("AGENCY_CODE")
-	private String agencyCode;
+    @TableField("AGENCY_CODE" )
+    private String agencyCode;
     /**
      * 账户编号
      */
-	@TableField("ACCOUNT_NO")
-	private String accountNo;
+    @TableField("ACCOUNT_NO" )
+    private String accountNo;
     /**
      * 账户余额
      */
-	@TableField("BALANCE")
-	private BigDecimal balance;
+    @TableField("BALANCE" )
+    private BigDecimal balance;
     /**
      * 账户类型（用户虚拟账户，优惠额度账户、冻结资金账户）
      */
-	@TableField("ACCOUNT_TYPE")
-	private String accountType;
+    @TableField("ACCOUNT_TYPE" )
+    private String accountType;
     /**
      * 账户状态(正常\冻结\资金冻结\失效)
      */
-	@TableField("ACCOUNT_STATUS")
-	private String accountStatus;
+    @TableField("ACCOUNT_STATUS" )
+    private String accountStatus;
     /**
      * 支付密码（md5加密）
      */
-	@TableField("PAYMENT_PASSWORD")
-	private String paymentPassword;
+    @TableField("PAYMENT_PASSWORD" )
+    private String paymentPassword;
     /**
      * 累计充值总额
      */
-	@TableField("CUMULATIVE_BALANCE")
-	private BigDecimal cumulativeBalance;
+    @TableField("CUMULATIVE_BALANCE" )
+    private BigDecimal cumulativeBalance;
     /**
      * 数据版本
      */
-	@TableField("UPDATE_VERSION")
-	private Long updateVersion;
-	@TableField("CREATE_TIME")
-	private Date createTime;
-	@TableField("USER_ID")
-	private String userId;
-
+    @TableField("UPDATE_VERSION" )
+    private Long updateVersion;
+    @TableField("CREATE_TIME" )
+    private Date createTime;
+    @TableField("USER_ID" )
+    private String userId;
 }

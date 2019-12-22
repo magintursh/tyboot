@@ -1,9 +1,9 @@
 package org.typroject.tyboot.prototype.account;
 
 
+import org.typroject.tyboot.prototype.account.trade.AccountTradeType;
 import org.typroject.tyboot.core.foundation.context.SpringContextHelper;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
-import org.typroject.tyboot.prototype.account.trade.AccountTradeType;
 import org.typroject.tyboot.face.account.model.AccountInfoModel;
 import org.typroject.tyboot.face.account.model.AccountSerialModel;
 import org.typroject.tyboot.face.account.service.AccountInfoService;
@@ -74,9 +74,9 @@ import java.math.BigDecimal;
 	 * @return
 	 * @throws Exception 
 	 */
-	public  final   boolean income(BigDecimal amount, AccountTradeType accountTradeType, String billNo,CumulativeType cumulativeType) throws Exception
+	public  final   boolean income(BigDecimal amount, AccountTradeType accountTradeType, String billNo) throws Exception
 	{
-		return this.bookkeeping(amount, accountTradeType, billNo, AccountBaseOperation.INCOME,cumulativeType);
+		return this.bookkeeping(amount, accountTradeType, billNo, AccountBaseOperation.INCOME);
 	}
 	
 	
@@ -87,9 +87,9 @@ import java.math.BigDecimal;
 	 * @return
 	 * @throws Exception 
 	 */
-	public final  boolean spend(BigDecimal amount,AccountTradeType accountTradeType,String billNo,CumulativeType cumulativeType) throws Exception
+	public final  boolean spend(BigDecimal amount,AccountTradeType accountTradeType,String billNo) throws Exception
 	{	
-		return this.bookkeeping(amount, accountTradeType, billNo, AccountBaseOperation.SPEND,cumulativeType);
+		return this.bookkeeping(amount, accountTradeType, billNo, AccountBaseOperation.SPEND);
 	}
 	
 	
@@ -144,11 +144,10 @@ import java.math.BigDecimal;
 	 * @param accountTradeType  账户操作类型
 	 * @param billNo			账单编号
 	 * @param bookkeeping		记账类型
-	 * @param cumulativeType    累计记账类型
 	 * @return
 	 * @throws Exception
 	 */
-	private final boolean bookkeeping(BigDecimal amount,AccountTradeType accountTradeType,String billNo,AccountBaseOperation bookkeeping ,CumulativeType cumulativeType) throws Exception
+	private final boolean bookkeeping(BigDecimal amount,AccountTradeType accountTradeType,String billNo,AccountBaseOperation bookkeeping ) throws Exception
 	{
 		boolean returnFlag  = false;
 		
@@ -156,7 +155,7 @@ import java.math.BigDecimal;
 		AccountSerialModel newAccountSerial = accountSerialService.createAccountSerial( this.accountInfoModel.getUserId(), this.accountInfoModel.getAccountNo(),this.accountInfoModel.getAccountType(),this.accountInfoModel.getUpdateVersion(), billNo, amount, accountTradeType, bookkeeping);
 		
 		//#2.变更账户余额
-		AccountInfoModel updateResult = accountInfoService.updateFinalBalance(this.accountInfoModel.getAccountNo(),newAccountSerial.getChangeAmount(), this.accountInfoModel.getUpdateVersion(),bookkeeping,cumulativeType);
+		AccountInfoModel updateResult = accountInfoService.updateFinalBalance(this.accountInfoModel.getAccountNo(),newAccountSerial.getChangeAmount(), this.accountInfoModel.getUpdateVersion(),bookkeeping);
 		
 		if(!ValidationUtil.isEmpty(updateResult))
 		{

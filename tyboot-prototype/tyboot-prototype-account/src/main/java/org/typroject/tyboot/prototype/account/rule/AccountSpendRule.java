@@ -2,6 +2,7 @@ package org.typroject.tyboot.prototype.account.rule;
 
 import org.springframework.stereotype.Component;
 import org.typroject.tyboot.prototype.account.Account;
+import org.typroject.tyboot.prototype.account.Account;
 import org.typroject.tyboot.prototype.account.AccountOperateRule;
 
 /** 

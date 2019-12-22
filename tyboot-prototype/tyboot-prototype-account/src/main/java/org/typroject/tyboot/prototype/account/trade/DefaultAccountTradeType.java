@@ -34,14 +34,7 @@ public enum DefaultAccountTradeType implements AccountTradeType {
 	 * 充值
 	 */
 	RECHARGE("充值","rechargeHandler",""),
-
-
-	/**
-	 * 退款到账户
-	 */
-	REFUND("退款","refundHandler",""),
-
-
+	
 	/**
 	 * 从虚拟账户提现到外部账户
 	 */

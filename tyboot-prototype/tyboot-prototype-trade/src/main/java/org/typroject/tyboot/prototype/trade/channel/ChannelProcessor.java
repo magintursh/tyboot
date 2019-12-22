@@ -3,7 +3,9 @@ package org.typroject.tyboot.prototype.trade.channel;
 import org.typroject.tyboot.prototype.trade.TradeResultModel;
 import org.typroject.tyboot.prototype.trade.TradeStatus;
 import org.typroject.tyboot.prototype.trade.TradeType;
+import org.typroject.tyboot.face.trade.model.TransactionsRecordModel;
 import org.typroject.tyboot.face.trade.model.TransactionsSerialModel;
+import org.typroject.tyboot.prototype.trade.TradeResultModel;
 
 import java.util.Map;
 

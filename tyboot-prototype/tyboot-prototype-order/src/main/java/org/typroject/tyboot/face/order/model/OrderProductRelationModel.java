@@ -4,8 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 
-import java.math.BigDecimal;
-
 /**
  * <p>
  * 订单产品关系表 model
@@ -14,8 +12,8 @@ import java.math.BigDecimal;
  * @author 子杨
  * @since 2018-01-14
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class OrderProductRelationModel extends BaseModel {
 
     private static final long serialVersionUID = 1L;
@@ -43,7 +41,5 @@ public class OrderProductRelationModel extends BaseModel {
     /**
      * 商品当前单价
      */
-    private BigDecimal productPrice;
-
-
+    private Integer productPrice;
 }

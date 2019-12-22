@@ -2,6 +2,7 @@ package org.typroject.tyboot.face.account.service;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Sequence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,10 +14,15 @@ import org.typroject.tyboot.core.rdbms.service.BaseService;
 import org.typroject.tyboot.face.account.model.AccountInfoModel;
 import org.typroject.tyboot.face.account.orm.dao.AccountInfoMapper;
 import org.typroject.tyboot.face.account.orm.entity.AccountInfo;
-import org.typroject.tyboot.prototype.account.*;
+import org.typroject.tyboot.prototype.account.AccountBaseOperation;
+import org.typroject.tyboot.prototype.account.AccountConstants;
+import org.typroject.tyboot.prototype.account.AccountStatus;
+import org.typroject.tyboot.prototype.account.AccountType;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -50,37 +56,32 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
     }
 
 
-    public AccountInfoModel updateFinalBalance(String accountNo, BigDecimal changeAmount, Long oldUpdateVersion, AccountBaseOperation bookkeeping, CumulativeType cumulativeType) throws Exception {
+    public AccountInfoModel updateFinalBalance(String accountNo, BigDecimal changeAmount, Long oldUpdateVersion, AccountBaseOperation bookkeeping) throws Exception {
         AccountInfoModel oldModel = this.queryByAccontNo(accountNo, oldUpdateVersion);
-
         if (!ValidationUtil.isEmpty(oldModel)) {
-
-            //余额处理
-            if (AccountBaseOperation.INCOME.equals(bookkeeping))
+            if (AccountBaseOperation.INCOME.equals(bookkeeping)) {
                 oldModel.setBalance(oldModel.getBalance().add(changeAmount));
+                oldModel.setCumulativeBalance(oldModel.getCumulativeBalance().add(changeAmount));
+            }
             if (AccountBaseOperation.SPEND.equals(bookkeeping))
                 oldModel.setBalance(oldModel.getBalance().subtract(changeAmount));
-
-            //累计金额处理
-            if(CumulativeType.INCOME.equals(cumulativeType))
-                oldModel.setCumulativeBalance(oldModel.getCumulativeBalance().add(changeAmount));
-            if(CumulativeType.SPEND.equals(cumulativeType))
-                oldModel.setCumulativeBalance(oldModel.getCumulativeBalance().subtract(changeAmount));
-
 
             oldModel.setUpdateVersion(sequence.nextId());
             oldModel.setRecDate(new Date());
             oldModel.setRecUserId(RequestContext.getExeUserId());
 
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("UPDATE_VERSION" , oldUpdateVersion);
+            params.put("ACCOUNT_NO" , accountNo);
+            params.put("ACCOUNT_STATUS" , AccountStatus.NORMAL.name());
             QueryWrapper wrapper = new QueryWrapper();
-            wrapper.eq("UPDATE_VERSION", oldUpdateVersion);
-            wrapper.eq("ACCOUNT_NO", accountNo);
-            wrapper.eq("ACCOUNT_STATUS", AccountStatus.NORMAL.name());
+            wrapper.allEq(params, false);
             boolean result = this.update(Bean.toPo(oldModel, new AccountInfo()), wrapper);
             if (!result)
-                throw new Exception("更新余额失败.");
+                throw new Exception("更新余额失败." );
         } else {
-            throw new Exception("找不到指定账户.");
+            throw new Exception("找不到指定账户." );
         }
         return oldModel;
     }
@@ -93,33 +94,28 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
             oldModel.setRecDate(new Date());
             oldModel.setRecUserId(RequestContext.getExeUserId());
 
-            QueryWrapper wrapper = new QueryWrapper();
-            wrapper.eq("UPDATE_VERSION", oldUpdateVersion);
-            wrapper.eq("ACCOUNT_NO", accountNo);
-            wrapper.eq("PAYMENT_PASSWORD", AccountConstants.DEFAULT_PAYMENT_PASSWORD);
+            UpdateWrapper wrapper = new UpdateWrapper();
+            wrapper.eq("UPDATE_VERSION" , oldUpdateVersion);
+            wrapper.eq("ACCOUNT_NO" , accountNo);
+            wrapper.eq("PAYMENT_PASSWORD" , AccountConstants.DEFAULT_PAYMENT_PASSWORD);
             if (!ValidationUtil.isEmpty(oldStatus))
-                wrapper.eq("ACCOUNT_STATUS", oldStatus.name());
+                wrapper.eq("ACCOUNT_STATUS" , oldStatus.name());
             boolean result = this.update(Bean.toPo(oldModel, new AccountInfo()), wrapper);
             if (!result)
-                throw new Exception("更新状态失败.");
+                throw new Exception("更新状态失败." );
         } else {
-            throw new Exception("找不到指定账户.");
+            throw new Exception("找不到指定账户." );
         }
         return oldModel;
     }
 
 
     public AccountInfoModel queryByAccontNo(String accountNo) throws Exception {
-        AccountInfoModel accountInfoModel = new AccountInfoModel();
-        accountInfoModel.setAccountNo(accountNo);
-        return this.queryByModel(accountInfoModel);
+        return this.queryModelByParams(accountNo);
     }
 
-    public AccountInfoModel queryByAccontNo(String accountNo, Long oldUpdateVersion) throws Exception {
-        AccountInfoModel accountInfoModel = new AccountInfoModel();
-        accountInfoModel.setAccountNo(accountNo);
-        accountInfoModel.setUpdateVersion(oldUpdateVersion);
-        return this.queryByModel(accountInfoModel);
+    public AccountInfoModel queryByAccontNo(String accountNo, Long updateVersion) throws Exception {
+       return this.queryModelByParams(accountNo,updateVersion);
     }
 
     public AccountInfoModel queryByUserId(String userId, AccountType accountType) throws Exception {

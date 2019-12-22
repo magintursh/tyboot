@@ -22,7 +22,7 @@ package org.typroject.tyboot.prototype.trade;
 public class TradeResultModel {
 	
 	
-	private boolean  calledSuccess=false; //调用状态
+	private boolean  calledSuccess; //调用状态
 
 	private Object result; //交易对象
 	

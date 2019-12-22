@@ -2,7 +2,6 @@ package org.typroject.tyboot.prototype.account.trade.impl;
 
 import org.springframework.stereotype.Component;
 import org.typroject.tyboot.prototype.account.Account;
-import org.typroject.tyboot.prototype.account.CumulativeType;
 import org.typroject.tyboot.prototype.account.trade.AccountTradeHandler;
 import org.typroject.tyboot.prototype.account.trade.BaseTradeParams;
 import org.typroject.tyboot.prototype.account.trade.DefaultAccountTradeType;
@@ -36,7 +35,7 @@ import java.util.Map;
 public class PaymentHandler  implements AccountTradeHandler {
 
 	/**交易参数*/
-	public  enum PaymentParams implements TradeParams {
+	private enum PaymentParams implements TradeParams {
  
 		billNo(true,"账单号"),	   //用户
 		amount(true,"交易金额");   //交易金额
@@ -63,7 +62,7 @@ public class PaymentHandler  implements AccountTradeHandler {
 	
 	
 	@Override
-	public boolean execute(Map<String, Object> params, Account account) throws Exception {
+	public boolean execute(Map<String, Object> params,Account account) throws Exception {
 		boolean flage = false;
 		//解析参数
 		 if(BaseTradeParams.checkPrams(params, PaymentParams.values()))
@@ -71,7 +70,7 @@ public class PaymentHandler  implements AccountTradeHandler {
 			BigDecimal amount = (BigDecimal)params.get(PaymentParams.amount.name());
 			String billNo     = (String)params.get(PaymentParams.billNo.name());
 			//执行交易
-			flage = account.spend(amount, DefaultAccountTradeType.PAYMENT,billNo, CumulativeType.UNCHANGED);
+			flage = account.spend(amount, DefaultAccountTradeType.PAYMENT,billNo);
 			
 			//验证结果			 
 		 }	 

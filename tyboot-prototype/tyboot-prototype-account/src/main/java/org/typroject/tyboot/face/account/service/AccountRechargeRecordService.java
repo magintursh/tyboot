@@ -11,6 +11,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 
+
+
+
 /**
  * <p>
  * 充值记录表，只记录交易成功的充值信息 服务类
@@ -20,7 +23,7 @@ import java.util.Date;
  * @since 2018-01-23
  */
 @Component
-public class AccountRechargeRecordService extends BaseService<AccountRechargeRecordModel, AccountRechargeRecord, AccountRechargeRecordMapper>
+public class AccountRechargeRecordService extends BaseService<AccountRechargeRecordModel,AccountRechargeRecord,AccountRechargeRecordMapper>
 {
 
 

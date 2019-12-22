@@ -27,7 +27,7 @@ import org.typroject.tyboot.prototype.order.state.StateHandler;
  * </pre>
  */
 @Component(value = "defaultOrderState")
-public class DefaultOrderState extends BaseOrderState implements StateHandler {
+public class DefaultOrderState extends BaseOrderState implements StateHandler{
 	
 	
 	@Override
@@ -36,3 +36,7 @@ public class DefaultOrderState extends BaseOrderState implements StateHandler {
 	}
 
 }
+
+/*
+*$Log: av-env.bat,v $
+*/
