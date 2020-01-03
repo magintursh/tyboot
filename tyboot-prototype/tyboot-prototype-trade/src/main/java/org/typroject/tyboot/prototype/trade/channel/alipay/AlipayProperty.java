@@ -2,10 +2,10 @@ package org.typroject.tyboot.prototype.trade.channel.alipay;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 @Data
-@Configuration
+@Component
 @ConfigurationProperties(prefix = "alipay")
 public class AlipayProperty {
 
@@ -14,4 +14,5 @@ public class AlipayProperty {
     private String appid;//应用id
     private String serverUrl;//交易地址
     private String notifyUrl;//回调地址
+
 }

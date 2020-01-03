@@ -83,7 +83,8 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
         if (entity instanceof BaseEntity) {
             BaseEntity temp = (BaseEntity) entity;
             temp.setRecDate(new Date());
-            temp.setRecUserId(RequestContext.getExeUserId());
+            if(ValidationUtil.isEmpty(temp.getRecUserId()))
+                temp.setRecUserId(RequestContext.getExeUserId());
         }
         return entity;
     }
