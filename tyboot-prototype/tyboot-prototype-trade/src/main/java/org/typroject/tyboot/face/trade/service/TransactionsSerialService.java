@@ -30,9 +30,9 @@ public class TransactionsSerialService extends BaseService<TransactionsSerialMod
 {
 
 
-    public TransactionsSerialModel selectBySeriaNo(String seriaNo) throws Exception
+    public TransactionsSerialModel selectBySeriaNo(String serialNo) throws Exception
     {
-        return queryModelByParams(seriaNo);
+        return queryModelByParams(serialNo);
     }
 
     public TransactionsSerialModel selectByBillNo(String billNo,String tradeType)throws Exception

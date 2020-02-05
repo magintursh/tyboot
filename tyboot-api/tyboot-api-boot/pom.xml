@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.typroject</groupId>
 		<artifactId>tyboot-api</artifactId>
-		<version>1.1.16-Ty</version>
+		<version>1.1.20Ty-SNAPSHOT</version>
 	</parent>
 
 
@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-prototype-trade</artifactId>
-			<version>1.1.16-Ty</version>
+			<version>1.1.20Ty-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-core-auth</artifactId>
-			<version>1.1.16-Ty</version>
+			<version>1.1.20Ty-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -53,7 +53,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-component-activemq</artifactId>
-			<version>1.1.16-Ty</version>
+			<version>1.1.20Ty-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -66,7 +66,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-component-opendata</artifactId>
-			<version>1.1.16-Ty</version>
+			<version>1.1.20Ty-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -80,7 +80,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-core-rdbms</artifactId>
-			<version>1.1.16-Ty</version>
+			<version>1.1.20Ty-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -92,7 +92,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-component-cache</artifactId>
-			<version>1.1.16-Ty</version>
+			<version>1.1.20Ty-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -105,7 +105,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-component-event</artifactId>
-			<version>1.1.16-Ty</version>
+			<version>1.1.20Ty-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
