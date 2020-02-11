@@ -43,25 +43,17 @@ public abstract class CallbackOrListener implements MqttCallback, IMqttMessageLi
     public void messageArrived(String topic, MqttMessage message) throws Exception {
         try {
             // subscribe后得到的消息会执行到这里面
-            logger.info("message id             : " + message.getId());
-            logger.info("message topic          : " + topic);
-            logger.info("message Qos            : " + message.getQos());
+            logger.debug("message id             : " + message.getId());
+            logger.debug("message topic          : " + topic);
+            logger.debug("message Qos            : " + message.getQos());
             byte[] messageContent = message.getPayload();
-            logger.info("message Payload        : " + new String(messageContent));
+            logger.debug("message Payload        : " + new String(messageContent));
 
             processMessage(topic, message);
         } catch (Exception e) {
             //报错后断掉的问题，临时将错误吃掉。
             e.printStackTrace();
         }
-
-    }
-
-    @Override
-    public void deliveryComplete(IMqttDeliveryToken token) {
-
-
-        logger.info("deliveryComplete---------" + token.isComplete());
 
     }
 
