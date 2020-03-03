@@ -46,5 +46,11 @@ public class LoginHistoryService extends BaseService<LoginHistoryModel,LoginHist
     }
 
 
+    public LoginHistoryModel queryByToken(String token)throws Exception
+    {
+        return this.queryModelByParamsWithCache(token);
+    }
+
+
 	
 }
