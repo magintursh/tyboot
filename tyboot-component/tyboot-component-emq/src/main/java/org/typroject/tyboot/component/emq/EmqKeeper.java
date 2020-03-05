@@ -31,6 +31,8 @@ public class EmqKeeper {
         this.emqProperties = emqProperties;
         client = new MqttClient(emqProperties.getBroker(), emqProperties.getClientId(), new MemoryPersistence());// host为主机名，clientid即连接MQTT的客户端ID，一般以唯一标识符表示，MemoryPersistence设置clientid的保存形式，默认为以内存保存
         options = new MqttConnectOptions();// MQTT的连接设置
+        options.setUserName(emqProperties.getUserName());
+        options.setPassword(emqProperties.getPassword().toCharArray());
         options.setAutomaticReconnect(true);
         options.setCleanSession(emqProperties.getCleanSession());// 设置是否清空session,这里如果设置为false表示服务器会保留客户端的连接记录，这里设置为true表示每次连接到服务器都以新的身份连接
         options.setConnectionTimeout(0);// 设置超时时间 单位为秒
