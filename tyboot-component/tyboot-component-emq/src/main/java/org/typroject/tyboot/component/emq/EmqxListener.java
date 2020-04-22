@@ -5,36 +5,9 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.*;
 import org.typroject.tyboot.core.foundation.context.SpringContextHelper;
 
-public abstract class CallbackOrListener implements MqttCallback, IMqttMessageListener {
+public abstract class EmqxListener implements  IMqttMessageListener {
 
-    private final Logger logger = LogManager.getLogger(CallbackOrListener.class);
-
-
-    @Override
-    public void connectionLost(Throwable throwable) {
-        logger.info("EMQ连接断开.");
-
-
-        //尝试重新连接，
-        //10次
-        for (int i = 0; i < 10; i++) {
-
-            logger.info("第 " + i + " 次尝试重新连接.");
-            EmqKeeper emqKeeper = (EmqKeeper) SpringContextHelper.getBean(EmqKeeper.class);
-
-            if (!emqKeeper.getMqttClient().isConnected())
-                emqKeeper.connetToServer();
-
-            if (emqKeeper.getMqttClient().isConnected())
-                break;
-            try {
-                Thread.sleep(10L * 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
+    private final Logger logger = LogManager.getLogger(EmqxListener.class);
 
     public abstract void processMessage(String topic, MqttMessage message) throws Exception;
 

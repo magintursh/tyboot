@@ -38,6 +38,7 @@ public class EmqKeeper {
         options.setConnectionTimeout(0);// 设置超时时间 单位为秒
         options.setKeepAliveInterval(10);// 设置会话心跳时间 单位为秒 服务器会每隔1.5*20秒的时间向客户端发送个消息判断客户端是否在线，但这个方法并没有重连的机制
         client.setCallback(new DefaultCallback());// 设置回调
+        client.setTimeToWait(5000);
         connetToServer();
     }
 
@@ -52,7 +53,7 @@ public class EmqKeeper {
 
                 //重新订阅主题
                 for (SubscriptTopic subscriptTopic : topics)
-                    this.getMqttClient().subscribe(subscriptTopic.getTopic(), subscriptTopic.getQos(), subscriptTopic.getCallbackOrListener());
+                    this.getMqttClient().subscribe(subscriptTopic.getTopic(), subscriptTopic.getQos(), subscriptTopic.getEmqxListener());
 
                 return client.isConnected();
             }
@@ -75,14 +76,14 @@ public class EmqKeeper {
      *
      * @param topic
      * @param qos
-     * @param callbackOrListener
+     * @param emqxListener
      * @throws Exception
      */
-    public void subscript(String topic, int qos, CallbackOrListener callbackOrListener) throws Exception {
-        getMqttClient().subscribe(topic, qos, callbackOrListener);
+    public void subscript(String topic, int qos, EmqxListener emqxListener) throws Exception {
+        getMqttClient().subscribe(topic, qos, emqxListener);
 
         SubscriptTopic subscriptTopic = new SubscriptTopic();
-        subscriptTopic.setCallbackOrListener(callbackOrListener);
+        subscriptTopic.setEmqxListener(emqxListener);
         subscriptTopic.setQos(qos);
         subscriptTopic.setTopic(topic);
         this.topics.add(subscriptTopic);
@@ -111,7 +112,7 @@ public class EmqKeeper {
     class SubscriptTopic {
         private String topic;
         private int qos;
-        private CallbackOrListener callbackOrListener;
+        private EmqxListener emqxListener;
 
         public String getTopic() {
             return topic;
@@ -129,12 +130,12 @@ public class EmqKeeper {
             this.qos = qos;
         }
 
-        public CallbackOrListener getCallbackOrListener() {
-            return callbackOrListener;
+        public EmqxListener getEmqxListener() {
+            return emqxListener;
         }
 
-        public void setCallbackOrListener(CallbackOrListener callbackOrListener) {
-            this.callbackOrListener = callbackOrListener;
+        public void setEmqxListener(EmqxListener emqxListener) {
+            this.emqxListener = emqxListener;
         }
     }
 
