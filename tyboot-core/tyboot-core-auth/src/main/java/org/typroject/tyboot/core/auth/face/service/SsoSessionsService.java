@@ -78,11 +78,9 @@ public class SsoSessionsService extends BaseService<SsoSessionsModel,SsoSessions
         {
             redisTemplate.expire(sessionCacheKeyWithToken(token,actionByProduct),DEFAULT_SESSION_EXPIRATION, TimeUnit.SECONDS);
             redisTemplate.expire(sessionCacheKeyWithLoginId(sessionsModel.getLoginId(),actionByProduct),DEFAULT_SESSION_EXPIRATION, TimeUnit.SECONDS);
-            LoginInfoModel loginInfo            = loginInfoService.selectByLoginId(sessionsModel.getLoginId());
-            if(ValidationUtil.isEmpty(loginInfo))
-                throw new Exception("用户信息异常.");
             sessionsModel.setSessionExpiration(SsoSessionsService.DEFAULT_SESSION_EXPIRATION);
         }else{
+            //TODO  刷新session  不应该查询数据库
             LoginHistoryModel historyModel = loginHistoryService.queryByToken(token);
             if(!ValidationUtil.isEmpty(historyModel))
             {

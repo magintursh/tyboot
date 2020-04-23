@@ -80,13 +80,18 @@ public class EmqKeeper {
      * @throws Exception
      */
     public void subscript(String topic, int qos, EmqxListener emqxListener) throws Exception {
-        getMqttClient().subscribe(topic, qos, emqxListener);
+        if(getMqttClient().isConnected())
+        {
+            getMqttClient().subscribe(topic, qos, emqxListener);
+            SubscriptTopic subscriptTopic = new SubscriptTopic();
+            subscriptTopic.setEmqxListener(emqxListener);
+            subscriptTopic.setQos(qos);
+            subscriptTopic.setTopic(topic);
+            this.topics.add(subscriptTopic);
+        }else{
+            logger.error("还未链接mqtt服务");
+        }
 
-        SubscriptTopic subscriptTopic = new SubscriptTopic();
-        subscriptTopic.setEmqxListener(emqxListener);
-        subscriptTopic.setQos(qos);
-        subscriptTopic.setTopic(topic);
-        this.topics.add(subscriptTopic);
     }
 
 
