@@ -39,6 +39,8 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      */
     private long cacheExpire =  24*3600L;
 
+    private boolean refreshCache = true;
+
 
     @SuppressWarnings("unchecked")
     public final   Class<P> getPoClass() {
@@ -70,6 +72,10 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      */
     protected void setCacheExpire(long cacheExpire) {
         this.cacheExpire = cacheExpire;
+    }
+
+    public void setRefreshCache(boolean refreshCache) {
+        this.refreshCache = refreshCache;
     }
 
     /**
@@ -145,11 +151,15 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
      * @return
      */
 
-    public static <T> T  queryFromCache(String cacheKey)
+    public  <T> T  queryFromCache(String cacheKey)
     {
         T t = null;
         if(!ValidationUtil.isEmpty(cacheKey))
+        {
             t = (T)Redis.getRedisTemplate().opsForValue().get(cacheKey);
+            if(this.refreshCache)
+                Redis.getRedisTemplate().expire(cacheKey,cacheExpire,TimeUnit.SECONDS);
+        }
         return t;
     }
 

@@ -31,11 +31,14 @@ public class EmqKeeper {
         this.emqProperties = emqProperties;
         client = new MqttClient(emqProperties.getBroker(), emqProperties.getClientId(), new MemoryPersistence());// host为主机名，clientid即连接MQTT的客户端ID，一般以唯一标识符表示，MemoryPersistence设置clientid的保存形式，默认为以内存保存
         options = new MqttConnectOptions();// MQTT的连接设置
+        options.setUserName(emqProperties.getUserName());
+        options.setPassword(emqProperties.getPassword().toCharArray());
         options.setAutomaticReconnect(true);
         options.setCleanSession(emqProperties.getCleanSession());// 设置是否清空session,这里如果设置为false表示服务器会保留客户端的连接记录，这里设置为true表示每次连接到服务器都以新的身份连接
         options.setConnectionTimeout(0);// 设置超时时间 单位为秒
         options.setKeepAliveInterval(10);// 设置会话心跳时间 单位为秒 服务器会每隔1.5*20秒的时间向客户端发送个消息判断客户端是否在线，但这个方法并没有重连的机制
         client.setCallback(new DefaultCallback());// 设置回调
+        client.setTimeToWait(5000);
         connetToServer();
     }
 
@@ -50,7 +53,7 @@ public class EmqKeeper {
 
                 //重新订阅主题
                 for (SubscriptTopic subscriptTopic : topics)
-                    this.getMqttClient().subscribe(subscriptTopic.getTopic(), subscriptTopic.getQos(), subscriptTopic.getCallbackOrListener());
+                    this.getMqttClient().subscribe(subscriptTopic.getTopic(), subscriptTopic.getQos(), subscriptTopic.getEmqxListener());
 
                 return client.isConnected();
             }
@@ -73,17 +76,22 @@ public class EmqKeeper {
      *
      * @param topic
      * @param qos
-     * @param callbackOrListener
+     * @param emqxListener
      * @throws Exception
      */
-    public void subscript(String topic, int qos, CallbackOrListener callbackOrListener) throws Exception {
-        getMqttClient().subscribe(topic, qos, callbackOrListener);
+    public void subscript(String topic, int qos, EmqxListener emqxListener) throws Exception {
+        if(getMqttClient().isConnected())
+        {
+            getMqttClient().subscribe(topic, qos, emqxListener);
+            SubscriptTopic subscriptTopic = new SubscriptTopic();
+            subscriptTopic.setEmqxListener(emqxListener);
+            subscriptTopic.setQos(qos);
+            subscriptTopic.setTopic(topic);
+            this.topics.add(subscriptTopic);
+        }else{
+            logger.error("还未链接mqtt服务");
+        }
 
-        SubscriptTopic subscriptTopic = new SubscriptTopic();
-        subscriptTopic.setCallbackOrListener(callbackOrListener);
-        subscriptTopic.setQos(qos);
-        subscriptTopic.setTopic(topic);
-        this.topics.add(subscriptTopic);
     }
 
 
@@ -109,7 +117,7 @@ public class EmqKeeper {
     class SubscriptTopic {
         private String topic;
         private int qos;
-        private CallbackOrListener callbackOrListener;
+        private EmqxListener emqxListener;
 
         public String getTopic() {
             return topic;
@@ -127,12 +135,12 @@ public class EmqKeeper {
             this.qos = qos;
         }
 
-        public CallbackOrListener getCallbackOrListener() {
-            return callbackOrListener;
+        public EmqxListener getEmqxListener() {
+            return emqxListener;
         }
 
-        public void setCallbackOrListener(CallbackOrListener callbackOrListener) {
-            this.callbackOrListener = callbackOrListener;
+        public void setEmqxListener(EmqxListener emqxListener) {
+            this.emqxListener = emqxListener;
         }
     }
 

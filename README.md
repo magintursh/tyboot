@@ -1,5 +1,9 @@
 # tyboot
 
+[getee](https://gitee.com/magintursh/tyboot)
+
+[github](https://github.com/magintursh/tyboot)
+
 ### 介绍
 
     tyboot是一个基于springboot的服务端脚手架，面向单体服务快速开发，需要微服务方案的可以看另一个项目tycloud(还在完善中)
@@ -17,9 +21,9 @@
       订单系统，虚拟账户系统，支付网关，动态表单，报表系统，通用预约系统，优惠策略定制，
       基础数据(验证码，字典，内部消息，地理位置信息，通用文件信息存储，操作记录与计数，)
     5.集成常用第三方系统。短信（阿里大鱼），存储（七牛，阿里OSS），支付（微信公众平台，支付宝）
-    
+
    ###  技术栈
-     
+
      1. SpringBoot 2.1.6.RELEASE
      2. MyBatis-Plus 3.x
      3. mybatis-spring-boot-starter 1.2.0
@@ -27,9 +31,9 @@
      6. jackson-databind 2.9.7
      7. springfox-swagger2 2.2.2
      8. HikariCP 2.7.9
-     
+
    ###  项目结构
-   
+
   ~~~
    tyboot 
     ├─tyboot-api
@@ -53,10 +57,10 @@
         ├─tyboot-prototype-order--------通用订单系统
         └─tyboot-prototype-trade--------简单支付渠道实现，支付宝，微信
    	    
-   ~~~
+  ~~~
 
    目录约定：
-   
+
    	示例：
    	tyboot-api-privilege----------------以下目录为项目约定目录结构
       	    org.typroject.api.privilege.
@@ -68,9 +72,9 @@
       	                                    entity---po目录
       	                                service------业务实现类
    ###  约定
-   
+
    **orm**
-   
+
     1.entity需要继承BaseEntity
         对应的数据表不能缺少通用字段
      
@@ -81,14 +85,14 @@
     2.使用了mybatisplus，所以实例项目中不需要引入mapper.xml，baseMapper的方法足够使用。
       除非要进行复杂查询，可自行引入xml文件 
     3.通常情况下dao层的mapper子接口只是一个空接口，除非要自己写sql，或引入了xml，才会在其中写代码。
-   
+
    **service**
     
     1.继承baseService
   ```JAVA
     public class LocationInfoService extends BaseService<LocationInfoModel,LocationInfo,LocationInfoMapper> 
     {}
-  ````
+````
     2.service中的方法不要重载,因为会只根据方法名通过反射获取方法实例。
     3.示例项目中的service层没有写接口，直接使用的实现类进行操作。需要接口的自行定夺。负责业务设计时候 设计原则还是要讲究的。对于简单业务，可视情况而定。
     4.单表单对象的操作可以不需要在service中写方法，也不需要引入mapper，泛型方法足够用，
@@ -125,29 +129,33 @@
 
 
    **controller**
-   
+
     1.统一返回值，所有接口统一使用ResponseModel封装返回值。
     2.自定义注解@TycloudOperation用来定义接口的访问级别ApiLevel，鉴权控制needAuth
     3.可以设置是否返回真实http状态，或者全部返回200.
-    
+
    **关于缓存**
     
     1.单表单对象缓存，单表列表缓存都已经集成到baseService的方法中,可以随着对象的更新刷新或删除缓存，可以查看方法备注以选择是使用。
     2.其他缓存场景建议直接使用rediTemplate进行操作
     3.tyboot-component-cache模块提供了基于redis Zset分页查询；地理位置计算和查询；redis管道的使用
-   
+
    **代码生成器的使用**
-   
+
     1.使用mybatisplus提供的代码生成器，详见示例项目。
+
    
-   
+
    ###  最佳实践
-   
+
     1.将tyboot-core和tyboot-component中的组件包打包发布到maven私服nexus中统一管理，
       然后各个实例项目引用后进行业务项目的开发，这样实例项目的业务代码会更加清晰，打包速度更快，可以随时升级所引用的tyboot版本。
-   
-   ###  后续计划
-   
-    1.完善基础模块
-    3.完善通用业务模型
-    4.集成web端
+
+### 计划
+
+`完善文档`
+
+`完善示例项目`
+
+   ###  技术交流群
+

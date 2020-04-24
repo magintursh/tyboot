@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.typroject.tyboot.component.cache.Redis;
 import org.typroject.tyboot.component.cache.enumeration.CacheType;
+import org.typroject.tyboot.core.auth.exception.AuthException;
+import org.typroject.tyboot.core.auth.exception.ConflictException;
+import org.typroject.tyboot.core.auth.face.model.LoginHistoryModel;
 import org.typroject.tyboot.core.auth.face.model.LoginInfoModel;
 import org.typroject.tyboot.core.auth.face.model.SsoSessionsModel;
 import org.typroject.tyboot.core.auth.face.orm.dao.SsoSessionsMapper;
@@ -41,6 +44,9 @@ public class SsoSessionsService extends BaseService<SsoSessionsModel,SsoSessions
     @Autowired
     private LoginInfoService loginInfoService;
 
+    @Autowired
+    private LoginHistoryService loginHistoryService;
+
 
     public static void setDefaultExpiration(Long expiration)
     {
@@ -71,10 +77,18 @@ public class SsoSessionsService extends BaseService<SsoSessionsModel,SsoSessions
         if(!ValidationUtil.isEmpty(sessionsModel))
         {
             redisTemplate.expire(sessionCacheKeyWithToken(token,actionByProduct),DEFAULT_SESSION_EXPIRATION, TimeUnit.SECONDS);
-            LoginInfoModel loginInfo            = loginInfoService.selectByLoginId(sessionsModel.getLoginId());
-            if(ValidationUtil.isEmpty(loginInfo))
-                throw new Exception("用户信息异常.");
+            redisTemplate.expire(sessionCacheKeyWithLoginId(sessionsModel.getLoginId(),actionByProduct),DEFAULT_SESSION_EXPIRATION, TimeUnit.SECONDS);
             sessionsModel.setSessionExpiration(SsoSessionsService.DEFAULT_SESSION_EXPIRATION);
+        }else{
+            //TODO  刷新session  不应该查询数据库
+            LoginHistoryModel historyModel = loginHistoryService.queryByToken(token);
+            if(!ValidationUtil.isEmpty(historyModel))
+            {
+               boolean hasOtherToken =  Redis.getRedisTemplate().hasKey(sessionCacheKeyWithLoginId(historyModel.getLoginId(),actionByProduct));
+               if(hasOtherToken)
+                   throw new ConflictException("当前账号已经在其他设备登录.");
+            }
+            throw new AuthException("登录信息失效，请重新登录");
         }
         return sessionsModel;
     }

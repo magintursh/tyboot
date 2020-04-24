@@ -15,5 +15,6 @@ public class WxpayProperty {
     private String refundUrl;
     private String appid;
     private String mchid;
+    private String cert;
     private String notifyUrl;
 }

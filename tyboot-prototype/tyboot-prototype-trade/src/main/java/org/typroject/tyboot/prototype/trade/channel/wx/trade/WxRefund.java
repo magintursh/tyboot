@@ -43,8 +43,6 @@ public class WxRefund implements Trade{
 	@Autowired
 	private TransactionsSerialService transactionsSerialService;
 
-	@Value("${trade.wx.cert}")
-	private  String  tradeWxCert;//微信交易证书
 
 	
 	private static final Logger logger = LoggerFactory.getLogger(WxRefund.class);
@@ -242,7 +240,7 @@ public class WxRefund implements Trade{
 		StringBuffer message = new StringBuffer();
 		try {
 			KeyStore keyStore = KeyStore.getInstance("PKCS12");
-			FileInputStream instream = new FileInputStream(new File(tradeWxCert));
+			FileInputStream instream = new FileInputStream(new File(wxpayProperty.getCert()));
 			keyStore.load(instream,wxpayProperty.getMchid().toCharArray());
 			// Trust own CA and all self-signed certs
 			SSLContext sslcontext = SSLContexts.custom()
