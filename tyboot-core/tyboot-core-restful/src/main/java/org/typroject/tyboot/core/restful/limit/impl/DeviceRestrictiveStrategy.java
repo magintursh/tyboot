@@ -6,6 +6,7 @@ import org.typroject.tyboot.component.cache.enumeration.CacheType;
 import org.typroject.tyboot.core.foundation.context.RequestContext;
 import org.typroject.tyboot.core.restful.limit.Frequency;
 import org.typroject.tyboot.core.restful.limit.LimitStrategy;
+import org.typroject.tyboot.core.restful.limit.Strategy;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,8 +21,6 @@ public class DeviceRestrictiveStrategy implements LimitStrategy {
 
     //每分钟 每个IP 最多发起100个请求
    private   Frequency frequency = new Frequency(TimeUnit.MINUTES,1L,100L);;
-
-   private static final String CACHE_KEY_PREFIX_DEVICE = "DEVICE";
 
 
    public DeviceRestrictiveStrategy()
@@ -40,7 +39,7 @@ public class DeviceRestrictiveStrategy implements LimitStrategy {
         return Redis.genKey(
                 CacheType.ERASABLE.name(),
                 CACHE_KEY_PREFIX,
-                CACHE_KEY_PREFIX_DEVICE,
+                Strategy.DEVICE.name(),
                 RequestContext.getDeviceId());
     }
 
