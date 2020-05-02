@@ -26,7 +26,7 @@ public class IdPasswordLoginAuthenticator implements LoginAuthenticatorHandler {
 
 
     
-    public LoginInfoModel doAuthenticate(IdType idType, UserType userType, AuthModel authModel) throws Exception{
+    public LoginInfoModel doAuthenticate(IdType idType, UserType userType, AuthModel authModel){
 
         IdPasswordAuthModel idPasswordAuthModel = (IdPasswordAuthModel) authModel;
         String loginId = idPasswordAuthModel.getLoginId();

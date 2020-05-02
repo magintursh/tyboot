@@ -27,7 +27,7 @@ public interface LimitStrategy {
      * @return
      * @throws Exception
      */
-    String incrementKey(HandlerMethod handlerMethod)throws Exception;
+    String incrementKey(HandlerMethod handlerMethod);
 
 
     /**
@@ -35,7 +35,7 @@ public interface LimitStrategy {
      * @return
      * @throws Exception
      */
-    boolean isEnable(HandlerMethod handlerMethod) throws Exception;
+    boolean isEnable(HandlerMethod handlerMethod) ;
 
 
     /**

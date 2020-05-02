@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = {Exception.class,BaseException.class,RuntimeException.class,Throwable.class})
     @ResponseBody
-    public ResponseModel<String> jsonErrorHandler(HttpServletRequest req, HttpServletResponse response, Exception e) throws Exception {
+    public ResponseModel<String> jsonErrorHandler(HttpServletRequest req, HttpServletResponse response, Exception e){
         ResponseModel responseModel = ResponseHelper.buildResponse("");
         String clientType = req.getHeader("clientType");
 

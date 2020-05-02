@@ -51,7 +51,7 @@ public class MenuResource {
     @TycloudOperation( ApiLevel = UserType.AGENCY,needAuth = false)
     @ApiOperation(value="创建菜单权限")
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseModel<MenuModel> createMenu(@RequestBody MenuModel menuModel) throws Exception
+    public ResponseModel<MenuModel> createMenu(@RequestBody MenuModel menuModel)
     {
 
         menuModel.setAgencyCode(RequestContext.getAgencyCode());

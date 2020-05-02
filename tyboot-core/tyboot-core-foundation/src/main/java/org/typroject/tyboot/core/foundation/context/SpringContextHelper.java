@@ -40,28 +40,30 @@ public class SpringContextHelper implements ApplicationContextAware
 	}
 
 
-	public static Object getBean(String name)
+	public static <T>T getBean(String name)
 	{
-		Object bean = null;
+		T bean = null;
 		try
 		{
-			bean = context.getBean(name);
+			bean = (T)context.getBean(name);
 		}catch (Exception e)
 		{
 			logger.error(e.getMessage(),e);
+			throw new RuntimeException(e.getMessage(),e.getCause());
 		}
 		return bean;
 	}
 
 
-	public static Object getBean(Class<?> beanClass){
-		Object bean = null;
+	public static <T>T getBean(Class<T> beanClass){
+		T bean = null;
 		try
 		{
 			bean = context.getBean(beanClass);
 		}catch (Exception e)
 		{
 			logger.error(e.getMessage(),e);
+			throw new RuntimeException(e.getMessage(),e.getCause());
 		}
 		return bean;
 	}

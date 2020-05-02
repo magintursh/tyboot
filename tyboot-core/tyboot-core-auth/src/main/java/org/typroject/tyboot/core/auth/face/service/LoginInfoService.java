@@ -33,14 +33,14 @@ public class LoginInfoService extends BaseService<LoginInfoModel,LoginInfo,Login
     }
 
 
-    public LoginInfoModel selectByLoginId(String loginId) throws Exception
+    public LoginInfoModel selectByLoginId(String loginId)
     {
         return this.queryModelByParamsWithCache(loginId);
     }
 
 
 
-    public LoginInfoModel selectByLoginIdUnlock(String loginId) throws Exception
+    public LoginInfoModel selectByLoginIdUnlock(String loginId)
     {
         LoginInfoModel loginInfoModel = selectByLoginId( loginId);
         if(PropertyValueConstants.LOCK_STATUS_LOCK.equals(loginInfoModel.getLockStatus())){
@@ -51,7 +51,7 @@ public class LoginInfoService extends BaseService<LoginInfoModel,LoginInfo,Login
 
 
 
-    public List<LoginInfoModel> queryByUserId(String userId)throws Exception
+    public List<LoginInfoModel> queryByUserId(String userId)
     {
         List<LoginInfoModel> models =  this.queryForList(null,false,userId);
         return models;
@@ -63,7 +63,7 @@ public class LoginInfoService extends BaseService<LoginInfoModel,LoginInfo,Login
      * @param userId 用户id
      * @return
      */
-    public boolean lockWithUserId(String userId)throws Exception
+    public boolean lockWithUserId(String userId)
     {
         boolean flag = false;
         List<LoginInfoModel> models = this.queryByUserId(userId);
@@ -81,12 +81,12 @@ public class LoginInfoService extends BaseService<LoginInfoModel,LoginInfo,Login
      * @param loginId
      * @return
      */
-    public LoginInfoModel lockWithLoginId(String loginId) throws Exception
+    public LoginInfoModel lockWithLoginId(String loginId)
     {
         return this.lockLoginInfo(this.selectByLoginId(loginId));
     }
 
-    public LoginInfoModel unlockWithLoginId(String loginId) throws Exception
+    public LoginInfoModel unlockWithLoginId(String loginId)
     {
         return this.unlockLoginInfo(this.selectByLoginId(loginId));
     }
@@ -97,7 +97,7 @@ public class LoginInfoService extends BaseService<LoginInfoModel,LoginInfo,Login
      * @param userId 用户id
      * @return
      */
-    public boolean unlockWithUserId(String userId)throws Exception
+    public boolean unlockWithUserId(String userId)
     {
         boolean flag = false;
         List<LoginInfoModel> models = this.queryByUserId(userId);
@@ -111,7 +111,7 @@ public class LoginInfoService extends BaseService<LoginInfoModel,LoginInfo,Login
     }
 
 
-    private LoginInfoModel lockLoginInfo(LoginInfoModel loginInfoModel) throws Exception
+    private LoginInfoModel lockLoginInfo(LoginInfoModel loginInfoModel)
     {
         if(!ValidationUtil.isEmpty(loginInfoModel) && PropertyValueConstants.LOCK_STATUS_UNLOCK.equals(loginInfoModel.getLockStatus()))
         {
@@ -124,7 +124,7 @@ public class LoginInfoService extends BaseService<LoginInfoModel,LoginInfo,Login
         return loginInfoModel;
     }
 
-    private LoginInfoModel unlockLoginInfo(LoginInfoModel loginInfoModel) throws Exception
+    private LoginInfoModel unlockLoginInfo(LoginInfoModel loginInfoModel)
     {
         if(!ValidationUtil.isEmpty(loginInfoModel) && PropertyValueConstants.LOCK_STATUS_LOCK.equals(loginInfoModel.getLockStatus()))
         {
@@ -137,7 +137,7 @@ public class LoginInfoService extends BaseService<LoginInfoModel,LoginInfo,Login
         return loginInfoModel;
     }
 
-    public LoginInfoModel createLoginInfo(String userId,String loginId,String idType,String userType,String agencyCode) throws Exception
+    public LoginInfoModel createLoginInfo(String userId,String loginId,String idType,String userType,String agencyCode)
     {
         LoginInfoModel newLoginInfo = new LoginInfoModel();
 
@@ -153,7 +153,7 @@ public class LoginInfoService extends BaseService<LoginInfoModel,LoginInfo,Login
     }
 
 
-    public LoginInfoModel createLoginInfoWithPassword(String userId,String loginId,String idType,String userType,String agencyCode,String password) throws Exception
+    public LoginInfoModel createLoginInfoWithPassword(String userId,String loginId,String idType,String userType,String agencyCode,String password)
     {
         //更新logininfo表
         LoginInfoModel loginInfoModel = new LoginInfoModel();

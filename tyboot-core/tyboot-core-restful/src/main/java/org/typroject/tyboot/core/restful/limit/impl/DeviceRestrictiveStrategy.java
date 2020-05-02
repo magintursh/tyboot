@@ -34,7 +34,7 @@ public class DeviceRestrictiveStrategy implements LimitStrategy {
     }
 
     @Override
-    public String  incrementKey(HandlerMethod handlerMethod) throws Exception {
+    public String  incrementKey(HandlerMethod handlerMethod) {
 
         return Redis.genKey(
                 CacheType.ERASABLE.name(),
@@ -50,7 +50,7 @@ public class DeviceRestrictiveStrategy implements LimitStrategy {
 
 
     @Override
-    public boolean isEnable(HandlerMethod handlerMethod) throws Exception {
+    public boolean isEnable(HandlerMethod handlerMethod) {
         return true;
     }
 

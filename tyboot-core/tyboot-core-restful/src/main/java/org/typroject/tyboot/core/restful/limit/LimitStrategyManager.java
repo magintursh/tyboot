@@ -3,7 +3,6 @@ package org.typroject.tyboot.core.restful.limit;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.typroject.tyboot.core.auth.face.model.SsoSessionsModel;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
@@ -27,14 +26,14 @@ public class LimitStrategyManager implements  AuthWithSessionHandler,AuthHandler
 
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         ExtendAuthHandler.addAuthWithSessionHandler(this);
         ExtendAuthHandler.addAuthHandler(this);
     }
 
 
 
-    private void runRestrictiveStrategy(LimitStrategy restrictiveStrategy,HandlerMethod handlerMethod) throws Exception
+    private void runRestrictiveStrategy(LimitStrategy restrictiveStrategy,HandlerMethod handlerMethod)
     {
         String cacheKey         = restrictiveStrategy.incrementKey( handlerMethod);
         Frequency frequency     = restrictiveStrategy.getFrequency();
@@ -53,7 +52,7 @@ public class LimitStrategyManager implements  AuthWithSessionHandler,AuthHandler
 
 
     @Override
-    public void doAuth(SsoSessionsModel ssoSessionsModel,HandlerMethod handlerMethod, String token, String appKey, String product) throws Exception {
+    public void doAuth(SsoSessionsModel ssoSessionsModel,HandlerMethod handlerMethod, String token, String appKey, String product) {
         if(!ValidationUtil.isEmpty(restrictiveStrategyList))
             for(LimitStrategy restrictiveStrategy:restrictiveStrategyList)
                 if(restrictiveStrategy.afterTokenAuth())
@@ -62,7 +61,7 @@ public class LimitStrategyManager implements  AuthWithSessionHandler,AuthHandler
 
 
     @Override
-    public Boolean doAuth(HandlerMethod handlerMethod, String token, String appKey, String product) throws Exception {
+    public Boolean doAuth(HandlerMethod handlerMethod, String token, String appKey, String product) {
         if(!ValidationUtil.isEmpty(restrictiveStrategyList))
             for(LimitStrategy restrictiveStrategy:restrictiveStrategyList)
                 if(!restrictiveStrategy.afterTokenAuth())

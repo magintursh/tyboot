@@ -18,5 +18,5 @@ public interface AuthWithSessionHandler {
      * @param product
      * @throws Exception
      */
-    void doAuth(SsoSessionsModel ssoSessionsModel, HandlerMethod handlerMethod, String token, String appKey, String product)throws Exception;
+    void doAuth(SsoSessionsModel ssoSessionsModel, HandlerMethod handlerMethod, String token, String appKey, String product);
 }

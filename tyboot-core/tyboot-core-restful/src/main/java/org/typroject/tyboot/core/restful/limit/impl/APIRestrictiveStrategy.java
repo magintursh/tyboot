@@ -42,7 +42,7 @@ public class APIRestrictiveStrategy implements LimitStrategy {
     }
 
     @Override
-    public String  incrementKey(HandlerMethod handlerMethod) throws Exception {
+    public String  incrementKey(HandlerMethod handlerMethod) {
 
         String methodName = handlerMethod.getMethod().getClass().getSimpleName() +"."+ handlerMethod.getMethod().getName();
 
@@ -88,7 +88,7 @@ public class APIRestrictiveStrategy implements LimitStrategy {
     }
 
     @Override
-    public boolean isEnable(HandlerMethod handlerMethod) throws Exception {
+    public boolean isEnable(HandlerMethod handlerMethod) {
 
         TycloudOperation tycloudOperation = handlerMethod.getMethod().getAnnotation(TycloudOperation.class);
         if(!ValidationUtil.isEmpty(tycloudOperation) && tycloudOperation.enableLimitStrategy())
