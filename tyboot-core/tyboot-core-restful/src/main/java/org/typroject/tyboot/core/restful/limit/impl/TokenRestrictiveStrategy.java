@@ -8,6 +8,7 @@ import org.typroject.tyboot.core.foundation.context.RequestContext;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.core.restful.limit.Frequency;
 import org.typroject.tyboot.core.restful.limit.LimitStrategy;
+import org.typroject.tyboot.core.restful.limit.Strategy;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,8 +23,6 @@ public class TokenRestrictiveStrategy implements LimitStrategy {
     //默认每分钟 每个token 最多发起50个请求
    private   Frequency frequency = new Frequency(TimeUnit.MINUTES,1L,100L);
 
-   private static final String CACHE_KEY_PREFIX_TOKEN = "TOKEN";
-
    public TokenRestrictiveStrategy(Frequency frequency)
    {
             this.frequency = frequency;
@@ -35,12 +34,12 @@ public class TokenRestrictiveStrategy implements LimitStrategy {
 
 
     @Override
-    public String  incrementKey(HandlerMethod handlerMethod) throws Exception {
+    public String  incrementKey(HandlerMethod handlerMethod)  {
 
         return Redis.genKey(
                 CacheType.ERASABLE.name(),
                 CACHE_KEY_PREFIX,
-                CACHE_KEY_PREFIX_TOKEN,
+                Strategy.TOKEN.name(),
                 RequestContext.getToken());
     }
 
@@ -51,7 +50,7 @@ public class TokenRestrictiveStrategy implements LimitStrategy {
 
 
     @Override
-    public boolean isEnable(HandlerMethod handlerMethod) throws Exception {
+    public boolean isEnable(HandlerMethod handlerMethod) {
         return true;
     }
 

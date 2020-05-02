@@ -13,7 +13,7 @@ public class TestJmsHandler  implements MessageHandler {
 
     private final Logger logger = LogManager.getLogger(TestJmsHandler.class);
     @Override
-    public void process(JmsMessage message) throws Exception {
+    public void process(JmsMessage message) {
 
         String body = String.valueOf(message.getBody());
         logger.info("接收到的消息."+body);

@@ -49,7 +49,7 @@ public class ExtendAuthHandler implements InitializingBean {
     }
 
 
-    public static Boolean doAuth(HandlerMethod handlerMethod, String token, String appKey, String product) throws Exception {
+    public static Boolean doAuth(HandlerMethod handlerMethod, String token, String appKey, String product) {
 
 
         //扩展的验证规则

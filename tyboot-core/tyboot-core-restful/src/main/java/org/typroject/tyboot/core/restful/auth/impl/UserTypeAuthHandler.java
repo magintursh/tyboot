@@ -17,7 +17,7 @@ public class UserTypeAuthHandler implements AuthWithSessionHandler {
 
 
     public void doAuth(SsoSessionsModel ssoSessionsModel, HandlerMethod handlerMethod,
-                       String token, String appKey, String product) throws Exception {
+                       String token, String appKey, String product) {
 
         TycloudOperation tycloudOperation = handlerMethod.getMethodAnnotation(TycloudOperation.class);
         UserType userType = UserType.valueOf(ssoSessionsModel.getUserType());

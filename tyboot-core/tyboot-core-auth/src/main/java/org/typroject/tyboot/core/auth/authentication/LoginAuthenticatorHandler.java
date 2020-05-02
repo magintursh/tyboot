@@ -11,5 +11,5 @@ import org.typroject.tyboot.core.foundation.enumeration.UserType;
  */
 public interface LoginAuthenticatorHandler {
     
-     LoginInfoModel doAuthenticate(IdType idType, UserType userType, AuthModel authModel) throws Exception;
+     LoginInfoModel doAuthenticate(IdType idType, UserType userType, AuthModel authModel);
 }

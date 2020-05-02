@@ -5,6 +5,7 @@ import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.objectweb.asm.*;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -64,9 +65,8 @@ public class Bean {
 	 * 获取对象的所有字段名称及其类型
 	 * @param beanClass
 	 * @return
-	 * @throws Exception
 	 */
-	public  static Map<String, Class<?>> getFieldsMap(Class<?> beanClass) throws Exception{
+	public  static Map<String, Class<?>> getFieldsMap(Class<?> beanClass){
 		String key 						= beanClass.getName();
 		Map<String, Class<?>> fieldMap 	= fieldsMap.get(key);
 		if(ValidationUtil.isEmpty(fieldMap))
@@ -108,9 +108,8 @@ public class Bean {
 	 * @param sourceBean
 	 * @param targetBean
 	 * @return
-	 * @throws Exception
 	 */
-	public static <S, T> T copyExistPropertis(S sourceBean, T targetBean) throws Exception {
+	public static <S, T> T copyExistPropertis(S sourceBean, T targetBean) {
 
 			if (sourceBean != null && targetBean != null) {
 				Map<String, Class<?>> fields = getFieldsMap(sourceBean.getClass());
@@ -145,26 +144,33 @@ public class Bean {
 		return targetBean;
 	}
 	
-	public static <M,E> E toPo(M model, E entity) throws Exception {
+	public static <M,E> E toPo(M model, E entity) {
 		if(model != null && entity != null) copyExistPropertis(model, entity);
 		else {entity = null;}
 		return entity;
 	}
 
-	public static <M,E> M toModel(E entity, M model) throws Exception {
+	public static <M,E> M toModel(E entity, M model)  {
 		if(model != null && entity != null)
 		{copyExistPropertis(entity, model);}
 		else {model = null;}
 		return model;
 	}
 
-	public static <M,E> ArrayList<M> toModels(List<E> entities,Class<M> modelBeanClass) throws Exception {
+	public static <M,E> ArrayList<M> toModels(List<E> entities,Class<M> modelBeanClass) {
 		ArrayList<M> modelList = new ArrayList<M>();
 		if(!ValidationUtil.isEmpty(entities))
 		{
 			for (E entity : entities) {
-				M currentModel = modelBeanClass.newInstance();
-				modelList.add(toModel(entity,currentModel));
+				M currentModel = null;
+				try {
+					currentModel =  modelBeanClass.newInstance();
+					modelList.add(toModel(entity,currentModel));
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new RuntimeException(e.getMessage(),e.getCause());
+				}
+
 			}
 		}
 		return modelList;
@@ -176,12 +182,16 @@ public class Bean {
 	 * @param map
 	 * @param beanClass
 	 * @return
-	 * @throws Exception
 	 */
-	public static Object mapToBean(Map<String, Object> map, Class<?> beanClass) throws Exception {
+	public static Object mapToBean(Map<String, Object> map, Class<?> beanClass)  {
 		Map<String, Class<?>> fieldsMap = getFieldsMap(beanClass);
 		Object result = null;
-		result = beanClass.newInstance();
+		try {
+			result = beanClass.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage(),e.getCause());
+		}
 		Object currentMapValue = null;
 		for (String fieldName : fieldsMap.keySet()) {
 			if (fieldName.equals("serialVersionUID"))
@@ -208,10 +218,9 @@ public class Bean {
 	 * @param listMap
 	 * @param T
 	 * @return
-	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> List<T> listMap2ListBean(List<Map<String, Object>> listMap, Class<T> T) throws Exception {
+	public static <T> List<T> listMap2ListBean(List<Map<String, Object>> listMap, Class<T> T)  {
 		List<T> list = new ArrayList<T>();
 		if(!ValidationUtil.isEmpty(listMap)){
 			for(Map<String, Object> map : listMap){
@@ -223,7 +232,7 @@ public class Bean {
 
 
 
-	public static <T> List<Map> listBean2ListMap(List<T> listBean, Class<T> T) throws Exception {
+	public static <T> List<Map> listBean2ListMap(List<T> listBean, Class<T> T) {
 		List<Map> list = new ArrayList<Map>();
 		if(!ValidationUtil.isEmpty(listBean)){
 			for(T t : listBean){
@@ -240,9 +249,8 @@ public class Bean {
 	 * @param propertyName
 	 * @param <T>
 	 * @return
-	 * @throws Exception
 	 */
-	public static <T> Map<Object,List<T>> list2MapList(List<T> beanList,String propertyName) throws Exception
+	public static <T> Map<Object,List<T>> list2MapList(List<T> beanList,String propertyName)
 	{
 		Map<Object,List<T>> returnMap = new HashMap<>();
 		if(!ValidationUtil.isEmpty(beanList))
@@ -275,9 +283,8 @@ public class Bean {
 	 * 
 	 * @param bean
 	 * @return
-	 * @throws Exception
 	 */
-	public static <T> Map<String, Object> BeantoMap(T bean) throws Exception {
+	public static <T> Map<String, Object> BeantoMap(T bean) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Field> fields = getAllFields(bean.getClass());
 		for (int i = 0; i < fields.size(); i++) {
@@ -298,9 +305,8 @@ public class Bean {
 	 *            作为key的属性名称
 	 * @param beanClass
 	 * @return
-	 * @throws Exception
 	 */
-	public static <T> Map<Object, T> listToMap(List<T> list, String keyProperty, Class<?> beanClass) throws Exception {
+	public static <T> Map<Object, T> listToMap(List<T> list, String keyProperty, Class<?> beanClass) {
 		Map<Object, T> returnMap = new HashMap<Object, T>();
 			for (T t : list) {
 				MethodAccess methodAccess = getMethodAccess(beanClass);
@@ -327,11 +333,10 @@ public class Bean {
 	 * @param beanClass
 	 *            实体类型
 	 * @return
-	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public static <K, T> Map<K, Object> listToMap(List<T> list, String keyProperty, String valueProperty,
-			Class<?> beanClass) throws Exception {
+			Class<?> beanClass) {
 		Map<K, Object> returnMap = new HashMap<K, Object>();
 		for (T t : list) {
 			K key = null;
@@ -339,7 +344,7 @@ public class Bean {
 			if (!ValidationUtil.isEmpty(keyObject)) {
 				key = (K) keyObject;
 			} else {
-				throw new Exception("the key property value is can not be null." + keyProperty);
+				throw new RuntimeException("the key property value is can not be null." + keyProperty);
 			}
 
 			Object valueObject = getPropertyValue(valueProperty, t);
@@ -349,23 +354,23 @@ public class Bean {
 		return returnMap;
 	}
 
-	public static <T> Object getPropertyValue(String propertyName, T bean) throws Exception {
+	public static <T> Object getPropertyValue(String propertyName, T bean) {
 		MethodAccess methodAccess = getMethodAccess(bean.getClass());
 		Object propertyValue = null;
 			if (!ValidationUtil.isEmpty(methodAccess)) {
 				propertyValue =methodAccess.invoke(bean,property2GetMethod(propertyName));
 			} else {
-				throw new Exception("property not found: " + propertyName + "in Class:" + bean.getClass().getName());
+				throw new RuntimeException("property not found: " + propertyName + "in Class:" + bean.getClass().getName());
 			}
 		return propertyValue;
 	}
 
-	public static <T> Object setPropertyValue(String propertyName, Object propertyValue, T bean) throws Exception {
+	public static <T> Object setPropertyValue(String propertyName, Object propertyValue, T bean)  {
 			MethodAccess methodAccess = getMethodAccess(bean.getClass());
 			if (!ValidationUtil.isEmpty(methodAccess)) {
 				methodAccess.invoke(bean,property2SetMethod(propertyName),propertyValue);
 			} else {
-				throw new Exception("property not found: " + propertyName + "in Class:" + bean.getClass().getName());
+				throw new RuntimeException("property not found: " + propertyName + "in Class:" + bean.getClass().getName());
 			}
 		return propertyValue;
 	}
@@ -377,7 +382,7 @@ public class Bean {
 	 * @param method
 	 * @return
 	 */
-	public static String[] getMethodParameterNamesByAsm4(Class<?> clazz, final Method method) throws Exception {
+	public static String[] getMethodParameterNamesByAsm4(Class<?> clazz, final Method method)  {
 
 		String key = clazz.getName()+SEPARATOR+method.getName();
 		String [] returnParameterNames = methodParameterNamesMap.get(key);
@@ -398,7 +403,13 @@ public class Bean {
 			int lastDotIndex 		= className.lastIndexOf(".");
 			className 				= className.substring(lastDotIndex + 1) + ".class";
 			InputStream is 			= clazz.getResourceAsStream(className);
-			ClassReader classReader = new ClassReader(is);
+			ClassReader classReader = null;
+			try {
+				classReader = new ClassReader(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e.getMessage(),e.getCause());
+			}
 			classReader.accept(new ClassVisitor(Opcodes.ASM5) {
 				@Override
 				public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
@@ -437,7 +448,7 @@ public class Bean {
 	 * @param property 字段名
 	 * @return
 	 */
-	public static String propertyToColum(String property) throws Exception {
+	public static String propertyToColum(String property) {
 		if (null == property) {
 			return "";
 		}
@@ -459,7 +470,7 @@ public class Bean {
 	 * @param colum
 	 * @return
 	 */
-	public static String columToProperty(String colum)throws Exception {
+	public static String columToProperty(String colum) {
 		if (ValidationUtil.isEmpty(colum)) {
 			return "";
 		}
@@ -481,7 +492,7 @@ public class Bean {
 		return sb.toString();
 	}
 
-	public static  Map<String,String> propertyToColum(String[] propertis) throws Exception
+	public static  Map<String,String> propertyToColum(String[] propertis)
 	{
 		Map<String,String> colMap = new HashMap<>();
 
@@ -490,7 +501,7 @@ public class Bean {
 		return colMap;
 	}
 
-	public static  String[] propertyToColums(String[] propertis) throws Exception
+	public static  String[] propertyToColums(String[] propertis)
 	{
 		String [] columns = new String[propertis.length];
 		for(int i=0;i<propertis.length;i++)
@@ -498,7 +509,7 @@ public class Bean {
 		return columns;
 	}
 
-	public static  String [] ColumToProperty(String[] colums) throws Exception
+	public static  String [] ColumToProperty(String[] colums)
 	{
 		String [] propertis = new String[colums.length];
 		for(int i=0;i<colums.length;i++)
@@ -513,7 +524,7 @@ public class Bean {
 	 * @param clzz
 	 * @return
 	 */
-	public static Method  getMethodByName(String methodName,Class clzz)throws Exception
+	public static Method  getMethodByName(String methodName,Class clzz)
 	{
 		String key = clzz.getName()+SEPARATOR+methodName;
 		Method returnMethod = methodMap.get(key);
@@ -530,12 +541,17 @@ public class Bean {
 	}
 
 
-	public static Class getClassByName(String className)throws Exception
+	public static Class getClassByName(String className)
 	{
 		Class clzz = classMap.get(className);
 		if(ValidationUtil.isEmpty(clzz))
 		{
-			clzz = Class.forName(className);
+			try {
+				clzz = Class.forName(className);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e.getMessage(),e.getCause());
+			}
 			classMap.put(className,clzz);
 		}
 

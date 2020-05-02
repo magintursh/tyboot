@@ -7,6 +7,7 @@ import org.typroject.tyboot.core.auth.face.model.SsoSessionsModel;
 import org.typroject.tyboot.core.foundation.context.RequestContext;
 import org.typroject.tyboot.core.restful.limit.Frequency;
 import org.typroject.tyboot.core.restful.limit.LimitStrategy;
+import org.typroject.tyboot.core.restful.limit.Strategy;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,7 +23,6 @@ public class IpRestrictiveStrategy implements LimitStrategy {
     //每分钟 每个IP 最多发起100个请求
    private   Frequency frequency = new Frequency(TimeUnit.MINUTES,1L,100L);;
 
-   private static final String CACHE_KEY_PREFIX_IP = "IP";
 
 
    public IpRestrictiveStrategy()
@@ -36,12 +36,12 @@ public class IpRestrictiveStrategy implements LimitStrategy {
     }
 
     @Override
-    public String  incrementKey(HandlerMethod handlerMethod) throws Exception {
+    public String  incrementKey(HandlerMethod handlerMethod) {
 
         return Redis.genKey(
                 CacheType.ERASABLE.name(),
                 CACHE_KEY_PREFIX,
-                CACHE_KEY_PREFIX_IP,
+                Strategy.IP.name(),
                 RequestContext.getRequestIP());
     }
 
@@ -52,7 +52,7 @@ public class IpRestrictiveStrategy implements LimitStrategy {
 
 
     @Override
-    public boolean isEnable(HandlerMethod handlerMethod) throws Exception {
+    public boolean isEnable(HandlerMethod handlerMethod) {
         return true;
     }
 

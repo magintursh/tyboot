@@ -25,7 +25,7 @@ public class LoginHistoryService extends BaseService<LoginHistoryModel,LoginHist
 
 
 
-    public LoginHistoryModel createLoginHistory(LoginHistoryModel model) throws Exception
+    public LoginHistoryModel createLoginHistory(LoginHistoryModel model)
     {
         this.createWithModel(model);
         return model;
@@ -33,7 +33,7 @@ public class LoginHistoryService extends BaseService<LoginHistoryModel,LoginHist
 
 
     // 获取最后一个记录
-    public LoginHistoryModel queryLastHistr( String userId, String loginId) throws Exception
+    public LoginHistoryModel queryLastHistr( String userId, String loginId)
     {
         LoginHistoryModel  model = null;
         List<LoginHistoryModel>  list = this.queryForList("SESSION_CREATE_TIME",false,userId,loginId);
@@ -46,7 +46,7 @@ public class LoginHistoryService extends BaseService<LoginHistoryModel,LoginHist
     }
 
 
-    public LoginHistoryModel queryByToken(String token)throws Exception
+    public LoginHistoryModel queryByToken(String token)
     {
         return this.queryModelByParamsWithCache(token);
     }

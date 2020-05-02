@@ -31,24 +31,27 @@ public class APIRestrictiveStrategy implements LimitStrategy {
 
    }
 
-    public APIRestrictiveStrategy(Frequency frequency,Strategy strategy)
+    public APIRestrictiveStrategy(Frequency frequency) {
+        this.frequency = frequency;
+    }
+
+    public APIRestrictiveStrategy(Frequency frequency, Strategy strategy)
     {
         this.frequency = frequency;
         this.strategy  = strategy;
     }
 
     @Override
-    public String  incrementKey(HandlerMethod handlerMethod) throws Exception {
+    public String  incrementKey(HandlerMethod handlerMethod) {
 
         String methodName = handlerMethod.getMethod().getClass().getSimpleName() +"."+ handlerMethod.getMethod().getName();
-
 
         String strategyKey  = getStrategyKey();
         return Redis.genKey(
                 CacheType.ERASABLE.name(),
                 CACHE_KEY_PREFIX,
-                CACHE_KEY_PREFIX_API,
-                methodName,strategyKey);
+                strategyKey,
+                methodName);
     }
 
     @Override
@@ -81,11 +84,11 @@ public class APIRestrictiveStrategy implements LimitStrategy {
                 strategyKey = RequestContext.getLoginId();
                 break;
         }
-        return strategyKey;
+        return Redis.genKey(Strategy.API.name(),strategyKey);
     }
 
     @Override
-    public boolean isEnable(HandlerMethod handlerMethod) throws Exception {
+    public boolean isEnable(HandlerMethod handlerMethod) {
 
         TycloudOperation tycloudOperation = handlerMethod.getMethod().getAnnotation(TycloudOperation.class);
         if(!ValidationUtil.isEmpty(tycloudOperation) && tycloudOperation.enableLimitStrategy())

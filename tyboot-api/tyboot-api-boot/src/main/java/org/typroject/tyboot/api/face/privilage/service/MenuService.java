@@ -10,30 +10,22 @@ import org.typroject.tyboot.core.foundation.utils.Bean;
 import org.typroject.tyboot.core.foundation.utils.StringUtil;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.core.rdbms.service.BaseService;
+import org.typroject.tyboot.core.restful.exception.instance.BadRequest;
+import org.typroject.tyboot.core.restful.exception.instance.DataNotFound;
 
 import java.util.List;
 
-/**
- * <p>
- * 菜单管理 服务实现类
- * </p>
- *
- * @author magintursh
- * @since 2017-08-18
- */
+
 @Service
 public class MenuService extends BaseService<MenuModel,Menu,MenuMapper> {
 
-
-
-
-    public MenuModel createMenu(MenuModel model) throws Exception
+    public MenuModel createMenu(MenuModel model)
     {
         return this.createWithModel(model);
     }
 
     @Transactional
-    public MenuModel createMenuList(MenuModel model) throws Exception
+    public MenuModel createMenuList(MenuModel model)
     {
         return this.createMenu(model);
     }
@@ -54,7 +46,7 @@ public class MenuService extends BaseService<MenuModel,Menu,MenuMapper> {
 
 
 
-    public String  deleteMenu(String ids) throws Exception
+    public String  deleteMenu(String ids)
     {
 
         String [] deleteIds = StringUtil.string2Array(ids);
@@ -69,10 +61,10 @@ public class MenuService extends BaseService<MenuModel,Menu,MenuMapper> {
                 {
                     this.baseMapper.deleteById(id);
                 }else{
-                    throw new Exception("请先删除其子节点[menuName:"+menu.getMenuName()+"].");
+                    throw new BadRequest("请先删除其子节点[menuName:"+menu.getMenuName()+"].");
                 }
             }else{
-                throw new Exception("data not found.");
+                throw new DataNotFound("data not found.");
             }
 
         }
@@ -81,7 +73,7 @@ public class MenuService extends BaseService<MenuModel,Menu,MenuMapper> {
 
 
 
-    public List<MenuModel> queryForList(String menuName, String agencyCode, String parentId, String menuType) throws Exception
+    public List<MenuModel> queryForList(String menuName, String agencyCode, String parentId, String menuType)
     {
         return this.queryForList(null,false,
                  menuName, agencyCode, parentId, menuType);

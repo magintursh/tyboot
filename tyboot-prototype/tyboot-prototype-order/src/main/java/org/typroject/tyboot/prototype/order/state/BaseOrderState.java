@@ -4,24 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.typroject.tyboot.face.order.service.OrderInfoService;
 import org.typroject.tyboot.prototype.order.BaseOrder;
 
-/**
- * 
- * <pre>
- * 
- *  File: BaseOrderState.java
- * 
- *  Description:
- *  TODO
- * 
- *  Notes:
- *  BaseOrderState.java  tyrest\magintursh
- * 
- *  Revision History
- *  &lt;Date&gt;,			&lt;Who&gt;,			&lt;What&gt;
- *  2016年9月29日					magintursh				   Initial.
- *
- * </pre>
- */
+
+
 public abstract class BaseOrderState  implements StateHandler {
 
 

@@ -43,14 +43,17 @@ public class ConcurrentUtil
 	 * @param entityKey	全局同步锁的Key
 	 * @param callee
 	 * @return
-	 * @throws InterruptedException
-	 * @throws Exception
 	 */
-	public static <T> T runWithAsynLock(String entityKey,Callable<T> callee) throws InterruptedException, Exception{
+	public static <T> T runWithAsynLock(String entityKey,Callable<T> callee){
 		asynLock(entityKey);
 		T result = null;
 		try {
-			result = callee.call();
+			try {
+				result = callee.call();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException(e.getMessage(),e.getCause());
+			}
 		} finally{
 			unlock(entityKey);
 		}
@@ -63,14 +66,17 @@ public class ConcurrentUtil
 	 * @param entityKey	全局同步锁的Key
 	 * @param callee
 	 * @return
-	 * @throws InterruptedException
-	 * @throws Exception
 	 */
-	public static <T> T runWithExclusiveLock(String entityKey,Callable<T> callee) throws InterruptedException, Exception{
+	public static <T> T runWithExclusiveLock(String entityKey,Callable<T> callee){
 		exclusiveLock(entityKey);
 		T result = null;
 		try {
-			result = callee.call();
+			try {
+				result = callee.call();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException(e.getMessage(),e.getCause());
+			}
 		} finally{
 			unlock(entityKey);
 		}
@@ -84,9 +90,8 @@ public class ConcurrentUtil
 	 * TODO.获取全局锁
 	 * @param entityKey	全局锁的Key
 	 * @throws InterruptedException
-	 * @throws Exception
 	 */
-	private static void asynLock(String entityKey) throws InterruptedException, Exception {
+	private static void asynLock(String entityKey) {
 		while (true) {
 			if(Redis.getRedisTemplate().opsForValue().setIfAbsent(entityKey, MONITOR))
 			{
@@ -94,7 +99,12 @@ public class ConcurrentUtil
 				break;
 			}
 			else {
-				Thread.sleep(10);
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					throw new RuntimeException(e.getMessage(),e.getCause());
+				}
 			}
 		}
 	}
@@ -104,9 +114,8 @@ public class ConcurrentUtil
 	 * TODO.获取全局排他锁
 	 * @param entityKey	全局排他锁的Key
 	 * @throws InterruptedException
-	 * @throws Exception
 	 */
-	private static void exclusiveLock(String entityKey) throws InterruptedException, Exception
+	private static void exclusiveLock(String entityKey)
 	{
 
 		if(Redis.getRedisTemplate().opsForValue().setIfAbsent(entityKey, MONITOR))
@@ -114,16 +123,15 @@ public class ConcurrentUtil
 			Redis.getRedisTemplate().expire(entityKey, OPERATION_TOKEN_EXPIRE, TimeUnit.SECONDS);
 		}
 		else {
-			throw new Exception("重复的操作.");
+			throw new RuntimeException("重复的操作.");
 		}
 	}
 
 	/**
 	 * TODO.释放全局锁
 	 * @param entityKey	全局锁的Key
-	 * @throws Exception
 	 */
-	private static void unlock(String entityKey) throws Exception{
+	private static void unlock(String entityKey){
 		Redis.getRedisTemplate().delete(entityKey);
 	}
 }

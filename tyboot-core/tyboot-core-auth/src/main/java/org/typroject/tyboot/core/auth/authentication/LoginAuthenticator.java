@@ -48,13 +48,13 @@ public   class LoginAuthenticator {
 
 
 
-    private   static LoginAuthenticatorHandler getAuthenticator(ProvidedAuthType authType) throws Exception {
+    private   static LoginAuthenticatorHandler getAuthenticator(ProvidedAuthType authType)  {
         return (LoginAuthenticatorHandler) SpringContextHelper.getBean(authType.getAuthenticator());
     }
 
 
     @Transactional(rollbackFor = {Exception.class, BaseException.class})
-    public SsoSessionsModel createSession(IdType idType, ProvidedAuthType authType, UserType userType, AuthModel authModel) throws Exception
+    public SsoSessionsModel createSession(IdType idType, ProvidedAuthType authType, UserType userType, AuthModel authModel)
     {
         String product = RequestContext.getProduct();
         String requestIP = RequestContext.getRequestIP();
@@ -99,7 +99,7 @@ public   class LoginAuthenticator {
 
 
 
-    public HashMap<String,Object> authLogin(IdType idType, ProvidedAuthType authType, UserType userType, AuthModel authModel) throws Exception
+    public HashMap<String,Object> authLogin(IdType idType, ProvidedAuthType authType, UserType userType, AuthModel authModel)
     {
         SsoSessionsModel ssoSessionsModel = this.createSession(idType, authType, userType, authModel);
         HashMap<String, Object> result = new HashMap<String, Object>();
@@ -111,7 +111,7 @@ public   class LoginAuthenticator {
 
 
 
-    private SsoSessionsModel createLoginHistory(SsoSessionsModel ssoSessionsModel) throws Exception
+    private SsoSessionsModel createLoginHistory(SsoSessionsModel ssoSessionsModel)
     {
 
 

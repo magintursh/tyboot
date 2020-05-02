@@ -47,7 +47,7 @@ public class DefaultCallback implements MqttCallback {
     }
 
     @Override
-    public void messageArrived(String topic, MqttMessage message) throws Exception {
+    public void messageArrived(String topic, MqttMessage message) {
         logger.debug("默认回调方法不处理消息。");
     }
 

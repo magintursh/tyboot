@@ -33,20 +33,13 @@ public class SsoSessionsService extends BaseService<SsoSessionsModel,SsoSessions
 
     public static final String SESSION = "SESSION";
     public static final String SESSION_TOKEN = "SESSION_TOKEN";
-
+    public static final String SESSION_LOGINID = "SESSION_LOGINID";
 
     public static  Long DEFAULT_SESSION_EXPIRATION = 2592000L;
 
 
     @Autowired
     private RedisTemplate redisTemplate;
-
-    @Autowired
-    private LoginInfoService loginInfoService;
-
-    @Autowired
-    private LoginHistoryService loginHistoryService;
-
 
     public static void setDefaultExpiration(Long expiration)
     {
@@ -62,15 +55,18 @@ public class SsoSessionsService extends BaseService<SsoSessionsModel,SsoSessions
     {
         return Redis.genKey(CacheType.ERASABLE.name(),SESSION,actionByProduct,loginId);
     }
+    public static String loginIdCacheWithToken(String token)
+    {
+        return Redis.genKey(CacheType.ERASABLE.name(),SESSION_LOGINID,token);
+    }
 
     /**
      * 刷新session
      * @param token
      * @param actionByProduct
      * @return
-     * @throws Exception
      */
-    public  SsoSessionsModel refreshSession(String token,String actionByProduct) throws Exception{
+    public  SsoSessionsModel refreshSession(String token,String actionByProduct){
 
         SsoSessionsModel sessionsModel =
                 (SsoSessionsModel)this.redisTemplate.opsForValue().get(sessionCacheKeyWithToken(token,actionByProduct));
@@ -78,13 +74,13 @@ public class SsoSessionsService extends BaseService<SsoSessionsModel,SsoSessions
         {
             redisTemplate.expire(sessionCacheKeyWithToken(token,actionByProduct),DEFAULT_SESSION_EXPIRATION, TimeUnit.SECONDS);
             redisTemplate.expire(sessionCacheKeyWithLoginId(sessionsModel.getLoginId(),actionByProduct),DEFAULT_SESSION_EXPIRATION, TimeUnit.SECONDS);
+
             sessionsModel.setSessionExpiration(SsoSessionsService.DEFAULT_SESSION_EXPIRATION);
         }else{
-            //TODO  刷新session  不应该查询数据库
-            LoginHistoryModel historyModel = loginHistoryService.queryByToken(token);
-            if(!ValidationUtil.isEmpty(historyModel))
+            String loginId =  (String)redisTemplate.opsForValue().get(loginIdCacheWithToken(token));
+            if(!ValidationUtil.isEmpty(loginId))
             {
-               boolean hasOtherToken =  Redis.getRedisTemplate().hasKey(sessionCacheKeyWithLoginId(historyModel.getLoginId(),actionByProduct));
+               boolean hasOtherToken =  Redis.getRedisTemplate().hasKey(sessionCacheKeyWithLoginId(loginId,actionByProduct));
                if(hasOtherToken)
                    throw new ConflictException("当前账号已经在其他设备登录.");
             }
@@ -96,14 +92,16 @@ public class SsoSessionsService extends BaseService<SsoSessionsModel,SsoSessions
 
 
     @Transactional(rollbackFor = {Exception.class, BaseException.class})
-    public SsoSessionsModel createSession(SsoSessionsModel sessionsModel) throws Exception
+    public SsoSessionsModel createSession(SsoSessionsModel sessionsModel)
     {
         this.removeSession(sessionsModel.getActionByProduct(),sessionsModel.getLoginId());
         this.redisTemplate.opsForValue().set(sessionCacheKeyWithToken(sessionsModel.getToken(),sessionsModel.getActionByProduct()),sessionsModel);
         this.redisTemplate.opsForValue().set(sessionCacheKeyWithLoginId(sessionsModel.getLoginId(),sessionsModel.getActionByProduct()),sessionsModel);
+        this.redisTemplate.opsForValue().set(loginIdCacheWithToken(sessionsModel.getToken()),sessionsModel.getLoginId());
 
         redisTemplate.expire(sessionCacheKeyWithToken(sessionsModel.getToken(),sessionsModel.getActionByProduct()),DEFAULT_SESSION_EXPIRATION, TimeUnit.SECONDS);
         redisTemplate.expire(sessionCacheKeyWithLoginId(sessionsModel.getLoginId(),sessionsModel.getActionByProduct()),DEFAULT_SESSION_EXPIRATION, TimeUnit.SECONDS);
+        redisTemplate.expire(loginIdCacheWithToken(sessionsModel.getToken()),DEFAULT_SESSION_EXPIRATION, TimeUnit.SECONDS);
 
 
         return sessionsModel;
@@ -111,18 +109,19 @@ public class SsoSessionsService extends BaseService<SsoSessionsModel,SsoSessions
 
 
 
-    public void removeSession(String  actionByProduct ,String loginId) throws Exception
+    public void removeSession(String  actionByProduct ,String loginId)
     {
         SsoSessionsModel sessionsModel = (SsoSessionsModel)this.redisTemplate.opsForValue().get(sessionCacheKeyWithLoginId(loginId,actionByProduct));
         if(!ValidationUtil.isEmpty(sessionsModel))
         {
             this.redisTemplate.delete(sessionCacheKeyWithLoginId(loginId,actionByProduct));
             this.redisTemplate.delete(sessionCacheKeyWithToken(sessionsModel.getToken(),actionByProduct));
+            //this.redisTemplate.delete(loginIdCacheWithToken(sessionsModel.getToken()));
         }
 
     }
 
-    public void removeAllSession(String[] products ,String loginId) throws Exception
+    public void removeAllSession(String[] products ,String loginId)
     {
         for(String product : products)
         {
@@ -131,14 +130,14 @@ public class SsoSessionsService extends BaseService<SsoSessionsModel,SsoSessions
     }
 
 
-    public  SsoSessionsModel queryByToken(String  actionByProduct ,String token)throws Exception
+    public  SsoSessionsModel queryByToken(String  actionByProduct ,String token)
     {
 
         SsoSessionsModel sessionsModel = (SsoSessionsModel)this.redisTemplate.opsForValue().get(sessionCacheKeyWithToken(token,actionByProduct));
         return sessionsModel;
     }
 
-    public  SsoSessionsModel queryByLoginId(String  actionByProduct ,String loginId)throws Exception
+    public  SsoSessionsModel queryByLoginId(String  actionByProduct ,String loginId)
     {
 
         SsoSessionsModel sessionsModel = (SsoSessionsModel)this.redisTemplate.opsForValue().get(sessionCacheKeyWithLoginId(loginId,actionByProduct));
