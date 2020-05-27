@@ -16,6 +16,7 @@ public class EmqProperties {
     private String broker; //emq服务器地址
     private String clientId;//客户端id
     private Boolean cleanSession;// 设置是否清空session,这里如果设置为false表示服务器会保留客户端的连接记录，这里设置为true表示每次连接到服务器都以新的身份连接
+    private int maxInflight = 100;
 
 
     public Boolean getCleanSession() {
@@ -58,5 +59,13 @@ public class EmqProperties {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getMaxInflight() {
+        return maxInflight;
+    }
+
+    public void setMaxInflight(int maxInflight) {
+        this.maxInflight = maxInflight;
     }
 }
