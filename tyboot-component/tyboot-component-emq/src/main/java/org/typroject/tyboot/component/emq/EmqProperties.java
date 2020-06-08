@@ -17,8 +17,10 @@ public class EmqProperties {
     private String clientId;//客户端id
     private Boolean cleanSession;// 设置是否清空session,这里如果设置为false表示服务器会保留客户端的连接记录，这里设置为true表示每次连接到服务器都以新的身份连接
     private int maxInflight = 100;
+    private int keepAliveInterval = 60;
 
 
+    
     public Boolean getCleanSession() {
         return cleanSession;
     }
@@ -67,5 +69,13 @@ public class EmqProperties {
 
     public void setMaxInflight(int maxInflight) {
         this.maxInflight = maxInflight;
+    }
+
+    public int getKeepAliveInterval() {
+        return keepAliveInterval;
+    }
+
+    public void setKeepAliveInterval(int keepAliveInterval) {
+        this.keepAliveInterval = keepAliveInterval;
     }
 }
