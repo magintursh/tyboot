@@ -345,6 +345,7 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
         QueryWrapper<P> wrapper  = new QueryWrapper<>();
         wrapper.setEntity(entity);
         wrapper.select("SEQUENCE_NBR");
+        wrapper.last("LIMIT 0,"+1);
         List list = this.list(wrapper);
         return !ValidationUtil.isEmpty(list);
     }
@@ -778,8 +779,11 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
                 {
                     Object[] objArray = (Object[])paramValue;
                     wrapper.between(cloumn,objArray[0],objArray[1]);
-                }else{
-                    throw new RuntimeException("can not be case to Object Array");
+                }else if(paramValue instanceof List && ((List)paramValue).size() == 2){
+                    List list = (List)paramValue;
+                    wrapper.between(cloumn,list.get(0),list.get(1));
+                }else {
+                    throw new RuntimeException("can not be case to Object[] or List.");
                 }
                 break;
             case notBetween:
@@ -787,8 +791,11 @@ public   class BaseService<V,P, M extends BaseMapper<P>> extends ServiceImpl<M,P
                 {
                     Object[] objArray = (Object[])paramValue;
                     wrapper.notBetween(cloumn,objArray[0],objArray[1]);
+                }else if(paramValue instanceof List && ((List)paramValue).size() == 2){
+                    List list = (List)paramValue;
+                    wrapper.notBetween(cloumn,list.get(0),list.get(1));
                 }else{
-                    throw new RuntimeException("can not be case to Object Array");
+                    throw new RuntimeException("can not be case to Object[] or List.");
                 }
                 break;
             default:
