@@ -60,7 +60,7 @@ public class EmqKeeper {
             }
         } catch (MqttException e) {
             logger.info("连接到emq失败;" + emqProperties.getBroker());
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             return false;
         }
         return false;

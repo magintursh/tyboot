@@ -37,15 +37,12 @@ public class LimitStrategyManager implements  AuthWithSessionHandler,AuthHandler
     {
         String cacheKey         = restrictiveStrategy.incrementKey( handlerMethod);
         Frequency frequency     = restrictiveStrategy.getFrequency();
-        Object previousValue    = redisTemplate.opsForValue().get(cacheKey);
-
         Long increment = redisTemplate.opsForValue().increment(cacheKey);
         if(increment > restrictiveStrategy.getFrequency().getQuantity())
             throw new TooManyRequests("请求过于频繁，请稍后重试.");
 
         //自动过期之后重新设置过期时间
-        if(ValidationUtil.isEmpty(previousValue))
-            redisTemplate.expire(cacheKey,
+        redisTemplate.expire(cacheKey,
                     frequency.getPeriod(),
                     frequency.getTimeUnit());
     }
