@@ -57,7 +57,7 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
 
 
     public AccountInfoModel updateFinalBalance(String accountNo, BigDecimal changeAmount, Long oldUpdateVersion, AccountBaseOperation bookkeeping) throws Exception {
-        AccountInfoModel oldModel = this.queryByAccontNo(accountNo, oldUpdateVersion);
+        AccountInfoModel oldModel = this.queryByAccontNoAndVersion(accountNo, oldUpdateVersion);
         if (!ValidationUtil.isEmpty(oldModel)) {
             if (AccountBaseOperation.INCOME.equals(bookkeeping)) {
                 oldModel.setBalance(oldModel.getBalance().add(changeAmount));
@@ -88,7 +88,7 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
 
 
     public AccountInfoModel updateAccountStatus(String accountNo, AccountStatus newStatus, AccountStatus oldStatus, Long oldUpdateVersion) throws Exception {
-        AccountInfoModel oldModel = this.queryByAccontNo(accountNo, oldUpdateVersion);
+        AccountInfoModel oldModel = this.queryByAccontNoAndVersion(accountNo, oldUpdateVersion);
         if (!ValidationUtil.isEmpty(oldModel)) {
             oldModel.setAccountStatus(newStatus.name());
             oldModel.setRecDate(new Date());
@@ -110,15 +110,15 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
     }
 
 
-    public AccountInfoModel queryByAccontNo(String accountNo) throws Exception {
+    public AccountInfoModel queryByAccontNo(String accountNo)  {
         return this.queryModelByParams(accountNo);
     }
 
-    public AccountInfoModel queryByAccontNo(String accountNo, Long updateVersion) throws Exception {
+    public AccountInfoModel queryByAccontNoAndVersion(String accountNo, Long updateVersion) {
        return this.queryModelByParams(accountNo,updateVersion);
     }
 
-    public AccountInfoModel queryByUserId(String userId, AccountType accountType) throws Exception {
+    public AccountInfoModel queryByUserId(String userId, AccountType accountType) {
         AccountInfoModel accountInfoModel = new AccountInfoModel();
         accountInfoModel.setUserId(userId);
         accountInfoModel.setAccountType(accountType.getAccountType());
