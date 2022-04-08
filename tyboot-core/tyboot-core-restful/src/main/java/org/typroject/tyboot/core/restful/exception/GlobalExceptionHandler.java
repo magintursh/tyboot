@@ -3,6 +3,7 @@ package org.typroject.tyboot.core.restful.exception;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,7 +44,17 @@ public class GlobalExceptionHandler {
             logger.error(baseException.getDevMessage());
             logger.error(e.getMessage(),e);
             response.setStatus(baseException.getHttpStatus());
-        }else{
+        } else if(e instanceof MethodArgumentNotValidException){
+            MethodArgumentNotValidException argumentNotValidException = (MethodArgumentNotValidException)e;
+
+            responseModel.setStatus(HttpStatus.BAD_REQUEST.value());
+            responseModel.setMessage(argumentNotValidException.getBindingResult().getFieldError().getDefaultMessage());
+            responseModel.setDevMessage(e.getMessage());
+            logger.error(e.getMessage());
+            logger.error(e.getMessage(),e);
+            response.setStatus(HttpStatus.BAD_REQUEST.value());
+
+        } else{
             responseModel.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             responseModel.setDevMessage(e.getMessage());
             responseModel.setMessage("未知错误,请联系管理员.");

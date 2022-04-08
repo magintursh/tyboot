@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.typroject.tyboot.component.cache.Redis;
 import org.typroject.tyboot.component.cache.enumeration.CacheType;
 import org.typroject.tyboot.core.foundation.context.RequestContext;
+import org.typroject.tyboot.core.foundation.exception.BaseException;
 import org.typroject.tyboot.core.foundation.utils.Bean;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.core.rdbms.annotation.Condition;
@@ -27,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  * Created by 子杨 on 2017/4/28.
  */
 @SuppressWarnings("Duplicates")
-public class BaseService<V, P, M extends BaseMapper<P>> extends ServiceImpl<M, P> implements IService<P> {
+public class BaseService<V extends BaseModel, P extends BaseEntity, M extends BaseMapper<P>> extends ServiceImpl<M, P> implements IService<P> {
 
 
     private Class<P> poClass = null;
@@ -293,6 +294,16 @@ public class BaseService<V, P, M extends BaseMapper<P>> extends ServiceImpl<M, P
         return Bean.toModel(entity, model);
     }
 
+    public final V updateWithPretreatment(V model) {
+        V v = this.queryBySeq(model.getSequenceNbr());
+        if (!ValidationUtil.isEmpty(v)) {
+            v = this.updateWithModel(model);
+        } else {
+            throw new BaseException("找不到指定的数据,", 400, "找不到指定的数据");
+        }
+        return v;
+    }
+
 
     /**
      * 根据物理主键删除对象
@@ -303,6 +314,19 @@ public class BaseService<V, P, M extends BaseMapper<P>> extends ServiceImpl<M, P
     public final boolean deleteBySeq(Long seq) {
         return this.removeById(seq);
     }
+
+
+    public final boolean deleteWithPretreatment(Long seq) {
+        boolean result = false;
+        V v = this.queryBySeq(seq);
+        if (!ValidationUtil.isEmpty(v)) {
+            result = this.deleteBySeq(seq);
+        } else {
+            throw new BaseException("找不到指定的数据,", 400, "找不到指定的数据");
+        }
+        return result;
+    }
+
 
     /**
      * 批量删除
