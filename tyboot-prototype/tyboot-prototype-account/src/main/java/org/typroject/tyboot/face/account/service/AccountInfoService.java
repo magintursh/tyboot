@@ -56,15 +56,13 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
     }
 
 
-    public AccountInfoModel updateFinalBalance(String accountNo, BigDecimal changeAmount, Long oldUpdateVersion, AccountBaseOperation bookkeeping) throws Exception {
+    public AccountInfoModel updateFinalBalance(String accountNo, BigDecimal changeAmount,BigDecimal finalBalance, Long oldUpdateVersion, AccountBaseOperation bookkeeping) throws Exception {
         AccountInfoModel oldModel = this.queryByAccontNoAndVersion(accountNo, oldUpdateVersion);
         if (!ValidationUtil.isEmpty(oldModel)) {
+            oldModel.setBalance(finalBalance);
             if (AccountBaseOperation.INCOME.equals(bookkeeping)) {
-                oldModel.setBalance(oldModel.getBalance().add(changeAmount));
                 oldModel.setCumulativeBalance(oldModel.getCumulativeBalance().add(changeAmount));
             }
-            if (AccountBaseOperation.SPEND.equals(bookkeeping))
-                oldModel.setBalance(oldModel.getBalance().subtract(changeAmount));
 
             oldModel.setUpdateVersion(sequence.nextId());
             oldModel.setRecDate(new Date());

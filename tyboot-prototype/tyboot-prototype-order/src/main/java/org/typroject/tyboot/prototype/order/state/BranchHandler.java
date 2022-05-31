@@ -35,6 +35,12 @@ public interface BranchHandler
 	 * @return
 	 */
 	OrderStatus getStatus();
+
+	/**
+	 * 所支持的状态
+	 * @return
+	 */
+	OrderStatus[] supportStatus();
 }
 
 /*

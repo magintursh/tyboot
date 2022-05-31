@@ -297,7 +297,8 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
     public final V updateWithPretreatment(V model) {
         V v = this.queryBySeq(model.getSequenceNbr());
         if (!ValidationUtil.isEmpty(v)) {
-            v = this.updateWithModel(model);
+            Bean.copyExistPropertis(model,v);
+            v = this.updateWithModel(v);
         } else {
             throw new BaseException("找不到指定的数据,", 400, "找不到指定的数据");
         }

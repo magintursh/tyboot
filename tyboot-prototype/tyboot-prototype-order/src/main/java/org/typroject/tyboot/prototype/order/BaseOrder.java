@@ -1,13 +1,9 @@
 package org.typroject.tyboot.prototype.order;
 
 import lombok.Data;
-import org.typroject.tyboot.face.order.model.OrderInfoModel;
-import org.typroject.tyboot.prototype.order.standard.BaseAgency;
-import org.typroject.tyboot.prototype.order.standard.Customer;
-import org.typroject.tyboot.prototype.order.standard.StandardProduct;
+import org.typroject.tyboot.face.order.model.BaseOrderInfo;
 import org.typroject.tyboot.prototype.order.state.OrderStatus;
 
-import java.util.List;
 import java.util.Map;
 
 
@@ -25,24 +21,9 @@ public class BaseOrder {
     protected OrderStatus orderStatus;
 
     /**
-     * 客户信息
-     */
-    protected Customer customer;
-
-    /**
-     * 商品信息
-     */
-    protected List<StandardProduct> products;
-
-    /**
-     * 商家信息
-     */
-    protected BaseAgency agency;
-
-    /**
      * 订单实体
      */
-    protected OrderInfoModel orderInfoModel;
+    protected BaseOrderInfo baseOrderInfo;
 
     /**
      * 订单交易信息

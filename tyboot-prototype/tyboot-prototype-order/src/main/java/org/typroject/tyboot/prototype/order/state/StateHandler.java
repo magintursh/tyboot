@@ -42,5 +42,10 @@ public interface StateHandler {
 	 * 订单状态
 	 */
 	void setStatus(OrderStatus orderStatus);
-	
+
+	/**
+	 * 所支持的状态
+	 * @return
+	 */
+	OrderStatus[] supportStatus();
 }

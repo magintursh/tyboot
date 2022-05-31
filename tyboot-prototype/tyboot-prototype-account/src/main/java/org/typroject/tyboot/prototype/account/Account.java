@@ -155,7 +155,7 @@ import java.math.BigDecimal;
 		AccountSerialModel newAccountSerial = accountSerialService.createAccountSerial( this.accountInfoModel.getUserId(), this.accountInfoModel.getAccountNo(),this.accountInfoModel.getAccountType(),this.accountInfoModel.getUpdateVersion(), billNo, amount, accountTradeType, bookkeeping);
 		
 		//#2.变更账户余额
-		AccountInfoModel updateResult = accountInfoService.updateFinalBalance(this.accountInfoModel.getAccountNo(),newAccountSerial.getChangeAmount(), this.accountInfoModel.getUpdateVersion(),bookkeeping);
+		AccountInfoModel updateResult = accountInfoService.updateFinalBalance(this.accountInfoModel.getAccountNo(),newAccountSerial.getChangeAmount(), newAccountSerial.getFinalBalance(),this.accountInfoModel.getUpdateVersion(),bookkeeping);
 		
 		if(!ValidationUtil.isEmpty(updateResult))
 		{

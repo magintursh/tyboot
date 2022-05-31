@@ -1,5 +1,7 @@
 package org.typroject.tyboot.component.cache;
 
+import org.typroject.tyboot.core.foundation.exception.BaseException;
+
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -52,7 +54,13 @@ public class ConcurrentUtil
 				result = callee.call();
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw new RuntimeException(e.getMessage(),e.getCause());
+				if(e instanceof BaseException){
+					BaseException exception = (BaseException)e;
+					throw  exception;
+				}else{
+					throw new RuntimeException(e.getMessage(),e.getCause());
+				}
+
 			}
 		} finally{
 			unlock(entityKey);
@@ -75,7 +83,12 @@ public class ConcurrentUtil
 				result = callee.call();
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw new RuntimeException(e.getMessage(),e.getCause());
+				if(e instanceof BaseException){
+					BaseException exception = (BaseException)e;
+					throw  exception;
+				}else{
+					throw new RuntimeException(e.getMessage(),e.getCause());
+				}
 			}
 		} finally{
 			unlock(entityKey);

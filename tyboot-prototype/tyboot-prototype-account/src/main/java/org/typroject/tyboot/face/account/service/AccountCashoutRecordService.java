@@ -57,9 +57,9 @@ public class AccountCashoutRecordService extends BaseService<AccountCashoutRecor
 
 
 
-    public AccountCashoutRecordModel queryByBillNo(String billNo)throws Exception
+    public AccountCashoutRecordModel queryByApplyNo(String applayNo)throws Exception
     {
-        return queryModelByParams(billNo);
+        return queryModelByParams(applayNo);
     }
 
 
@@ -120,7 +120,7 @@ public class AccountCashoutRecordService extends BaseService<AccountCashoutRecor
      */
     public AccountCashoutRecordModel comfirm(String applyNo)throws Exception
     {
-        AccountCashoutRecordModel cashoutRecordModel = this.queryByBillNo(applyNo);
+        AccountCashoutRecordModel cashoutRecordModel = this.queryByApplyNo(applyNo);
         if(!ValidationUtil.isEmpty(cashoutRecordModel) && CASHOUT_STATUS_SUSPEND.equals(cashoutRecordModel.getApplyStatus()))
         {
             cashoutRecordModel.setApplyStatus(CASHOUT_STATUS_PENDING);
@@ -145,7 +145,7 @@ public class AccountCashoutRecordService extends BaseService<AccountCashoutRecor
     @Transactional(rollbackFor = {Exception.class, BaseException.class})
     public AccountCashoutRecordModel transferComfirm(String applyNo)throws Exception
     {
-        AccountCashoutRecordModel cashoutRecordModel = this.queryByBillNo(applyNo);
+        AccountCashoutRecordModel cashoutRecordModel = this.queryByApplyNo(applyNo);
         if(!ValidationUtil.isEmpty(cashoutRecordModel) && CASHOUT_STATUS_PENDING.equals(cashoutRecordModel.getApplyStatus()))
         {
 
@@ -174,7 +174,7 @@ public class AccountCashoutRecordService extends BaseService<AccountCashoutRecor
     @Transactional(rollbackFor = {Exception.class, BaseException.class})
     public AccountCashoutRecordModel refuse(String applyNo,AccountType accountType)throws Exception
     {
-        AccountCashoutRecordModel cashoutRecordModel = this.queryByBillNo(applyNo);
+        AccountCashoutRecordModel cashoutRecordModel = this.queryByApplyNo(applyNo);
         if(!ValidationUtil.isEmpty(cashoutRecordModel) && CASHOUT_STATUS_SUSPEND.equals(cashoutRecordModel.getApplyStatus()))
         {
 

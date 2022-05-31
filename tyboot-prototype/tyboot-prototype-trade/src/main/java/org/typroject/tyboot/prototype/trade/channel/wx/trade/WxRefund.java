@@ -76,9 +76,9 @@ public class WxRefund implements Trade{
 		//params.put("total_fee",serialModel.getTradeAmount().multiply(new BigDecimal(100)).intValue());//总金额
 		params.put("total_fee",oldSerialModel.getTradeAmount().multiply(new BigDecimal(100)).intValue());//总金额
 		params.put("refund_fee", serialModel.getTradeAmount().multiply(new BigDecimal(100)).intValue());//终端IP
-		//params.put("notify_url",domainUrl+"/apis/v1/trade/payment/wx");//通知地址
+		params.put("notify_url",wxpayProperty.getNotifyUrl());//通知地址
 		//params.put("trade_type","APP");//交易类型	APP
-
+		
 		params.put("sign",sign(params));//签名
 
 		xmlParams = map2XmlString(params);
@@ -240,8 +240,9 @@ public class WxRefund implements Trade{
 		StringBuffer message = new StringBuffer();
 		try {
 			KeyStore keyStore = KeyStore.getInstance("PKCS12");
-			FileInputStream instream = new FileInputStream(new File(wxpayProperty.getCert()));
-			keyStore.load(instream,wxpayProperty.getMchid().toCharArray());
+			InputStream inputStream = this.getClass().getResourceAsStream(wxpayProperty.getCert());
+			//FileInputStream instream = new FileInputStream(new File(wxpayProperty.getCert()));
+			keyStore.load(inputStream,wxpayProperty.getMchid().toCharArray());
 			// Trust own CA and all self-signed certs
 			SSLContext sslcontext = SSLContexts.custom()
 					.loadKeyMaterial(keyStore, wxpayProperty.getMchid().toCharArray())

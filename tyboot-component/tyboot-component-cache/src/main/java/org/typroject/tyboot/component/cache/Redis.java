@@ -32,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class Redis {
 
 
+
 	public static String VAR_SPLITOR = ":";
 
 	public  static RedisTemplate redisTemplate;

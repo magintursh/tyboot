@@ -17,4 +17,5 @@ public class WxpayProperty {
     private String mchid;
     private String cert;
     private String notifyUrl;
+    private String tradeType;
 }

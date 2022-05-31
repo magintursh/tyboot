@@ -14,6 +14,7 @@ import org.typroject.tyboot.core.restful.utils.ResponseModel;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolationException;
 
 /**
  * Created by magintursh on 2017-07-05.
@@ -50,6 +51,20 @@ public class GlobalExceptionHandler {
             responseModel.setStatus(HttpStatus.BAD_REQUEST.value());
             responseModel.setMessage(argumentNotValidException.getBindingResult().getFieldError().getDefaultMessage());
             responseModel.setDevMessage(e.getMessage());
+            logger.error(e.getMessage());
+            logger.error(e.getMessage(),e);
+            response.setStatus(HttpStatus.BAD_REQUEST.value());
+
+        } else if(e instanceof ConstraintViolationException){
+            ConstraintViolationException constraintViolationException = (ConstraintViolationException)e;
+
+            responseModel.setStatus(HttpStatus.BAD_REQUEST.value());
+            String message = constraintViolationException.getMessage();
+            if(!ValidationUtil.isEmpty(constraintViolationException.getConstraintViolations())){
+                message = constraintViolationException.getConstraintViolations().iterator().next().getMessage();
+            }
+            responseModel.setMessage(message);
+            responseModel.setDevMessage(constraintViolationException.getMessage());
             logger.error(e.getMessage());
             logger.error(e.getMessage(),e);
             response.setStatus(HttpStatus.BAD_REQUEST.value());

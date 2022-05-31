@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.typroject.tyboot.prototype.order.BaseOrder;
 import org.typroject.tyboot.prototype.order.constants.OrderConstants;
 import org.typroject.tyboot.prototype.order.state.BaseOrderState;
+import org.typroject.tyboot.prototype.order.state.OrderStatus;
 import org.typroject.tyboot.prototype.order.state.StateHandler;
 
 
@@ -35,6 +36,10 @@ public class DefaultOrderState extends BaseOrderState implements StateHandler{
 		throw new Exception(OrderConstants.ORDER_STATUS_ERROR);
 	}
 
+	@Override
+	public OrderStatus[] supportStatus() {
+		return null;
+	}
 }
 
 /*

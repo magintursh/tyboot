@@ -51,13 +51,16 @@ public class WxPayment implements Trade{
 		params.put("nonce_str", Encrypt.md5WithoutPadding(serialModel.getSerialNo()));//随机字符串
 
 		params.put("body",extra.get(PropertyConstants.PAYMENT_SUBJECT));//商品描述
+		if(!ValidationUtil.isEmpty(extra.get(PropertyConstants.OPENID))){
+			params.put("openid",extra.get(PropertyConstants.OPENID));//微信用户id
+		}
 		params.put("attach",serialModel.getSerialNo());//附加数据
 		params.put("out_trade_no",serialModel.getSerialNo());//商户订单号
 		//params.put("total_fee",serialModel.getTradeAmount().multiply(new BigDecimal(100)).intValue());//总金额
 		params.put("total_fee",serialModel.getTradeAmount().multiply(new BigDecimal(100)).intValue());//总金额
 		params.put("spbill_create_ip", RequestContext.getRequestIP());//终端IP
 		params.put("notify_url",wxpayProperty.getNotifyUrl());//通知地址
-		params.put("trade_type","APP");//交易类型	APP
+		params.put("trade_type",wxpayProperty.getTradeType());//交易类型	APP
 
 		params.put("sign",sign(params));//签名
 
@@ -93,6 +96,25 @@ public class WxPayment implements Trade{
 				params2Sign.put("noncestr",map.get("nonce_str"));
 				params2Sign.put("timestamp",timestamp);
 				params2Sign.put("package","Sign=WXPay");
+
+
+
+
+
+				if("JSAPI".equals(wxpayProperty.getTradeType())){
+					params2Sign.remove("appid");
+					params2Sign.remove("partnerid");
+					params2Sign.remove("prepayid");
+					params2Sign.remove("noncestr");
+					params2Sign.remove("timestamp");
+
+
+					params2Sign.put("appId",map.get("appid"));
+					params2Sign.put("nonceStr",map.get("nonce_str"));
+					params2Sign.put("signType","MD5");
+					params2Sign.put("timeStamp",timestamp);
+					params2Sign.put("package","prepay_id="+map.get("prepay_id"));
+				}
 
 				params2Sign.put("sign",sign(params2Sign));
 				resultModel.setResult(params2Sign);
