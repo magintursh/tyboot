@@ -93,7 +93,7 @@ public class CashoutHandler  implements AccountTradeHandler {
 			 BigDecimal amount					  = (BigDecimal)params.get(CashoutParams.amount.name());
 			 String applyStatus					  = (String)params.get(CashoutParams.applyStatus.name());
 			 AccountTransferRecordModel transferRecord = accountTransferRecordService.queryRecord(userId,account.getAccountInfoModel().getAccountNo(),billNo, DefaultAccountTradeType.CASHOUT.name());
-			 AccountCashoutRecordModel cashoutRecord   = accountCashoutRecordService.queryByBillNo(billNo);
+			 AccountCashoutRecordModel cashoutRecord   = accountCashoutRecordService.queryByApplyNo(billNo);
 
 			 if(!ValidationUtil.isEmpty(transferRecord)
 					 && !ValidationUtil.isEmpty(cashoutRecord)
