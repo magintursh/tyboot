@@ -21,7 +21,7 @@ public class IpRestrictiveStrategy implements LimitStrategy {
 
 
     //每分钟 每个IP 最多发起100个请求
-   private   Frequency frequency = new Frequency(TimeUnit.MINUTES,1L,100L);;
+   private   Frequency frequency = new Frequency(TimeUnit.MINUTES,1L,100L,100L);;
 
 
 

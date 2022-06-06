@@ -1,6 +1,7 @@
 package org.typroject.tyboot.core.restful.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -46,7 +47,8 @@ public class JsonSerializerManage {
         simpleModule.addSerializer(BigDecimal.class, ToStringSerializer.instance);
 
         simpleModule.addSerializer(BaseModel.class,new BaseModelSerializer());
-
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         objectMapper.registerModule(simpleModule);
         return objectMapper;
