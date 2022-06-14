@@ -156,7 +156,3 @@
 `完善文档`
 
 `完善示例项目`
-
-   ###  技术交流群
-qq群：965400761
-![tyboot技术交流群](https://images.gitee.com/uploads/images/2020/0424/100603_be4adf7d_431907.png "tyboot技术交流群群二维码.png")
