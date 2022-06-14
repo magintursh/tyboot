@@ -150,13 +150,3 @@
 
     1.将tyboot-core和tyboot-component中的组件包打包发布到maven私服nexus中统一管理，
       然后各个实例项目引用后进行业务项目的开发，这样实例项目的业务代码会更加清晰，打包速度更快，可以随时升级所引用的tyboot版本。
-
-### 计划
-
-`完善文档`
-
-`完善示例项目`
-
-   ###  技术交流群
-qq群：965400761
-![tyboot技术交流群](https://images.gitee.com/uploads/images/2020/0424/100603_be4adf7d_431907.png "tyboot技术交流群群二维码.png")
