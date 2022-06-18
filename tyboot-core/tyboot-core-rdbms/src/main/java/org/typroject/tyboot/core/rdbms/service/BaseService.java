@@ -36,9 +36,9 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
     private Class<V> modelCalss = null;
 
     /**
-     * 默认缓存一天
+     * 默认缓存 7 天
      */
-    private long cacheExpire = 24 * 3600L;
+    private long cacheExpire = 7 * 24 * 3600L;
 
     private boolean cacheNullModel = false;//是否缓存查询结果为null的数据，用于防止空数据缓存击穿。需要有完整的缓存更新策略，
 

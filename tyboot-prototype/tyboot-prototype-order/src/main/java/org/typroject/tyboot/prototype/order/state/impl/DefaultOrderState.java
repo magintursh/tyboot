@@ -36,10 +36,6 @@ public class DefaultOrderState extends BaseOrderState implements StateHandler{
 		throw new Exception(OrderConstants.ORDER_STATUS_ERROR);
 	}
 
-	@Override
-	public OrderStatus[] supportStatus() {
-		return null;
-	}
 }
 
 /*
