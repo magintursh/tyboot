@@ -175,7 +175,7 @@ import java.math.BigDecimal;
 	 * @return
 	 * @throws Exception 
 	 */
-	private final boolean updateAccountStatus(AccountStatus newStatus,AccountStatus oldStatus) throws Exception
+	private  boolean updateAccountStatus(AccountStatus newStatus,AccountStatus oldStatus) throws Exception
 	{
 		boolean returnFlag = false;
 		AccountInfoModel updateResult = accountInfoService.updateAccountStatus(accountInfoModel.getAccountNo(), newStatus, oldStatus, this.accountInfoModel.getUpdateVersion());
@@ -196,12 +196,12 @@ import java.math.BigDecimal;
 
 
 
-	private void refresh(String accountNo) throws Exception {
+	private void refresh(String accountNo) {
 
 		this.accountInfoModel  = accountInfoService.queryByAccontNo(accountNo);
 	}
 	
-	private static   final  Account newInstance(AccountInfoModel accountInfoModel)
+	private static     Account newInstance(AccountInfoModel accountInfoModel)
 	{
 		Account account 			= new Account();
 		account.accountInfoModel 	= accountInfoModel;
@@ -217,7 +217,7 @@ import java.math.BigDecimal;
 	}
 
 
-	public static final Account getAccountInstance(String  userId,AccountType accountType) throws Exception
+	public static  Account getAccountInstance(String  userId,AccountType accountType) throws Exception
 	{
 		AccountInfoModel accountInfoModel = accountInfoService.queryByUserId(userId, accountType);
 		if(ValidationUtil.isEmpty(accountInfoModel))
@@ -225,7 +225,7 @@ import java.math.BigDecimal;
 		return newInstance(accountInfoModel);
 	}
 
-	public static  final Account getAccountInstance(String accountNo) throws Exception
+	public static   Account getAccountInstance(String accountNo) throws Exception
 	{
 		return newInstance(accountInfoService.queryByAccontNo(accountNo));
 	}

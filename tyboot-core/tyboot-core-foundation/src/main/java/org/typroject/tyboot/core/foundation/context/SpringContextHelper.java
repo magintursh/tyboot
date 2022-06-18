@@ -7,6 +7,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 
  * <pre>
@@ -52,6 +55,21 @@ public class SpringContextHelper implements ApplicationContextAware
 			throw new RuntimeException(e.getMessage(),e.getCause());
 		}
 		return bean;
+	}
+
+
+	public static <T> Map<String, T> getBeansOfType(Class clazz)
+	{
+		Map<String, T>  map  = new HashMap<>();
+		try
+		{
+			map = context.getBeansOfType(clazz);
+		}catch (Exception e)
+		{
+			logger.error(e.getMessage(),e);
+			throw new RuntimeException(e.getMessage(),e.getCause());
+		}
+		return map;
 	}
 
 

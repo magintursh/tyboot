@@ -35,7 +35,7 @@ import java.util.Map;
 public class PaymentHandler  implements AccountTradeHandler {
 
 	/**交易参数*/
-	private enum PaymentParams implements TradeParams {
+	 enum PaymentParams implements TradeParams {
  
 		billNo(true,"账单号"),	   //用户
 		amount(true,"交易金额");   //交易金额

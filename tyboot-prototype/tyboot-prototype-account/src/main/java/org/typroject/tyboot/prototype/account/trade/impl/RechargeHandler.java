@@ -40,6 +40,7 @@ public class RechargeHandler    implements AccountTradeHandler {
 	@Autowired
 	private AccountRechargeRecordService accountRechargeRecordService;
 
+
 	/**交易参数*/
 	public   enum  RechargeParams implements TradeParams {
  
