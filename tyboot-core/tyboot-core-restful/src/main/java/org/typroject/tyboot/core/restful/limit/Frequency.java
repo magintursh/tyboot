@@ -33,4 +33,9 @@ public class Frequency {
      *限制请求数量
      */
     private Long quantity;
+
+    /**
+     * 请求超限以后锁定时间（秒）
+     */
+    private Long lockedTime;
 }

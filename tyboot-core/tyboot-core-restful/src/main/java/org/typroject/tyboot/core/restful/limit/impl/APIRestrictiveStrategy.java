@@ -17,7 +17,7 @@ public class APIRestrictiveStrategy implements LimitStrategy {
 
 
     //默认每分钟 每个API 最多发起100个请求
-   private   Frequency frequency = new Frequency(TimeUnit.MINUTES,1L,100L);;
+   private   Frequency frequency = new Frequency(TimeUnit.MINUTES,1L,100L,100L);;
 
    private Strategy strategy = Strategy.USERID; //附加限制策略
 

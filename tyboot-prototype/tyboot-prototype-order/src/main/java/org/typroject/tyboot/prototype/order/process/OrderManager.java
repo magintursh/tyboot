@@ -27,7 +27,6 @@ public class OrderManager {
     public BaseOrder transfer() throws Exception {
         BaseOrder order = null;
         if (checkLimit(this.getState().getStatus().getRuleHandler())) {
-			supportStatus();
             order = this.getState().process();
         }
         return order;
@@ -36,14 +35,12 @@ public class OrderManager {
 
     public BaseOrder branchOpreate(BranchOperationType branchOperationType) throws Exception {
         BaseOrder returnOrder = null;
-        BranchHandler branch = (BranchHandler) SpringContextHelper.getBean(branchOperationType.getBranchHandler());
+        BranchHandler branch = SpringContextHelper.getBean(branchOperationType.getBranchHandler());
         if (!ValidationUtil.isEmpty(branch)) {
             branch.setOrder(this.getState().getOrder());
             branch.setStatus(this.getState().getStatus());
             if (this.checkLimit(branchOperationType.getOprationRuleHandler())) {
-
-				supportStatus();
-
+                supportStatus(branch);//校验分支处理器支持的订单状态
                 returnOrder = branch.branchOperate();
             }
         } else {
@@ -54,20 +51,18 @@ public class OrderManager {
     }
 
 
-    private boolean supportStatus(){
-		boolean statusSupport = false;
-		OrderStatus[] supportStauts = getState().supportStatus();
-		for (OrderStatus status : supportStauts) {
-			if (status.equals(this.getState().getStatus())) {
-				statusSupport = true;
-			}
-		}
-		if (!statusSupport) {
-			throw new BaseException("不支持的订单状态.", 400, "错误的请求.");
-		}
-
-		return statusSupport;
-	}
+    private void supportStatus(BranchHandler branchHandler) {
+        boolean statusSupport = false;
+        OrderStatus[] supportStatus = branchHandler.supportStatus();
+        for (OrderStatus status : supportStatus) {
+            if (status.equals(this.getState().getStatus())) {
+                statusSupport = true;
+            }
+        }
+        if (!statusSupport) {
+            throw new BaseException("不支持的订单状态.", 400, "错误的请求.");
+        }
+    }
 
 
     /**

@@ -21,7 +21,7 @@ public class TokenRestrictiveStrategy implements LimitStrategy {
 
 
     //默认每分钟 每个token 最多发起50个请求
-   private   Frequency frequency = new Frequency(TimeUnit.MINUTES,1L,100L);
+   private   Frequency frequency = new Frequency(TimeUnit.MINUTES,1L,100L,100L);
 
    public TokenRestrictiveStrategy(Frequency frequency)
    {
