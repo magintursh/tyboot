@@ -11,20 +11,14 @@ import org.typroject.tyboot.api.face.systemctl.model.SmsRecordModel;
 import org.typroject.tyboot.api.face.systemctl.model.SmsTemplate;
 import org.typroject.tyboot.api.face.systemctl.orm.dao.SmsRecordMapper;
 import org.typroject.tyboot.api.face.systemctl.orm.entity.SmsRecord;
-import org.typroject.tyboot.component.activemq.ActiveMqConfig;
-import org.typroject.tyboot.component.activemq.JMSSender;
-import org.typroject.tyboot.component.activemq.JmsMessage;
 import org.typroject.tyboot.core.foundation.constans.CoreConstans;
-import org.typroject.tyboot.core.foundation.utils.Bean;
 import org.typroject.tyboot.core.foundation.utils.Sequence;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.core.rdbms.service.BaseService;
-import org.typroject.tyboot.core.restful.exception.instance.BadRequest;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -42,11 +36,11 @@ public class SmsRecordService extends BaseService<SmsRecordModel, SmsRecord, Sms
     public static final String DICT_SMS_TEMPLATE            = "SMS_TEMPLATE";//短信模板字典code
     public static final String VERIFICATION_CODE            = "code";//统一的验证码参数名
     public static final long  VERIFICATION_CODE_EXPIRATION  = 10 * 60 * 1000;//验证码过期时间默认10分钟
-    public static final String SMS_QUEUE                    = ActiveMqConfig.DEFAULT_QUEUE;//发送短信的默认队列
+    //public static final String SMS_QUEUE                    = ActiveMqConfig.DEFAULT_QUEUE;//发送短信的默认队列
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-    @Autowired
-    private JMSSender jmsSender;
+   /* @Autowired
+    private JMSSender jmsSender;*/
     @Autowired
     private DictionarieValueService dictionarieValueService;
 
@@ -81,7 +75,7 @@ public class SmsRecordService extends BaseService<SmsRecordModel, SmsRecord, Sms
             returnModel         = this.createSms(smsTemplate.getSmsType(),smsTemplate.getMobile(),paramsJson,smsTemplate.getTemplateId());
 
             //組裝发送amp消息内容
-            sendToQueue(smsTemplate);
+            //sendToQueue(smsTemplate);
         }else{
             throw new Exception("短信发送失败请稍后重试.");
         }
@@ -155,11 +149,11 @@ public class SmsRecordService extends BaseService<SmsRecordModel, SmsRecord, Sms
     }
 
 
-    private void sendToQueue(SmsTemplate smsTemplate) throws Exception
+/*    private void sendToQueue(SmsTemplate smsTemplate) throws Exception
     {
         HashMap<String,Object> body = new HashMap<>(Bean.BeantoMap(smsTemplate));
         JmsMessage message = ActiveMqConfig.buildMessage("",smsTemplate.getMessageHandler(),body);
         jmsSender.sendQueueMessage(message);
-    }
+    }*/
 
 }

@@ -1,7 +1,5 @@
 package org.typroject.tyboot.api.controller.privilage;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.typroject.tyboot.api.face.privilage.model.MenuModel;
@@ -20,15 +18,14 @@ import java.util.List;
 
 /**
  * <p>
- * 菜单管理 前端控制器
+ * 菜单权限
  * </p>
  *
  * @author magintursh
  * @since 2017-08-18
  */
-@TycloudResource(module = "privilege",value = "menu")
+@TycloudResource(name = "菜单权限",module = "privilege", resource = "menu")
 @RequestMapping(value = "/v1/privilege/menu")
-@Api(tags = "privilege-菜单权限")
 @RestController
 public class MenuResource {
 
@@ -46,10 +43,12 @@ public class MenuResource {
     RoleMenuService roleMenuService;
 
 
-
-
+    /**
+     *创建菜单
+     * @param menuModel
+     * @return
+     */
     @TycloudOperation( ApiLevel = UserType.AGENCY,needAuth = false)
-    @ApiOperation(value="创建菜单权限")
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseModel<MenuModel> createMenu(@RequestBody MenuModel menuModel)
     {
@@ -61,10 +60,13 @@ public class MenuResource {
     }
 
 
-
-
-    @TycloudOperation( ApiLevel = UserType.AGENCY)
-    @ApiOperation(value="查询单个权限菜单")
+    /**
+     * 查询单个权限菜单
+     * @param sequenceNbr 物理主键
+     * @return
+     * @throws Exception
+     */
+    @TycloudOperation( operation = "查询单个权限菜单",ApiLevel = UserType.AGENCY)
     @RequestMapping(value = "/{sequenceNBR}", method = RequestMethod.GET)
     public ResponseModel<MenuModel> seleteOne(@PathVariable Long sequenceNbr) throws Exception
     {
@@ -74,8 +76,7 @@ public class MenuResource {
 
 
 
-    @TycloudOperation( ApiLevel = UserType.AGENCY)
-    @ApiOperation(value="当前机构所有菜单权限")
+    @TycloudOperation(operation = "根据机构获取菜单",ApiLevel = UserType.AGENCY)
     @RequestMapping(value = "/agency/menus", method = RequestMethod.GET)
     public ResponseModel<List<MenuModel>> selectByAgency() throws Exception
     {
@@ -87,9 +88,8 @@ public class MenuResource {
 
 
 
-    @TycloudOperation( ApiLevel = UserType.AGENCY)
-    @ApiOperation(value="更新菜单权限")
-    @RequestMapping(value = "/{sequenceNBR}", method = RequestMethod.PUT)
+    @TycloudOperation(operation = "更新菜单权限",ApiLevel = UserType.AGENCY)
+    @RequestMapping(value = "/{sequenceNBR}", method = {RequestMethod.PUT,RequestMethod.PATCH})
     public ResponseModel<MenuModel> updateMenu(@RequestBody MenuModel menuModel, @PathVariable Long sequenceNBR) throws Exception
     {
         menuModel.setSequenceNbr(sequenceNBR);
@@ -97,8 +97,7 @@ public class MenuResource {
     }
 
 
-    @TycloudOperation( ApiLevel = UserType.SUPER_ADMIN)
-    @ApiOperation(value="删除权限菜单")
+    @TycloudOperation( operation = "删除权限菜单",ApiLevel = UserType.SUPER_ADMIN)
     @RequestMapping(value = "/{ids}", method = RequestMethod.DELETE)
     public ResponseModel<String> deleteMenu(@PathVariable String ids) throws Exception
     {

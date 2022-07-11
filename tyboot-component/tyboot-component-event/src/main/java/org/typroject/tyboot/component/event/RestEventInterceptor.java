@@ -1,6 +1,5 @@
 package org.typroject.tyboot.component.event;
 
-import io.swagger.annotations.ApiOperation;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -85,11 +84,7 @@ public class RestEventInterceptor {
                             eventSourceData = retVal;
                         }
                         // 根据不同的事件类型，构造不同的事件处理器所需要的事件源数据
-                        ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
                         String lable = eventTrigger.label();
-                        if(!ValidationUtil.isEmpty(apiOperation))
-                            lable = apiOperation.value();
-
                         RequestContextModel contextModel = RequestContext.cloneRequestContext();
                         applicationContext.publishEvent(new RestEvent(event, params,eventSourceData,contextModel, method.getName(),lable));
                     }

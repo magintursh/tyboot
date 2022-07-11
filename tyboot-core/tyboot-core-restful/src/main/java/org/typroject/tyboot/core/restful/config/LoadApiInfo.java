@@ -1,6 +1,5 @@
 package org.typroject.tyboot.core.restful.config;
 
-import io.swagger.annotations.Api;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
@@ -102,11 +101,9 @@ public class LoadApiInfo implements CommandLineRunner {
                 if(!ValidationUtil.isEmpty(tycloudResource))
                 {
                     RequestMapping requestMapping   = (RequestMapping)clzz.getAnnotation(RequestMapping.class);
-                    Api             api             = (Api)clzz.getAnnotation(Api.class);
 
-                    String apiCode                  = serverName+"."+tycloudResource.module()+"."+tycloudResource.value();
-                    String resourceCode             = tycloudResource.value();
-                    String resourceName             = api.value();
+                    String apiCode                  = serverName+"."+tycloudResource.module()+"."+tycloudResource.resource();
+                    String resourceCode             = tycloudResource.resource();
                     String resourceUrl                   = contextPath+requestMapping.value()[0];
                     returnList.addAll(readByMethod(clzz,apiCode,resourceUrl));
                 }

@@ -1,7 +1,5 @@
 package org.typroject.tyboot.api.controller.auth;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,31 +24,32 @@ import java.util.HashMap;
 
 
 /**
- * Created by magintursh on 2017-05-03.
+ * 机构用户登录验证
  */
-@TycloudResource(module = "auth",value = "agency")
+@TycloudResource(name = "auth-机构用户登录验证", module = "auth", resource = "agency")
 @RequestMapping(value = "/v1/auth/agency")
-@Api(tags = "auth-机构用户登录验证",value = "value")
 @RestController
 public class AgencyAuthResource {
-    private final Logger logger = LogManager.getLogger(AgencyAuthResource.class) ;
+    private final Logger logger = LogManager.getLogger(AgencyAuthResource.class);
 
 
     @Autowired
     LoginAuthenticator loginAuthenticator;
 
 
-
-    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
-    @ApiOperation(value="机构用户名密码登录")
+    /**
+     * 机构用户名密码登录
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @TycloudOperation(operation = "机构用户名密码登录", ApiLevel = UserType.ANONYMOUS, needAuth = false)
     @RequestMapping(value = "/agency/idpassword", method = RequestMethod.POST)
-    public ResponseModel<LoginInfoModel> idPasswordAuthForAgency(@RequestBody IdPasswordAuthModel model) throws Exception
-    {
-        return  this.doAuthenticate(IdType.userName, AuthType.ID_PASSWORD, UserType.AGENCY,model);
+    public ResponseModel<LoginInfoModel> idPasswordAuthForAgency(@RequestBody IdPasswordAuthModel model) throws Exception {
+        return this.doAuthenticate(IdType.userName, AuthType.ID_PASSWORD, UserType.AGENCY, model);
     }
 
-    private ResponseModel doAuthenticate(IdType idType, ProvidedAuthType authType, UserType userType, AuthModel authModel) throws Exception
-    {
+    private ResponseModel doAuthenticate(IdType idType, ProvidedAuthType authType, UserType userType, AuthModel authModel) throws Exception {
         HashMap<String, Object> result = loginAuthenticator.authLogin(idType, authType, userType, authModel);
         return ResponseHelper.buildResponse(result);
     }

@@ -1,7 +1,5 @@
 package org.typroject.tyboot.api.controller.privilage;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.typroject.tyboot.api.face.privilage.model.RoleMenuModel;
@@ -17,16 +15,15 @@ import java.util.List;
 
 /**
  * <p>
- * 角色与菜单关系表 前端控制器
+ * 角色菜单
  * </p>
  *
  * @author magintursh
  * @since 2017-08-18
  */
 
-@TycloudResource(module = "privilege",value = "rolemenu")
+@TycloudResource(name = "角色菜单",module = "privilege", resource = "rolemenu")
 @RequestMapping(value = "/v1/privilege/rolemenu")
-@Api(tags = "privilege-角色菜单")
 @RestController
 public class RoleMenuResource {
 
@@ -36,12 +33,14 @@ public class RoleMenuResource {
     RoleMenuService roleMenuService;
 
 
-
-
-
-
-    @TycloudOperation( ApiLevel = UserType.AGENCY)
-    @ApiOperation(value="更新角色菜单权限")
+    /**
+     * 更新角色菜单权限
+     * @param sequenceNBR 物理主键
+     * @param menuIds  菜单id数
+     * @return
+     * @throws Exception
+     */
+    @TycloudOperation(operation = "更新角色菜单权限",ApiLevel = UserType.AGENCY)
     @RequestMapping(value = "/role/{sequenceNBR}", method = RequestMethod.PUT)
     public ResponseModel<List<RoleMenuModel>> updateByRole(@PathVariable Long sequenceNBR, @RequestBody String [] menuIds) throws Exception
     {

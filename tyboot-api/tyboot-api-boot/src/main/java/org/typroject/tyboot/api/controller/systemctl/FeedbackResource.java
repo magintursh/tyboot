@@ -1,8 +1,6 @@
 package org.typroject.tyboot.api.controller.systemctl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +26,8 @@ import org.typroject.tyboot.core.restful.utils.ResponseModel;
  */
 
 @RestController
-@TycloudResource(module = "systemctl", value = "systemctl")
+@TycloudResource(name = "用户反馈",module = "systemctl", resource = "systemctl")
 @RequestMapping(value = "/v1/systemctl/feedback")
-@Api(tags = "systemctl-用户反馈")
 public class FeedbackResource {
 
 
@@ -39,8 +36,7 @@ public class FeedbackResource {
     private FeedbackService feedbackService;
 
 
-    @TycloudOperation(ApiLevel = UserType.PUBLIC)
-    @ApiOperation(value = "创建")
+    @TycloudOperation(operation = "创建",ApiLevel = UserType.PUBLIC)
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseModel<FeedbackModel> create(@RequestBody FeedbackModel model) throws Exception {
         if (ValidationUtil.isEmpty(model) || ValidationUtil.isEmpty(model.getContent()))
@@ -52,16 +48,14 @@ public class FeedbackResource {
     }
 
 
-    @TycloudOperation(ApiLevel = UserType.PUBLIC)
-    @ApiOperation(value = "删除")
+    @TycloudOperation(operation = "删除",ApiLevel = UserType.PUBLIC)
     @RequestMapping(value = "/{sequenceNbr}", method = RequestMethod.DELETE)
     public ResponseModel create(@PathVariable Long  sequenceNbr) throws Exception {
         return ResponseHelper.buildResponse(feedbackService.deleteBySeq(sequenceNbr));
     }
 
 
-    @TycloudOperation(ApiLevel = UserType.PUBLIC)
-    @ApiOperation(value = "分页查询")
+    @TycloudOperation(operation = "分页查询",ApiLevel = UserType.PUBLIC)
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseModel<Page> queryForPage(
             @RequestParam(value = "contact", required = false) String contact,

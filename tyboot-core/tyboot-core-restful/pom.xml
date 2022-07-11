@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.typroject</groupId>
 		<artifactId>tyboot-core</artifactId>
-		<version>1.1.28-SNAPSHOT</version>
+		<version>1.2.0-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.typroject</groupId>
@@ -16,19 +16,6 @@
 	<url>http://www.tycloud.org</url>
 
 	<dependencies>
-
-		<!--swagger-start   -->
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.7.0</version>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>2.7.0</version>
-		</dependency>
-		<!--swagger-end   -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -50,7 +37,7 @@
 		<dependency>
 		<groupId>org.typroject</groupId>
 		<artifactId>tyboot-core-foundation</artifactId>
-			<version>1.1.28-SNAPSHOT</version>
+			<version>1.2.0-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -62,7 +49,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-core-auth</artifactId>
-			<version>1.1.28-SNAPSHOT</version>
+			<version>1.2.0-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -73,7 +60,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-core-rdbms</artifactId>
-			<version>1.1.28-SNAPSHOT</version>
+			<version>1.2.0-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -85,7 +72,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-component-cache</artifactId>
-			<version>1.1.28-SNAPSHOT</version>
+			<version>1.2.0-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -95,5 +82,26 @@
 		</dependency>
 
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.1</version>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 
 </project>

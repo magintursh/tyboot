@@ -1,0 +1,1443 @@
+{
+  "info": {
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "3a52080a-8038-4123-987c-e7a808458e48",
+    "name": "tyboot示例项目"
+  },
+  "item": [
+    {
+      "name": "机构用户登录验证",
+      "item": [
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loginId\": \"50\",\n  \"password\": \"dr8bjj\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/auth/agency/agency/idpassword",
+              "path": [
+                "v1",
+                "auth",
+                "agency",
+                "agency",
+                "idpassword"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "privilege-登录验证",
+      "item": [
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loginId\": \"50\",\n  \"password\": \"uplnos\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/auth/public/idpassword",
+              "path": [
+                "v1",
+                "privilege",
+                "auth",
+                "public",
+                "idpassword"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loginId\": \"50\",\n  \"password\": \"z87tqq\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/auth/agency/idpassword",
+              "path": [
+                "v1",
+                "privilege",
+                "auth",
+                "agency",
+                "idpassword"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loginId\": \"50\",\n  \"password\": \"q17nqp\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/auth/super/idpassword",
+              "path": [
+                "v1",
+                "privilege",
+                "auth",
+                "super",
+                "idpassword"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loginId\": \"50\",\n  \"identifyingCode\": \"46111\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/auth/sms",
+              "path": [
+                "v1",
+                "privilege",
+                "auth",
+                "sms"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loginId\": \"50\",\n  \"password\": \"ekrmce\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/auth/openId",
+              "path": [
+                "v1",
+                "privilege",
+                "auth",
+                "openId"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loginId\": \"50\",\n  \"password\": \"rvc37b\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/auth/anonymous",
+              "path": [
+                "v1",
+                "privilege",
+                "auth",
+                "anonymous"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "Created by magintursh on 2017-05-03.",
+      "item": [
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loginId\": \"50\",\n  \"password\": \"cz7xuo\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/auth/customer/public/idpassword",
+              "path": [
+                "v1",
+                "auth",
+                "customer",
+                "public",
+                "idpassword"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "Created by magintursh on 2017-05-03.",
+      "item": [
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loginId\": \"50\",\n  \"password\": \"vlgbnw\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/auth/super/super/idpassword",
+              "path": [
+                "v1",
+                "auth",
+                "super",
+                "super",
+                "idpassword"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "",
+            "header": []
+          },
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "&lt;p&gt;\r\n角色与菜单关系表 前端控制器\r\n&lt;/p&gt;",
+      "item": []
+    },
+    {
+      "name": "&lt;p&gt;\r\n菜单管理 前端控制器\r\n&lt;/p&gt;",
+      "item": [
+        {
+          "name": "创建菜单",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sequenceNbr\": 141,\n  \"recDate\": \"2022-07-05\",\n  \"recUserId\": \"50\",\n  \"agencyCode\": \"46111\",\n  \"parentId\": \"50\",\n  \"menuName\": \"larry.tromp\",\n  \"menuType\": \"e1qlsc\",\n  \"menuIcon\": \"3tlcir\",\n  \"menuTitle\": \"7920od\",\n  \"menuLevel\": 268,\n  \"orderNum\": 331,\n  \"createUserId\": \"50\",\n  \"createTime\": \"2022-07-05 10:53:18\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/menu/",
+              "path": [
+                "v1",
+                "privilege",
+                "menu",
+                ""
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "创建菜单",
+            "header": []
+          },
+          "description": "创建菜单"
+        },
+        {
+          "name": "查询单个权限菜单",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/menu/:sequenceNBR",
+              "path": [
+                "v1",
+                "privilege",
+                "menu",
+                ":sequenceNBR"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "查询单个权限菜单",
+            "header": []
+          },
+          "description": "查询单个权限菜单"
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/menu/agency/menus",
+              "path": [
+                "v1",
+                "privilege",
+                "menu",
+                "agency",
+                "menus"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "[RequestMethod.PUT, RequestMethod.PATCH]",
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/menu/172",
+              "path": [
+                "v1",
+                "privilege",
+                "menu",
+                ":sequenceNBR"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "sequenceNBR",
+                  "value": "172",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "DELETE",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/menu/n6ox9l",
+              "path": [
+                "v1",
+                "privilege",
+                "menu",
+                ":ids"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "ids",
+                  "value": "n6ox9l",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "&lt;p&gt;\r\n角色与菜单关系表 前端控制器\r\n&lt;/p&gt;",
+      "item": [
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "[]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/rolemenu/role/210",
+              "path": [
+                "v1",
+                "privilege",
+                "rolemenu",
+                "role",
+                ":sequenceNBR"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "sequenceNBR",
+                  "value": "210",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "&lt;p&gt;\r\n\r\n角色表 前端控制器\r\n&lt;/p&gt;",
+      "item": [
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/role/page?roleName=larry.tromp&current=857&size=10",
+              "path": [
+                "v1",
+                "privilege",
+                "role",
+                "page"
+              ],
+              "query": [
+                {
+                  "key": "roleName",
+                  "value": "larry.tromp",
+                  "description": "No comments found."
+                },
+                {
+                  "key": "current",
+                  "value": "857",
+                  "description": "No comments found."
+                },
+                {
+                  "key": "size",
+                  "value": "10",
+                  "description": "No comments found."
+                }
+              ],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/role/agency",
+              "path": [
+                "v1",
+                "privilege",
+                "role",
+                "agency"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "",
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/role/449",
+              "path": [
+                "v1",
+                "privilege",
+                "role",
+                ":sequenceNBR"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "sequenceNBR",
+                  "value": "449",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sequenceNbr\": 710,\n  \"recDate\": \"2022-07-05\",\n  \"recUserId\": \"50\",\n  \"roleName\": \"larry.tromp\",\n  \"agencyCode\": \"46111\",\n  \"createTime\": \"2022-07-05 10:53:18\",\n  \"lockStatus\": \"n6196w\",\n  \"lockDate\": \"2022-07-05\",\n  \"lockUserId\": \"50\",\n  \"createUserId\": \"50\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/role/",
+              "path": [
+                "v1",
+                "privilege",
+                "role",
+                ""
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sequenceNbr\": 3,\n  \"recDate\": \"2022-07-05\",\n  \"recUserId\": \"50\",\n  \"roleName\": \"larry.tromp\",\n  \"agencyCode\": \"46111\",\n  \"createTime\": \"2022-07-05 10:53:18\",\n  \"lockStatus\": \"8mzkv4\",\n  \"lockDate\": \"2022-07-05\",\n  \"lockUserId\": \"50\",\n  \"createUserId\": \"50\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/role/691",
+              "path": [
+                "v1",
+                "privilege",
+                "role",
+                ":sequenceNBR"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "sequenceNBR",
+                  "value": "691",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "DELETE",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/privilege/role/502",
+              "path": [
+                "v1",
+                "privilege",
+                "role",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "502",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "&lt;p&gt;\r\n用户角色关系表 前端控制器\r\n&lt;/p&gt;",
+      "item": []
+    },
+    {
+      "name": "图片验证码",
+      "item": [
+        {
+          "name": "创建",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/captcha/image",
+              "path": [
+                "v1",
+                "systemctl",
+                "captcha",
+                "image"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "创建",
+            "header": []
+          },
+          "description": "创建"
+        }
+      ]
+    },
+    {
+      "name": "字典管理",
+      "item": [
+        {
+          "name": "创建字典",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sequenceNbr\": 398,\n  \"recDate\": \"2022-07-05\",\n  \"recUserId\": \"50\",\n  \"dictCode\": \"46111\",\n  \"dictName\": \"larry.tromp\",\n  \"dictDesc\": \"vmti2s\",\n  \"agencyCode\": \"46111\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/dictionary/",
+              "path": [
+                "v1",
+                "systemctl",
+                "dictionary",
+                ""
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "创建字典",
+            "header": []
+          },
+          "description": "创建字典"
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "DELETE",
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/dictionary/",
+              "path": [
+                "v1",
+                "systemctl",
+                "dictionary",
+                ""
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sequenceNbr\": 849,\n  \"recDate\": \"2022-07-05\",\n  \"recUserId\": \"50\",\n  \"dictCode\": \"46111\",\n  \"dictName\": \"larry.tromp\",\n  \"dictDesc\": \"p7tqrp\",\n  \"agencyCode\": \"46111\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/dictionary/ej3q82",
+              "path": [
+                "v1",
+                "systemctl",
+                "dictionary",
+                ":sequenceNbr"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "sequenceNbr",
+                  "value": "ej3q82",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "根据code获取字典",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/dictionary/46111",
+              "path": [
+                "v1",
+                "systemctl",
+                "dictionary",
+                ":dictCode"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "dictCode",
+                  "value": "46111",
+                  "description": " 字典编号"
+                }
+              ]
+            },
+            "description": "根据code获取字典",
+            "header": []
+          },
+          "description": "根据code获取字典"
+        },
+        {
+          "name": "分页查询字典信息",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/dictionary/page?agencyCode=46111&dictName=larry.tromp&dictCode=46111&current=497&size=10",
+              "path": [
+                "v1",
+                "systemctl",
+                "dictionary",
+                "page"
+              ],
+              "query": [
+                {
+                  "key": "agencyCode",
+                  "value": "46111",
+                  "description": " 机构编号"
+                },
+                {
+                  "key": "dictName",
+                  "value": "larry.tromp",
+                  "description": " 字典名称"
+                },
+                {
+                  "key": "dictCode",
+                  "value": "46111",
+                  "description": "字典编号"
+                },
+                {
+                  "key": "current",
+                  "value": "497",
+                  "description": " 当前页"
+                },
+                {
+                  "key": "size",
+                  "value": "10",
+                  "description": "    分页长度"
+                }
+              ],
+              "variable": []
+            },
+            "description": "分页查询字典信息",
+            "header": []
+          },
+          "description": "分页查询字典信息"
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/dictionary/46111/available",
+              "path": [
+                "v1",
+                "systemctl",
+                "dictionary",
+                ":dictCode",
+                "available"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "dictCode",
+                  "value": "46111",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/dictionary/string/teststring",
+              "path": [
+                "v1",
+                "systemctl",
+                "dictionary",
+                "string",
+                "teststring"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "&lt;p&gt;\r\n用户反馈 前端控制器\r\n&lt;/p&gt;",
+      "item": [
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sequenceNbr\": 37,\n  \"recDate\": \"2022-07-05\",\n  \"recUserId\": \"50\",\n  \"content\": \"kcixyg\",\n  \"contact\": \"v13h04\",\n  \"userId\": \"50\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/feedback/",
+              "path": [
+                "v1",
+                "systemctl",
+                "feedback",
+                ""
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "DELETE",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/feedback/670",
+              "path": [
+                "v1",
+                "systemctl",
+                "feedback",
+                ":sequenceNbr"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "sequenceNbr",
+                  "value": "670",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/feedback/page?contact=ccc6m4&userId=50&current=742&size=10",
+              "path": [
+                "v1",
+                "systemctl",
+                "feedback",
+                "page"
+              ],
+              "query": [
+                {
+                  "key": "contact",
+                  "value": "ccc6m4",
+                  "description": "No comments found."
+                },
+                {
+                  "key": "userId",
+                  "value": "50",
+                  "description": "No comments found."
+                },
+                {
+                  "key": "current",
+                  "value": "742",
+                  "description": "No comments found."
+                },
+                {
+                  "key": "size",
+                  "value": "10",
+                  "description": "No comments found."
+                }
+              ],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "&lt;p&gt;\r\n内部消息 前端控制器\r\n&lt;/p&gt;",
+      "item": [
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/innermessage/public/page?messageType=4jn8f9&current=547&size=10",
+              "path": [
+                "v1",
+                "systemctl",
+                "innermessage",
+                "public",
+                "page"
+              ],
+              "query": [
+                {
+                  "key": "messageType",
+                  "value": "4jn8f9",
+                  "description": "No comments found."
+                },
+                {
+                  "key": "current",
+                  "value": "547",
+                  "description": "No comments found."
+                },
+                {
+                  "key": "size",
+                  "value": "10",
+                  "description": "No comments found."
+                }
+              ],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "Created by magintursh on 2017-05-03.",
+      "item": [
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/location/provinces",
+              "path": [
+                "v1",
+                "systemctl",
+                "location",
+                "provinces"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/location/46111/cities",
+              "path": [
+                "v1",
+                "systemctl",
+                "location",
+                ":provinceCode",
+                "cities"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "provinceCode",
+                  "value": "46111",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/location/46111/regions",
+              "path": [
+                "v1",
+                "systemctl",
+                "location",
+                ":cityCode",
+                "regions"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "cityCode",
+                  "value": "46111",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/location/46111",
+              "path": [
+                "v1",
+                "systemctl",
+                "location",
+                ":locationCode"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "locationCode",
+                  "value": "46111",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/location/46111/areas",
+              "path": [
+                "v1",
+                "systemctl",
+                "location",
+                ":parentCode",
+                "areas"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "parentCode",
+                  "value": "46111",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "&lt;p&gt;\r\n多媒体信息关联 前端控制器\r\n&lt;/p&gt;",
+      "item": [
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "DELETE",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/mediainfo/90d3ih",
+              "path": [
+                "v1",
+                "systemctl",
+                "mediainfo",
+                ":ids"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "ids",
+                  "value": "90d3ih",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mapKey1\": \"7eit8z\",\n  \"mapKey2\": \"y2b94z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/mediainfo/media/disabled",
+              "path": [
+                "v1",
+                "systemctl",
+                "mediainfo",
+                "media",
+                "disabled"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": []
+          },
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "Created by magintursh on 2017-05-03.",
+      "item": [
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "/v1/systemctl/sms/8tt7xe/verify/309.330.5240",
+              "path": [
+                "v1",
+                "systemctl",
+                "sms",
+                ":smsType",
+                "verify",
+                ":mobile"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "smsType",
+                  "value": "8tt7xe",
+                  "description": "No comments found."
+                },
+                {
+                  "key": "mobile",
+                  "value": "309.330.5240",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        },
+        {
+          "name": "Interface name is not set.",
+          "request": {
+            "method": "GET",
+            "body": {
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/v1/systemctl/sms/xf9a9q/verify/309.330.5240/46111/verification",
+              "path": [
+                "v1",
+                "systemctl",
+                "sms",
+                ":smsType",
+                "verify",
+                ":mobile",
+                ":verifyCode",
+                "verification"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "smsType",
+                  "value": "xf9a9q",
+                  "description": "No comments found."
+                },
+                {
+                  "key": "mobile",
+                  "value": "309.330.5240",
+                  "description": "No comments found."
+                },
+                {
+                  "key": "verifyCode",
+                  "value": "46111",
+                  "description": "No comments found."
+                }
+              ]
+            },
+            "header": []
+          },
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "存储服务",
+      "item": []
+    }
+  ]
+}

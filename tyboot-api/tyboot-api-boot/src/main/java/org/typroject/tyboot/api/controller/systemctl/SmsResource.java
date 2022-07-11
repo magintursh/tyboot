@@ -1,7 +1,5 @@
 package org.typroject.tyboot.api.controller.systemctl;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +21,8 @@ import org.typroject.tyboot.core.restful.utils.ResponseModel;
  * Created by magintursh on 2017-05-03.
  */
 
-@TycloudResource(module = "systemctl", value = "sms")
+@TycloudResource(name = "短信",module = "systemctl", resource = "sms")
 @RequestMapping(path = "/v1/systemctl/sms")
-@Api(tags = "systemctl-短信")
 @RestController
 public class SmsResource {
     private final Logger logger = LogManager.getLogger(FeedbackResource.class);
@@ -35,8 +32,7 @@ public class SmsResource {
     private SmsRecordService smsRecordService;
 
 
-    @TycloudOperation(ApiLevel = UserType.ANONYMOUS, needAuth = false)
-    @ApiOperation(value = "发送短信验证码")
+    @TycloudOperation(operation = "发送短信验证码",ApiLevel = UserType.ANONYMOUS, needAuth = false)
     @RequestMapping(value = "/{smsType}/verify/{mobile}", method = RequestMethod.POST)
     public ResponseModel sendVerifyCode(@PathVariable String smsType, @PathVariable String mobile) throws Exception {
         RequestContext.setExeUserId("SYSTEM");
@@ -45,8 +41,7 @@ public class SmsResource {
     }
 
 
-    @TycloudOperation(ApiLevel = UserType.ANONYMOUS, needAuth = false)
-    @ApiOperation(value = "认证手机和验证码")
+    @TycloudOperation(operation = "认证手机和验证码",ApiLevel = UserType.ANONYMOUS, needAuth = false)
     @RequestMapping(value = "/{smsType}/verify/{mobile}/{verifyCode}/verification", method = RequestMethod.GET)
     public ResponseModel smsForLogin(@PathVariable String smsType, @PathVariable String mobile, @PathVariable String verifyCode) throws Exception {
         RequestContext.setExeUserId("SYSTEM");

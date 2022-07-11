@@ -1,8 +1,6 @@
 package org.typroject.tyboot.api.controller.systemctl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +26,8 @@ import org.typroject.tyboot.core.restful.utils.ResponseModel;
  */
 
 @RestController
-@TycloudResource(module = "systemctl", value = "innermessage")
+@TycloudResource(name = "内部消息",module = "systemctl", resource = "innermessage")
 @RequestMapping(value = "/v1/systemctl/innermessage")
-@Api(tags = "systemctl-内部消息")
-
-
 public class InnerMessageResource {
 
 
@@ -42,8 +37,7 @@ public class InnerMessageResource {
     private InnerMessageService innerMessageService;
 
 
-    @TycloudOperation(ApiLevel = UserType.PUBLIC)
-    @ApiOperation(value = "分页查询")
+    @TycloudOperation(operation = "分页查询",ApiLevel = UserType.PUBLIC)
     @RequestMapping(value = "/public/page", method = RequestMethod.GET)
     public ResponseModel<Page> queryForInnerMessagePage(
             @RequestParam(value = "messageType", required = false) String messageType,

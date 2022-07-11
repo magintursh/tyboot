@@ -28,7 +28,7 @@ import org.typroject.tyboot.core.foundation.context.SpringContextHelper;
  *
  * </pre>
  */
-public abstract class RestEventHandler {
+public abstract class RestEventHandler   {
 	private static final Logger logger = LoggerFactory.getLogger(RestEventHandler.class);
 
 	private static final String DEFAULT_EVENT_HANDLER_BEAN_NAME = "defaultEventHandler";

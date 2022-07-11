@@ -1,8 +1,6 @@
 package org.typroject.tyboot.api.controller.systemctl;
 
 import com.google.code.kaptcha.Constants;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,15 +18,23 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 
 
+/**
+ * 图片验证码
+ */
 @Controller
-@TycloudResource(module = "systemctl", value = "captcha")
+@TycloudResource(name = "图片验证码",module = "systemctl", resource = "captcha")
 @RequestMapping(value = "/v1/systemctl/captcha")
-@Api(tags = "systemctl-图片验证码")
 public class CaptchaResource {
 
 
-    @TycloudOperation(ApiLevel = UserType.ANONYMOUS, needAuth = false)
-    @ApiOperation(value = "创建")
+    /**
+     * 创建
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @TycloudOperation(operation = "创建",ApiLevel = UserType.ANONYMOUS, needAuth = false)
     @RequestMapping(value = "/image", method = RequestMethod.GET)
     public ResponseModel getKaptchaImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();

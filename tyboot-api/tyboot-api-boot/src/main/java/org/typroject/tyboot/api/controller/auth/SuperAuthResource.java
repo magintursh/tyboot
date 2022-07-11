@@ -1,7 +1,5 @@
 package org.typroject.tyboot.api.controller.auth;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +26,8 @@ import java.util.HashMap;
 /**
  * Created by magintursh on 2017-05-03.
  */
-@TycloudResource(module = "auth",value = "super")
+@TycloudResource(name = "auth-超级管理员登录验证",module = "auth", resource = "super")
 @RequestMapping(value = "/v1/auth/super")
-@Api(tags = "auth-超级管理员登录验证")
 @RestController
 public class SuperAuthResource {
     private final Logger logger = LogManager.getLogger(SuperAuthResource.class) ;
@@ -40,8 +37,13 @@ public class SuperAuthResource {
     LoginAuthenticator loginAuthenticator;
 
 
-    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
-    @ApiOperation(value="平台用户名密码登录")
+    /**
+     *
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @TycloudOperation( operation = "平台用户名密码登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/super/idpassword", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> idPasswordAuthForSuper(@RequestBody IdPasswordAuthModel model) throws Exception
     {

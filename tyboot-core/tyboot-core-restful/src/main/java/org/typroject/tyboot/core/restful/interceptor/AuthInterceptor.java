@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.typroject.tyboot.core.auth.exception.AuthException;
 import org.typroject.tyboot.core.auth.face.model.SsoSessionsModel;
@@ -18,6 +19,7 @@ import org.typroject.tyboot.core.auth.face.service.SsoSessionsService;
 import org.typroject.tyboot.core.foundation.context.RequestContext;
 import org.typroject.tyboot.core.foundation.enumeration.UserType;
 import org.typroject.tyboot.core.foundation.utils.DateUtil;
+import org.typroject.tyboot.core.foundation.utils.StringUtil;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.core.restful.auth.ExtendAuthHandler;
 import org.typroject.tyboot.core.restful.doc.TycloudOperation;
@@ -26,6 +28,7 @@ import org.typroject.tyboot.core.restful.utils.RestfulConstans;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.InetAddress;
 
 /**
  * 自定义拦截器
@@ -33,12 +36,12 @@ import javax.servlet.http.HttpServletResponse;
  * @author 子杨
  */
 @Component
-public class AuthInterceptor extends HandlerInterceptorAdapter {
+public class AuthInterceptor implements AsyncHandlerInterceptor {
 
 
     private static final Logger logger = LoggerFactory.getLogger(AuthInterceptor.class);
 
-    private static final Sequence sequence = new Sequence();
+    private static final Sequence sequence = new Sequence(StringUtil.getLocalInetAddress());
 
     @Autowired
     private SsoSessionsService ssoSessionsService;

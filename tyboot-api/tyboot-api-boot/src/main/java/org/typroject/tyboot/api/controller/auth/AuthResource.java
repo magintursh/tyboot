@@ -1,7 +1,5 @@
 package org.typroject.tyboot.api.controller.auth;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +23,11 @@ import org.typroject.tyboot.core.restful.utils.ResponseModel;
 
 import java.util.HashMap;
 
-
 /**
- * Created by magintursh on 2017-05-03.
+ * privilege-登录验证
  */
-@TycloudResource(module = "privilege",value = "AuthResource")
+@TycloudResource(name = "privilege-登录验证",module = "privilege", resource = "AuthResource")
 @RequestMapping(value = "/v1/privilege/auth")
-@Api(tags = "privilege-登录验证")
 @RestController
 public class AuthResource {
     private final Logger logger = LogManager.getLogger(AuthResource.class) ;
@@ -41,62 +37,85 @@ public class AuthResource {
     LoginAuthenticator loginAuthenticator;
 
 
-    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
-    @ApiOperation(value="公网用户名密码登录")
+    /**
+     * 公网用户名密码登录
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @TycloudOperation(operation = "公网用户名密码登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/public/idpassword", method = RequestMethod.POST)
-    public ResponseModel<LoginInfoModel> idPasswordAuthForPublic(@RequestBody IdPasswordAuthModel model) throws Exception
+    public ResponseModel<LoginInfoModel> idPasswordAuthForPublic(@RequestBody IdPasswordAuthModel model)
     {
         return  this.doAuthenticate(IdType.userName, AuthType.ID_PASSWORD, UserType.PUBLIC,model);
     }
 
-    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
-    @ApiOperation(value="机构用户名密码登录")
+    /**
+     * 机构用户名密码登录
+     * @param model
+     * @return
+     */
+    @TycloudOperation( operation = "机构用户名密码登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/agency/idpassword", method = RequestMethod.POST)
-    public ResponseModel<LoginInfoModel> idPasswordAuthForAgency(@RequestBody IdPasswordAuthModel model) throws Exception
+    public ResponseModel<LoginInfoModel> idPasswordAuthForAgency(@RequestBody IdPasswordAuthModel model)
     {
         return  this.doAuthenticate(IdType.userName, AuthType.ID_PASSWORD, UserType.AGENCY,model);
     }
 
-    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
-    @ApiOperation(value="平台用户名密码登录")
+    /**
+     * 平台用户名密码登录
+     * @param model
+     * @return
+     */
+    @TycloudOperation( operation = "平台用户名密码登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/super/idpassword", method = RequestMethod.POST)
-    public ResponseModel<LoginInfoModel> idPasswordAuthForSuper(@RequestBody IdPasswordAuthModel model) throws Exception
+    public ResponseModel<LoginInfoModel> idPasswordAuthForSuper(@RequestBody IdPasswordAuthModel model)
     {
         return  this.doAuthenticate(IdType.userName, AuthType.ID_PASSWORD, UserType.SUPER_ADMIN,model);
     }
 
 
-    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
-    @ApiOperation(value="短信登录")
+    /**
+     * 短信登录
+     * @param model
+     * @return
+     */
+    @TycloudOperation(operation = "短信登录", ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/sms", method = RequestMethod.POST)
-    public ResponseModel<LoginInfoModel> smsAuth(@RequestBody SmsAuthModel model) throws Exception
+    public ResponseModel<LoginInfoModel> smsAuth(@RequestBody SmsAuthModel model)
     {
         return null;
     }
 
 
-    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
-    @ApiOperation(value="第三方登录")
+    /**
+     * 第三方登录
+     * @param model
+     * @return
+     */
+    @TycloudOperation( operation = "第三方登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/openId", method = RequestMethod.POST)
-    public ResponseModel<LoginInfoModel> thirdPartyAuth(@RequestBody IdPasswordAuthModel model) throws Exception
+    public ResponseModel<LoginInfoModel> thirdPartyAuth(@RequestBody IdPasswordAuthModel model)
     {
         return null;
     }
 
-    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
-    @ApiOperation(value="匿名用户登录")
+
+    /**
+     * 匿名用户登录
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @TycloudOperation(operation = "匿名用户登录", ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/anonymous", method = RequestMethod.POST)
-    public ResponseModel<LoginInfoModel> anonymousAuth(@RequestBody IdPasswordAuthModel model) throws Exception
+    public ResponseModel<LoginInfoModel> anonymousAuth(@RequestBody IdPasswordAuthModel model)
     {
         return null;
     }
 
 
-
-
-
-
-    private ResponseModel doAuthenticate(IdType idType, ProvidedAuthType authType, UserType userType, AuthModel authModel) throws Exception
+    private ResponseModel doAuthenticate(IdType idType, ProvidedAuthType authType, UserType userType, AuthModel authModel)
     {
         HashMap<String, Object> result = loginAuthenticator.authLogin(idType, authType, userType, authModel);
         return ResponseHelper.buildResponse(result);

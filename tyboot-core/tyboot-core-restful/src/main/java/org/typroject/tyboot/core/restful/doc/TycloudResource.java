@@ -2,9 +2,6 @@ package org.typroject.tyboot.core.restful.doc;
 
 import java.lang.annotation.*;
 
-import io.swagger.annotations.Authorization;
-import org.springframework.core.annotation.AliasFor;
-
 /**
  * 
  * <pre>
@@ -31,9 +28,11 @@ import org.springframework.core.annotation.AliasFor;
 @Inherited
 public @interface TycloudResource {
 
+    String name() default "";
+
 	String module();
 
-    String value() default "";
+    String resource() default "";
 
     String description() default "";
 

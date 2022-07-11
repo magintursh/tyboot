@@ -1,6 +1,5 @@
 package org.typroject.tyboot.api.controller.privilage;
 
-import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.typroject.tyboot.core.restful.doc.TycloudResource;
@@ -13,9 +12,8 @@ import org.typroject.tyboot.core.restful.doc.TycloudResource;
  * @author magintursh
  * @since 2017-08-18
  */
-@TycloudResource(module = "privilege",value = "userrole")
+@TycloudResource(name = "用户角色",module = "privilege", resource = "userrole")
 @RequestMapping(value = "/v1/privilege/userrole")
-@Api(tags = "privilege-用户角色")
 @RestController
 public class UserRoleResource {
 

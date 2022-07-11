@@ -33,6 +33,8 @@ public @interface RestEventTrigger
 	 * 标示该触发器触发什么系统业务事件,一个事件对应一个事件处理器
 	 */
 	String[] value() default {};
+	
+	Class<?>[] implementation()  default  DefaultRestEventHandler.class;
 
 	/**
 	 * 方法描述或者被标注的方法中文名

@@ -1,57 +1,29 @@
 package org.typroject.tyboot.api.controller.systemctl;
 
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
-import org.typroject.tyboot.component.opendata.storage.Storage;
-import org.typroject.tyboot.core.foundation.enumeration.UserType;
-import org.typroject.tyboot.core.foundation.utils.StringUtil;
-import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
-import org.typroject.tyboot.core.restful.doc.TycloudOperation;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.typroject.tyboot.core.restful.doc.TycloudResource;
-import org.typroject.tyboot.core.restful.utils.ResponseHelper;
-import org.typroject.tyboot.core.restful.utils.ResponseModel;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 
- * <pre>
- *  Tyrest
- *  File: StorageResourceV1.java
- * 
- *  Tyrest, Inc.
- *  Copyright (C): 2016
- * 
- *  Description:
- * 
- *  Notes:
- *  $Id: StorageResourceV1.java  Tyrest\magintrursh $ 
- * 
- *  Revision History
- *  &lt;Date&gt;,			&lt;Who&gt;,			&lt;What&gt;
- *  2016年11月1日		magintrursh		Initial.
- *
- * </pre>
+ * 存储服务
  */
-
 @RestController
-@RequestMapping(value = "/v1/systemctl/storage")
-@TycloudResource(module = "systemctl",value = "storage", description = "存储服务")
-@Api(tags = "systemctl-存储服务")
+@RequestMapping(name = "存储服务",value = "/v1/systemctl/storage")
+@TycloudResource(module = "systemctl", resource = "storage", description = "存储服务")
 public class StorageResource {
 
 	//@Autowired
-	private Storage storage;
+	//private Storage storage;
 
 	//@Value("${qiniu.bucket}")
 	private String qiniuBucket;
 
 	private static Set<String> spaceNames;
 	
-	@TycloudOperation( ApiLevel = UserType.ANONYMOUS)
+	/*@TycloudOperation( ApiLevel = UserType.ANONYMOUS)
 	@ApiOperation(value="根据空间获取七牛token")
 	@RequestMapping(value = "/token/{space}", method = RequestMethod.GET)
 	public ResponseModel<String> flushQiniuToken(@PathVariable String space) throws Exception {
@@ -100,6 +72,6 @@ public class StorageResource {
 		}
 		return spaceName;
 	}
-
+*/
 
 }
