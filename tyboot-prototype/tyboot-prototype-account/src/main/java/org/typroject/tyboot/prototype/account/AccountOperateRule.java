@@ -21,15 +21,28 @@ package org.typroject.tyboot.prototype.account;
  *
  * </pre>
  */
-public interface AccountOperateRule {
+public abstract class AccountOperateRule {
 
-	
-	/**锁定账户的规则定义*/
-	String RULE_OF_LOCK  = "";
 	
 	/**
 	 * 检查当前操作是否可以进行
 	 * @return
 	 */
-	boolean  checkOperation(Account account);
+	public abstract boolean  checkOperation(Account account);
+
+
+
+	protected boolean checkAccountStatus(Account account){
+		//TODO 校验账户是否被锁定 以及是否失效
+		if(AccountStatus.INVALID.name().equals(account.getAccountInfoModel().getAccountStatus())){
+			throw new AccountTradeException("账户已失效.");
+		}
+
+		if(AccountStatus.LOCKED.name().equals(account.getAccountInfoModel().getAccountStatus())){
+			throw new AccountTradeException("账户已被锁定.");
+		}
+		return true;
+	}
+
+
 } 

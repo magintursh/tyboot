@@ -45,7 +45,8 @@ public class RechargeHandler    implements AccountTradeHandler {
 	public   enum  RechargeParams implements TradeParams {
  
 		billNo(true,"账单号"),	   //用户
-		amount(true,"交易金额");   //交易金额
+		amount(true,"交易金额"),   //交易金额
+		postscript(true,"交易附言"); //附言
 		
 		private boolean notnull;
 		private String paramName;
@@ -63,21 +64,27 @@ public class RechargeHandler    implements AccountTradeHandler {
 			return paramName;
 		}
 		public String getParamCode(){return this.name();}
-		
+		@Override
+		public <T> T getValue(Map<String, Object> params) {
+			return (T) params.get(this.getParamCode());
+		}
+
+
 	}
 
 	
 	
 	@Override
-	public boolean execute(Map<String, Object> params,Account account) throws Exception {
+	public boolean execute(Map<String, Object> params,Account account) {
 		boolean flage = false;
 		//解析参数
 		 if(BaseTradeParams.checkPrams(params, RechargeParams.values()))
 		 {
-			BigDecimal amount = (BigDecimal)params.get(RechargeParams.amount.name());
-			String billNo = params.get(RechargeParams.billNo.name()).toString();
+			BigDecimal amount = RechargeParams.amount.getValue(params);
+			String billNo = RechargeParams.billNo.getValue(params);
+			 String postscript = RechargeParams.postscript.getValue(params);
 			//执行交易
-			flage = account.income(amount, DefaultAccountTradeType.RECHARGE,billNo);
+			flage = account.income(amount, DefaultAccountTradeType.RECHARGE,billNo,postscript);
 			if(flage)
 				accountRechargeRecordService.createRecord(account.getAccountInfoModel().getUserId(),
 						account.getAccountInfoModel().getAccountNo(),

@@ -53,7 +53,24 @@ public class AccountInfoModel extends BaseModel {
      * 数据版本
      */
     private Long updateVersion;
+
+    /**
+     * 创建时间
+     */
     private Date createTime;
 
+    /**
+     * 用户id
+     */
     private String userId;
+
+    /**
+     * 冻结金额
+     */
+    private BigDecimal frozenBalance;
+
+    /**
+     * 出账总计
+     */
+    private BigDecimal spendAmount;
 }

@@ -3,9 +3,9 @@ package org.typroject.tyboot.prototype.order.state.impl;
 
 import org.springframework.stereotype.Component;
 import org.typroject.tyboot.prototype.order.BaseOrder;
+import org.typroject.tyboot.prototype.order.OrderException;
 import org.typroject.tyboot.prototype.order.constants.OrderConstants;
 import org.typroject.tyboot.prototype.order.state.BaseOrderState;
-import org.typroject.tyboot.prototype.order.state.OrderStatus;
 import org.typroject.tyboot.prototype.order.state.StateHandler;
 
 
@@ -32,8 +32,8 @@ public class DefaultOrderState extends BaseOrderState implements StateHandler{
 	
 	
 	@Override
-	public BaseOrder process() throws Exception{
-		throw new Exception(OrderConstants.ORDER_STATUS_ERROR);
+	public BaseOrder process(){
+		throw new OrderException(OrderConstants.ORDER_STATUS_ERROR);
 	}
 
 }

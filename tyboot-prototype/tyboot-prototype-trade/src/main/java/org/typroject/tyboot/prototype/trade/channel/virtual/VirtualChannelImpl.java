@@ -1,14 +1,14 @@
 package org.typroject.tyboot.prototype.trade.channel.virtual;
 
 import org.springframework.stereotype.Component;
-import org.typroject.tyboot.prototype.trade.channel.BaseChannelProcess;
-import org.typroject.tyboot.prototype.trade.channel.ChannelProcessor;
+import org.typroject.tyboot.core.foundation.context.SpringContextHelper;
+import org.typroject.tyboot.face.trade.model.TransactionsSerialModel;
 import org.typroject.tyboot.prototype.trade.Trade;
 import org.typroject.tyboot.prototype.trade.TradeResultModel;
 import org.typroject.tyboot.prototype.trade.TradeStatus;
 import org.typroject.tyboot.prototype.trade.TradeType;
-import org.typroject.tyboot.core.foundation.context.SpringContextHelper;
-import org.typroject.tyboot.face.trade.model.TransactionsSerialModel;
+import org.typroject.tyboot.prototype.trade.channel.BaseChannelProcess;
+import org.typroject.tyboot.prototype.trade.channel.ChannelProcessor;
 
 import java.util.Map;
 
@@ -17,7 +17,6 @@ public class VirtualChannelImpl extends BaseChannelProcess implements ChannelPro
 
 
 
-    private static final String CHANNEL_PIX = "virtual";
     /**
      * 处理交易请求
      * @param serialModel	交易流水
@@ -26,9 +25,9 @@ public class VirtualChannelImpl extends BaseChannelProcess implements ChannelPro
      * @return
      * @throws Exception
      */
-   public TradeResultModel processTradeRequest(TransactionsSerialModel serialModel, TradeType tradeType, Map<String, Object> extraParams) throws Exception
+   public TradeResultModel processTradeRequest(TransactionsSerialModel serialModel, TradeType tradeType, Map<String, Object> extraParams)
    {
-       Trade trade = (Trade)SpringContextHelper.getBean(CHANNEL_PIX+tradeType.getTradeProcessor());
+       Trade trade = (Trade)SpringContextHelper.getBean(tradeType.getTradeProcessor());
        TradeResultModel resultModel =  trade.process(serialModel, extraParams);
        return resultModel;
    }
@@ -48,7 +47,7 @@ public class VirtualChannelImpl extends BaseChannelProcess implements ChannelPro
      * @return
      * @throws Exception
      */
-    public TradeResultModel processTradeResult(String serialNo, TradeStatus tradeStatus, Object result)throws Exception
+    public TradeResultModel processTradeResult(String serialNo, TradeStatus tradeStatus, Object result)
     {
         TradeResultModel resultModel = new TradeResultModel();
         resultModel.setCalledSuccess(true);

@@ -27,7 +27,7 @@ public class AccountRechargeRecordService extends BaseService<AccountRechargeRec
 {
 
 
-    public AccountRechargeRecordModel createRecord(String userId,String accountNo,BigDecimal rechargeAmount,String billNo,String accountType)throws Exception
+    public AccountRechargeRecordModel createRecord(String userId,String accountNo,BigDecimal rechargeAmount,String billNo,String accountType)
     {
         AccountRechargeRecordModel newRecord = new AccountRechargeRecordModel();
         newRecord.setAccountNo(accountNo);

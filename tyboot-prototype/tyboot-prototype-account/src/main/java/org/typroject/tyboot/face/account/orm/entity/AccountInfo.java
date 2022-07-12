@@ -68,4 +68,8 @@ public class AccountInfo extends BaseEntity {
     private Date createTime;
     @TableField("USER_ID" )
     private String userId;
+    @TableField("FROZEN_BALANCE" )
+    private BigDecimal frozenBalance;
+    @TableField("SPEND_AMOUNT" )
+    private BigDecimal spendAmount;
 }

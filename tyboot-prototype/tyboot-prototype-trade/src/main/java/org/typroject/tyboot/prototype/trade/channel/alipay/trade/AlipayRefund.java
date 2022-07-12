@@ -12,6 +12,7 @@ import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.face.trade.model.TransactionsSerialModel;
 import org.typroject.tyboot.face.trade.service.TransactionsSerialService;
 import org.typroject.tyboot.prototype.trade.Trade;
+import org.typroject.tyboot.prototype.trade.TradeException;
 import org.typroject.tyboot.prototype.trade.TradeResultModel;
 import org.typroject.tyboot.prototype.trade.channel.alipay.AlipayProperty;
 import org.typroject.tyboot.prototype.trade.PropertyConstants;
@@ -19,7 +20,7 @@ import org.typroject.tyboot.prototype.trade.PropertyConstants;
 import java.math.RoundingMode;
 import java.util.Map;
 
-@Component(value = "alipayRefund" )
+@Component(value = "alipayRefund")
 public class AlipayRefund implements Trade {
 
 
@@ -32,7 +33,7 @@ public class AlipayRefund implements Trade {
     private AlipayProperty alipayProperty;
 
     @Override
-    public TradeResultModel process(TransactionsSerialModel serialModel, Map<String, Object> extra) throws Exception {
+    public TradeResultModel process(TransactionsSerialModel serialModel, Map<String, Object> extra) {
 
         TradeResultModel resultModel = new TradeResultModel();
 
@@ -40,10 +41,10 @@ public class AlipayRefund implements Trade {
         AlipayClient alipayClient = new DefaultAlipayClient(alipayProperty.getServerUrl(),
                 alipayProperty.getAppid(),
                 alipayProperty.getPrivateKey(),
-                "json" ,
+                "json",
                 AlipayConstants.CHARSET_UTF8,
                 alipayProperty.getPublicKey(),
-                "RSA2" );
+                "RSA2");
 
 
         //初始化退款请求对象
@@ -69,14 +70,14 @@ public class AlipayRefund implements Trade {
                 //这里和普通的接口调用不同，使用的是sdkExecute
                 AlipayTradeRefundResponse response = alipayClient.execute(refundRequest);
                 if (response.isSuccess()) {
-                    resultModel.setResult("SUCCESS" );
+                    resultModel.setResult("SUCCESS");
                     resultModel.setCalledSuccess(true);
                 } else {
-                    throw new BaseException("退款失败.稍后重试." , "tradeException" , "交易失败." );
+                    throw new BaseException("退款失败.稍后重试.", "tradeException", "交易失败.");
                 }
             } catch (AlipayApiException e) {
                 logger.error(e.getErrMsg(), e);
-                throw e;
+                throw new TradeException("errCode：" + e.getErrCode() + ";errMsg：" + e.getErrMsg());
             }
 
         }

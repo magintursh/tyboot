@@ -1,5 +1,7 @@
 package org.typroject.tyboot.prototype.order.state;
 
+import org.typroject.tyboot.prototype.order.rule.OperationLimitHandler;
+
 /**
  * 
  * <pre>
@@ -25,7 +27,7 @@ public interface OrderStatus {
 	 * 
 	 * state实现类Bean名称
 	 */
-	String getStateHandler();
+	Class<? extends StateHandler> getStateHandler();
 	
 
 	/**
@@ -34,7 +36,7 @@ public interface OrderStatus {
 	 *
 	 * @return
 	 */
-	String getRuleHandler();
+	Class<? extends OperationLimitHandler> getRuleHandler();
 	
 	
 	/**

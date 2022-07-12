@@ -14,9 +14,8 @@ public interface StateHandler {
 	 * 订单流程流转处理方法，从新创建的订单，直到订单成功完成，不同的状态对象实现各自需要的处理；
 	 * 此方法只处理主线流程流转过程，支线处理在各自实现类中定义和实现
 	 * @return
-	 * @throws Exception
 	 */
-	BaseOrder process()throws Exception;
+	BaseOrder process();
 	
 	
 	/**

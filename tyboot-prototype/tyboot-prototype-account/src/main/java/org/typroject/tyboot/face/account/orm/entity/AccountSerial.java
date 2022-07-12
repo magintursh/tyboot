@@ -77,4 +77,7 @@ public class AccountSerial extends BaseEntity {
 
     @TableField("USER_ID" )
     private String userId;
+
+    @TableField("POSTSCRIPT" )
+    private String postscript;
 }

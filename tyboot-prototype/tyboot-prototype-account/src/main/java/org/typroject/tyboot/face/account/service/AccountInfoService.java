@@ -14,10 +14,7 @@ import org.typroject.tyboot.core.rdbms.service.BaseService;
 import org.typroject.tyboot.face.account.model.AccountInfoModel;
 import org.typroject.tyboot.face.account.orm.dao.AccountInfoMapper;
 import org.typroject.tyboot.face.account.orm.entity.AccountInfo;
-import org.typroject.tyboot.prototype.account.AccountBaseOperation;
-import org.typroject.tyboot.prototype.account.AccountConstants;
-import org.typroject.tyboot.prototype.account.AccountStatus;
-import org.typroject.tyboot.prototype.account.AccountType;
+import org.typroject.tyboot.prototype.account.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -40,28 +37,65 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
     @Autowired
     private Sequence sequence;
 
-    public AccountInfoModel initAccountInfo(String userId, AccountType accountType, String accountNo) throws Exception {
+    public AccountInfoModel initAccountInfo(String userId, AccountType accountType, String accountNo) {
         AccountInfoModel accountInfo = new AccountInfoModel();
         accountInfo.setAccountNo(accountNo);//账户编号生成
         accountInfo.setUserId(userId);
         accountInfo.setAccountType(accountType.getAccountType());
         accountInfo.setAccountStatus(AccountStatus.NORMAL.name());
         accountInfo.setAgencyCode(CoreConstans.CODE_SUPER_ADMIN);
-        accountInfo.setBalance(new BigDecimal(0));
+        accountInfo.setBalance(BigDecimal.ZERO);
         accountInfo.setCreateTime(new Date());
-        accountInfo.setCumulativeBalance(new BigDecimal(0));
+        accountInfo.setCumulativeBalance(BigDecimal.ZERO);
+        accountInfo.setSpendAmount(BigDecimal.ZERO);
+        accountInfo.setFrozenBalance(BigDecimal.ZERO);
         accountInfo.setPaymentPassword(AccountConstants.DEFAULT_PAYMENT_PASSWORD);
         accountInfo.setUpdateVersion(sequence.nextId());
         return this.createWithModel(accountInfo);
     }
 
 
-    public AccountInfoModel updateFinalBalance(String accountNo, BigDecimal changeAmount,BigDecimal finalBalance, Long oldUpdateVersion, AccountBaseOperation bookkeeping) throws Exception {
+    /**
+     * 更新账户余额
+     * @param accountNo  账户编号
+     * @param changeAmount  变更金额
+     * @param finalBalance  最终金额
+     * @param oldUpdateVersion  记录版本号
+     * @param bookkeeping  记账类型
+     * @return
+     * @throws Exception
+     */
+    public AccountInfoModel updateFinalBalance(String accountNo, BigDecimal changeAmount,BigDecimal finalBalance, Long oldUpdateVersion, AccountBaseOperation bookkeeping)  {
         AccountInfoModel oldModel = this.queryByAccontNoAndVersion(accountNo, oldUpdateVersion);
         if (!ValidationUtil.isEmpty(oldModel)) {
             oldModel.setBalance(finalBalance);
-            if (AccountBaseOperation.INCOME.equals(bookkeeping)) {
-                oldModel.setCumulativeBalance(oldModel.getCumulativeBalance().add(changeAmount));
+            if(ValidationUtil.isEmpty(oldModel.getCumulativeBalance())){
+                oldModel.setCumulativeBalance(BigDecimal.ZERO);
+            }
+            if(ValidationUtil.isEmpty(oldModel.getSpendAmount())){
+                oldModel.setSpendAmount(BigDecimal.ZERO);
+            }
+
+            switch (bookkeeping){
+                case INCOME:
+                    oldModel.setCumulativeBalance(oldModel.getCumulativeBalance().add(changeAmount));
+                    break;
+                case SPEND:
+                    oldModel.setSpendAmount(oldModel.getSpendAmount().add(changeAmount));
+                    break;
+                case FREEZE:
+                    oldModel.setSpendAmount(oldModel.getSpendAmount().add(changeAmount));
+                    oldModel.setFrozenBalance(oldModel.getFrozenBalance().add(changeAmount));
+                    break;
+                case UNFREEZE:
+                    if(oldModel.getFrozenBalance().doubleValue() < changeAmount.doubleValue()){
+                        throw new AccountTradeException("冻结账户金额不足.");
+                    }
+                    oldModel.setCumulativeBalance(oldModel.getCumulativeBalance().add(changeAmount));
+                    oldModel.setFrozenBalance(oldModel.getFrozenBalance().subtract(changeAmount));
+                    break;
+                default:
+                    throw new AccountTradeException("账户操作类型有误." );
             }
 
             oldModel.setUpdateVersion(sequence.nextId());
@@ -73,19 +107,24 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
             params.put("UPDATE_VERSION" , oldUpdateVersion);
             params.put("ACCOUNT_NO" , accountNo);
             params.put("ACCOUNT_STATUS" , AccountStatus.NORMAL.name());
-            QueryWrapper wrapper = new QueryWrapper();
-            wrapper.allEq(params, false);
+            QueryWrapper<AccountInfo> wrapper = new QueryWrapper<>();
+            wrapper.allEq(params, Boolean.FALSE);
             boolean result = this.update(Bean.toPo(oldModel, new AccountInfo()), wrapper);
             if (!result)
-                throw new Exception("更新余额失败." );
+                throw new AccountTradeException("更新余额失败." );
         } else {
-            throw new Exception("找不到指定账户." );
+            throw new AccountTradeException("找不到指定账户." );
         }
         return oldModel;
     }
 
 
-    public AccountInfoModel updateAccountStatus(String accountNo, AccountStatus newStatus, AccountStatus oldStatus, Long oldUpdateVersion) throws Exception {
+    public void  incomeFrozenBalance(String accountNo,BigDecimal changeAmount){
+
+    }
+
+
+    public AccountInfoModel updateAccountStatus(String accountNo, AccountStatus newStatus, AccountStatus oldStatus, Long oldUpdateVersion)  {
         AccountInfoModel oldModel = this.queryByAccontNoAndVersion(accountNo, oldUpdateVersion);
         if (!ValidationUtil.isEmpty(oldModel)) {
             oldModel.setAccountStatus(newStatus.name());
@@ -100,9 +139,9 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
                 wrapper.eq("ACCOUNT_STATUS" , oldStatus.name());
             boolean result = this.update(Bean.toPo(oldModel, new AccountInfo()), wrapper);
             if (!result)
-                throw new Exception("更新状态失败." );
+                throw new AccountTradeException("更新状态失败." );
         } else {
-            throw new Exception("找不到指定账户." );
+            throw new AccountTradeException("找不到指定账户." );
         }
         return oldModel;
     }

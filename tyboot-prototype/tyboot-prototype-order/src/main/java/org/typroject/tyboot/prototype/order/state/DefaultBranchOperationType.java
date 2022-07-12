@@ -1,89 +1,77 @@
 package org.typroject.tyboot.prototype.order.state;
 
+import org.typroject.tyboot.prototype.order.rule.OperationLimitHandler;
+
 /**
- * 
  * <pre>
- * 
+ *
  *  File: DefaultBranchOperationType.java
- * 
+ *
  *  Description:
  *  TODO
- * 
+ *
  *  Notes:
  *  DefaultBranchOperationType.java  tyrest\magintursh
- * 
+ *
  *  Revision History
  *  &lt;Date&gt;,			&lt;Who&gt;,			&lt;What&gt;
  *  2016年9月29日					magintursh				   Initial.
  *
  * </pre>
  */
-public enum DefaultBranchOperationType implements BranchOperationType
-{
-	/**
-	 * 结账/支付
-	 */
-	CHECKOUT("结账","",""), 
-	
-	/**
-	 * 取消，即提前终止流程流转
-	 */
-	CANCEL("取消","",""),
-	
-	/**
-	 * 退款
-	 */
-	REFUND("","","");
-	
-	
-	
-	
-	
-	private String operationName;
-	private String oprationRuleHandler;
-	private String branchHandler;
-	
-	private DefaultBranchOperationType(String operationName,String oprationRuleHandler,String branchHandler)
-	{
-		this.operationName = operationName;
-		this.oprationRuleHandler = oprationRuleHandler;
-		this.branchHandler = branchHandler;
-	}
-	
-	
-	
+public enum DefaultBranchOperationType implements BranchOperationType {
+    /**
+     * 结账/支付
+     */
+    CHECKOUT("结账", null, null),
 
-	@Override
-	public String getOperationName()
-	{
-		
-		return this.operationName;
-	}
+    /**
+     * 取消，即提前终止流程流转
+     */
+    CANCEL("取消", null, null),
 
-	@Override
-	public String getOperationCode()
-	{
-		
-		return this.name();
-	}
-
-	@Override
-	public String getOprationRuleHandler()
-	{
-		return this.oprationRuleHandler;
-	}
+    /**
+     * 退款
+     */
+    REFUND("", null, null);
 
 
+    private String operationName;
+    private Class<? extends OperationLimitHandler> oprationRuleHandler;
+    private Class<? extends BranchHandler> branchHandler;
+
+    private DefaultBranchOperationType(String operationName, Class<? extends OperationLimitHandler> oprationRuleHandler, Class<? extends BranchHandler> branchHandler) {
+        this.operationName = operationName;
+        this.oprationRuleHandler = oprationRuleHandler;
+        this.branchHandler = branchHandler;
+    }
 
 
-	@Override
-	public String getBranchHandler()
-	{
-		return this.branchHandler;
-	}
+    @Override
+    public String getOperationName() {
+
+        return this.operationName;
+    }
+
+    @Override
+    public String getOperationCode() {
+
+        return this.name();
+    }
+
+    @Override
+    public Class<? extends OperationLimitHandler> getOprationRuleHandler() {
+        return this.oprationRuleHandler;
+    }
+
+
+    @Override
+    public Class<? extends BranchHandler> getBranchHandler() {
+        return this.branchHandler;
+    }
 
 }
 
 /*
-*$Log: av-env.bat,v $
-*/
+ *$Log: av-env.bat,v $
+ */

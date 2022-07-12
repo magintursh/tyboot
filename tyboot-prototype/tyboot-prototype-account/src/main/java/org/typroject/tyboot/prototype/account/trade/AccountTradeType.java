@@ -1,5 +1,7 @@
 package org.typroject.tyboot.prototype.account.trade;
 
+import org.typroject.tyboot.prototype.account.AccountOperateRule;
+
 /**
  * 
  * <pre>
@@ -30,7 +32,7 @@ public interface AccountTradeType {
 	 *
 	 * @return
 	 */
-	public String getOperationName();
+	String getOperationName();
 	
 	
 	/**
@@ -39,7 +41,7 @@ public interface AccountTradeType {
 	 *
 	 * @return
 	 */
-	public String getAccountTradeType();
+	String getAccountTradeType();
 	
 	/**
 	 * 
@@ -47,7 +49,7 @@ public interface AccountTradeType {
 	 *
 	 * @return
 	 */
-	public String getAccountTradeHandler();
+	Class<? extends AccountTradeHandler> getAccountTradeHandler();
 	
 	/**
 	 * 
@@ -55,6 +57,6 @@ public interface AccountTradeType {
 	 *
 	 * @return
 	 */
-	public String getOperationRule();
+	Class<? extends AccountOperateRule> getOperationRule();
 	
 }

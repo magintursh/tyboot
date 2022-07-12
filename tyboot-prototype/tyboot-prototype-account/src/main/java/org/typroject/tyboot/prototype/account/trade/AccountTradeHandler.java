@@ -44,7 +44,7 @@ public interface AccountTradeHandler {
 	 * @return
 	 * @throws Exception
 	 */
-	boolean execute(Map<String, Object> params, Account account)throws Exception;
+	boolean execute(Map<String, Object> params, Account account);
 
 
 }

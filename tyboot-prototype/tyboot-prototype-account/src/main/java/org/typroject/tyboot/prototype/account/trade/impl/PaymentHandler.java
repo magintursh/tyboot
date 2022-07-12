@@ -38,7 +38,8 @@ public class PaymentHandler  implements AccountTradeHandler {
 	 enum PaymentParams implements TradeParams {
  
 		billNo(true,"账单号"),	   //用户
-		amount(true,"交易金额");   //交易金额
+		amount(true,"交易金额"),  //交易金额
+		postscript(true,"交易附言"); //附言
 		
 		private boolean notnull;
 		private String paramName;
@@ -56,21 +57,27 @@ public class PaymentHandler  implements AccountTradeHandler {
 			return paramName;
 		}
 		public String getParamCode(){return this.name();}
-		
+		@Override
+		public <T> T getValue(Map<String, Object> params) {
+			return (T) params.get(this.getParamCode());
+		}
+
+
 	}
 
 	
 	
 	@Override
-	public boolean execute(Map<String, Object> params,Account account) throws Exception {
+	public boolean execute(Map<String, Object> params,Account account)  {
 		boolean flage = false;
 		//解析参数
 		 if(BaseTradeParams.checkPrams(params, PaymentParams.values()))
 		 {
-			BigDecimal amount = (BigDecimal)params.get(PaymentParams.amount.name());
-			String billNo     = (String)params.get(PaymentParams.billNo.name());
+			BigDecimal amount = PaymentParams.amount.getValue(params);
+			String billNo     = PaymentParams.billNo.getValue(params);
+			 String postscript     = PaymentParams.postscript.getValue(params);
 			//执行交易
-			flage = account.spend(amount, DefaultAccountTradeType.PAYMENT,billNo);
+			flage = account.spend(amount, DefaultAccountTradeType.PAYMENT,billNo,postscript);
 			
 			//验证结果			 
 		 }	 

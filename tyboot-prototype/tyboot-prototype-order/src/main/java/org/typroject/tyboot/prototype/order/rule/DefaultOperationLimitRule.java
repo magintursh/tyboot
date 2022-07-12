@@ -26,7 +26,7 @@ public class DefaultOperationLimitRule implements OperationLimitHandler
 {
 
 	@Override
-	public boolean checkOperation(BaseOrder order) throws Exception
+	public boolean checkOperation(BaseOrder order)
 	{
 		return true;
 	}

@@ -14,7 +14,7 @@ public interface Trade {
 	 * @return
 	 * @throws Exception
 	 */
-	TradeResultModel process(TransactionsSerialModel serialModel, Map<String, Object> extra)throws Exception ;
+	TradeResultModel process(TransactionsSerialModel serialModel, Map<String, Object> extra);
 
 
 }

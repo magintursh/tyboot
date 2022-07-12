@@ -19,7 +19,7 @@ public final class AccountManager {
 	 * @param accountType
 	 * @throws Exception
 	 */
-	public AccountManager(String  userId,AccountType accountType) throws Exception {
+	public AccountManager(String  userId,AccountType accountType)  {
 		this.account  = Account.getAccountInstance(userId,accountType);
 	}
 	
@@ -28,7 +28,7 @@ public final class AccountManager {
 	 * @param accountNo
 	 * @throws Exception
 	 */
-	public AccountManager(String accountNo) throws Exception {
+	public AccountManager(String accountNo)  {
 		this.account  = Account.getAccountInstance(accountNo);
 	}
 	
@@ -40,7 +40,7 @@ public final class AccountManager {
 	 * @param params	交易参数
 	 * @throws Exception
 	 */
-	public boolean executeTrade(AccountTradeType accountTradeType, Map<String,Object> params) throws Exception
+	public boolean executeTrade(AccountTradeType accountTradeType, Map<String,Object> params)
 	{
 		//#1.验证操作规则
 		//#2.初始化账户操作对象
@@ -48,7 +48,7 @@ public final class AccountManager {
 		//#4.交易结果处理
 		AccountTradeHandler tradeHandler = (AccountTradeHandler)SpringContextHelper.getBean(accountTradeType.getAccountTradeHandler());
 		if(ValidationUtil.isEmpty(tradeHandler)){
-			throw new Exception("账户交易处理器未找到");
+			throw new AccountTradeException("账户交易处理器未找到");
 		}
 		return tradeHandler.execute(params,account);
 	}
@@ -58,7 +58,7 @@ public final class AccountManager {
 	
 	
 
-	public static boolean initAccountInfo(String userId,AccountType accountType) throws Exception
+	public static boolean initAccountInfo(String userId,AccountType accountType)
 	{
 		Account.initAccountInfo(userId,accountType);
 		return true;
@@ -74,13 +74,13 @@ public final class AccountManager {
 	 * @return
 	 * @throws Exception 
 	 */
-	public boolean lock(Long userId, AccountType accountType) throws Exception
+	public boolean lock(Long userId, AccountType accountType)
 	{
 		return account.lock();
 	}
 
 
-	public AccountInfoModel getAccountModel() throws Exception {
+	public AccountInfoModel getAccountModel(){
 			return Bean.copyExistPropertis(this.account.getAccountInfoModel(),new AccountInfoModel());
 	}
 

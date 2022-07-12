@@ -63,4 +63,6 @@ public class AccountSerialModel extends BaseModel {
     private String bookkeeping;
 
     private String userId;
+
+    private String postscript;
 }

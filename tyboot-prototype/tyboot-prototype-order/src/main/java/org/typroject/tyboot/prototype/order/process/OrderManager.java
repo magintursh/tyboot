@@ -80,11 +80,11 @@ public class OrderManager {
      * @return
      * @throws Exception
      */
-    private Boolean checkLimit(String beanName) throws Exception {
-        if (ValidationUtil.isEmpty(beanName)) {
+    private Boolean checkLimit(Class<? extends OperationLimitHandler> limitHandler) throws Exception {
+        if (ValidationUtil.isEmpty(limitHandler)) {
             return true;
         }
-        OperationLimitHandler rule = (OperationLimitHandler) SpringContextHelper.getBean(beanName);
+        OperationLimitHandler rule =  SpringContextHelper.getBean(limitHandler);
         if (!ValidationUtil.isEmpty(rule) && rule.checkOperation(this.getState().getOrder())) {
             return true;
         } else {

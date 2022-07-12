@@ -30,12 +30,12 @@ public class TransactionsSerialService extends BaseService<TransactionsSerialMod
 {
 
 
-    public TransactionsSerialModel selectBySeriaNo(String serialNo) throws Exception
+    public TransactionsSerialModel selectBySeriaNo(String serialNo)
     {
         return queryModelByParams(serialNo);
     }
 
-    public TransactionsSerialModel selectByBillNo(String billNo,String tradeType)throws Exception
+    public TransactionsSerialModel selectByBillNo(String billNo,String tradeType)
     {
         TransactionsSerialModel model = new TransactionsSerialModel();
         model.setBillNo(billNo);
@@ -73,7 +73,7 @@ public class TransactionsSerialService extends BaseService<TransactionsSerialMod
      * @return
      * @throws Exception
      */
-    public TransactionsSerialModel createSerial(TransactionsBillModel billModel, ChannelType channelType, TradeType tradeType) throws Exception
+    public TransactionsSerialModel createSerial(TransactionsBillModel billModel, ChannelType channelType, TradeType tradeType)
     {
         TransactionsSerialModel serial = new TransactionsSerialModel();
         serial.setSerialNo(Sequence.generatorSerialNo());

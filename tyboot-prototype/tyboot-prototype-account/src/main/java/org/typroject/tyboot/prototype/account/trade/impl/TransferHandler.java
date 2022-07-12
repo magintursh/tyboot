@@ -2,14 +2,15 @@ package org.typroject.tyboot.prototype.account.trade.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
+import org.typroject.tyboot.face.account.model.AccountTransferRecordModel;
+import org.typroject.tyboot.face.account.service.AccountTransferRecordService;
 import org.typroject.tyboot.prototype.account.Account;
+import org.typroject.tyboot.prototype.account.AccountTradeException;
 import org.typroject.tyboot.prototype.account.trade.AccountTradeHandler;
 import org.typroject.tyboot.prototype.account.trade.BaseTradeParams;
 import org.typroject.tyboot.prototype.account.trade.DefaultAccountTradeType;
 import org.typroject.tyboot.prototype.account.trade.TradeParams;
-import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
-import org.typroject.tyboot.face.account.model.AccountTransferRecordModel;
-import org.typroject.tyboot.face.account.service.AccountTransferRecordService;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -43,14 +44,14 @@ public class TransferHandler    implements AccountTradeHandler {
 	AccountTransferRecordService accountTransferRecordService;
 
 	/**交易参数*/
-	private enum PaymentParams implements TradeParams {
+	public enum PaymentParams implements TradeParams {
 
 		billNo(true,"账单号"),
 		transferType(true,"轉賬類型"),//轉賬的前置業務標識
 		amount(true,"交易金额"),
 		postscript(true,"交易附言"),
 		targetAccountNo(true,"目标账户编号");
-		
+
 		private boolean notnull;
 		private String paramName;
 		PaymentParams(boolean notnull,String paramName)
@@ -67,32 +68,37 @@ public class TransferHandler    implements AccountTradeHandler {
 			return paramName;
 		}
 		public String getParamCode(){return this.name();}
+		@Override
+		public <T> T getValue(Map<String, Object> params) {
+			return (T) params.get(this.getParamCode());
+		}
+
 	}
 
 	
 	
 	@Override
-	public boolean execute(Map<String, Object> params,Account account) throws Exception {
+	public boolean execute(Map<String, Object> params,Account account)  {
 		boolean flage = false;
 		//解析参数
 		 if(BaseTradeParams.checkPrams(params, PaymentParams.values()))
 		 {
-			BigDecimal amount 		   = (BigDecimal)params.get(PaymentParams.amount.name());
-			String targetAccountNo = (String)params.get(PaymentParams.targetAccountNo.name());
-			String billNo		   = (String)params.get(PaymentParams.billNo.name());
-			String postscript	   = (String)params.get(PaymentParams.postscript.name());
-			String transferType    = (String)params.get(PaymentParams.transferType.name());
+			BigDecimal amount 		   = PaymentParams.amount.getValue(params);
+			String targetAccountNo = PaymentParams.targetAccountNo.getValue(params);
+			String billNo		   =  PaymentParams.billNo.getValue(params);
+			String postscript	   =  PaymentParams.postscript.getValue(params);
+			String transferType    =  PaymentParams.transferType.getValue(params);
 			Account targetAccount  = Account.getAccountInstance(targetAccountNo);
 
 
 			 //从來源账户出账
-			boolean  spendResult   = account.spend(amount, DefaultAccountTradeType.TRANSFER_INTERNAL,billNo);
+			boolean  spendResult   = account.spend(amount, DefaultAccountTradeType.TRANSFER_INTERNAL,billNo,postscript);
 			 //为目标账户入账
-			boolean incomeResult   = targetAccount.income(amount,DefaultAccountTradeType.TRANSFER_INTERNAL,billNo);
+			boolean incomeResult   = targetAccount.income(amount,DefaultAccountTradeType.TRANSFER_INTERNAL,billNo,postscript);
 			               flage   = spendResult && incomeResult;
 			if(!spendResult || !incomeResult)
 			{
-				throw new Exception("转账出现异常.");
+				throw new AccountTradeException("转账出现异常.");
 			}
 
 			//保存转账记录

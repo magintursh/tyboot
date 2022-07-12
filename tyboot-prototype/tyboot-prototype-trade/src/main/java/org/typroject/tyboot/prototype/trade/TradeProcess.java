@@ -43,33 +43,13 @@ public class TradeProcess {
 	 * 发起交易
 	 * @param tradeType
 	 * @param channelType
-	 * @throws Exception 
+	 * @throws Exception
 	 * @param billModel  待结账的账单
 	 * @param tradeType	交易类型
 	 * @param channelType 交易渠道
 	 */
-	public TradeResultModel sendTradeRequest(TransactionsBillModel billModel, TradeType tradeType, ChannelType channelType, Map<String,Object> extraParams) throws Exception
-	{
-		TradeResultModel resultModel 			= new TradeResultModel();
-		DefaultTradeType defaultTradeType = (DefaultTradeType) tradeType;
 
-		switch (defaultTradeType)
-		{
-			case PAYMENT:
-				resultModel = this.sendPaymentRequest(billModel,tradeType,channelType,extraParams);
-				break;
-			case REFUND:
-				resultModel = this.sendRefundRequest(billModel,tradeType,channelType,extraParams);
-
-		}
-
-
-		return resultModel;
-	}
-
-
-
-	private TradeResultModel sendPaymentRequest(TransactionsBillModel billModel, TradeType tradeType,ChannelType channelType, Map<String,Object> extraParams)throws Exception
+	public  TradeResultModel sendTradeRequest(TransactionsBillModel billModel, TradeType tradeType,ChannelType channelType, Map<String,Object> extraParams)
 	{
 		TradeResultModel resultModel 			= new TradeResultModel();
 		Map<String,String>  matadata 			= (Map<String,String>)extraParams.get(PropertyConstants.METADATA);
@@ -80,7 +60,7 @@ public class TradeProcess {
 		if(!ValidationUtil.isEmpty(billModel))
 		{
 			//#1.生成流水单
-			TransactionsSerialModel serialModel 		= transactionsSerialService.createSerial( billModel, channelType,DefaultTradeType.PAYMENT);
+			TransactionsSerialModel serialModel 		= transactionsSerialService.createSerial( billModel, channelType,tradeType);
 
 			//#2.附加參數
 			matadata.put(PropertyConstants.BILLNO, serialModel.getBillNo());
@@ -93,22 +73,22 @@ public class TradeProcess {
 			ChannelProcessor channelProcessor 	= (ChannelProcessor)SpringContextHelper.getBean(channelType.getChannelProcess());
 			resultModel 	  				  	= channelProcessor.processTradeRequest(serialModel, tradeType, extraParams);
 		}else{
-			throw new Exception("賬單信息不存在.");
+			throw new TradeException("賬單信息不存在.");
 		}
 		//返回交易結果
 		return resultModel;
 	}
 
 
-	private TradeResultModel sendRefundRequest(TransactionsBillModel billModel, TradeType tradeType,ChannelType channelType, Map<String,Object> extraParams) throws Exception
+	public  TradeResultModel sendRefundRequest(TransactionsBillModel billModel, TradeType tradeType,ChannelType channelType, Map<String,Object> extraParams) throws Exception
 	{
 		TradeResultModel resultModel 			= new TradeResultModel();
 		if(!ValidationUtil.isEmpty(billModel))
 		{
 
-			TransactionsSerialModel oldSerialModel = this.transactionsSerialService.selectByBillNo(billModel.getBillNo(),DefaultTradeType.PAYMENT.getType());
+			TransactionsSerialModel oldSerialModel = this.transactionsSerialService.selectByBillNo(billModel.getBillNo(),tradeType.getType());
 			//#1.生成流水单
-			TransactionsSerialModel serialModel 		= transactionsSerialService.createSerialByAmount( billModel.getAgencyCode(),billModel.getUserId(),billModel.getBillNo(),(BigDecimal) extraParams.get(PropertyConstants.REFUND_AMOUNT), channelType,billModel.getBillType(),DefaultTradeType.REFUND);
+			TransactionsSerialModel serialModel 		= transactionsSerialService.createSerialByAmount( billModel.getAgencyCode(),billModel.getUserId(),billModel.getBillNo(),(BigDecimal) extraParams.get(PropertyConstants.REFUND_AMOUNT), channelType,billModel.getBillType(),tradeType);
 
 			extraParams.put(PropertyConstants.SERIALNO,oldSerialModel.getSerialNo());
 				//发起交易
@@ -129,7 +109,7 @@ public class TradeProcess {
 					this.transactionsBillService.updateWithModel(billModel);
 				}
 		}else{
-			throw new Exception("賬單信息不存在.");
+			throw new TradeException("賬單信息不存在.");
 		}
 		return resultModel;
 	}
@@ -192,11 +172,11 @@ public class TradeProcess {
 		}
 		return tradeResultModel;
 	}
-	
 
 
 
-	
-	
+
+
+
 }
 

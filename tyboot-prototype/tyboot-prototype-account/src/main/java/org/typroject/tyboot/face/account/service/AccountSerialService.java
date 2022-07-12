@@ -10,6 +10,7 @@ import org.typroject.tyboot.face.account.model.AccountSerialModel;
 import org.typroject.tyboot.face.account.orm.dao.AccountSerialMapper;
 import org.typroject.tyboot.face.account.orm.entity.AccountSerial;
 import org.typroject.tyboot.prototype.account.AccountBaseOperation;
+import org.typroject.tyboot.prototype.account.AccountTradeException;
 import org.typroject.tyboot.prototype.account.trade.AccountTradeType;
 
 import java.math.BigDecimal;
@@ -28,7 +29,7 @@ import java.util.List;
 @Component
 public class AccountSerialService extends BaseService<AccountSerialModel, AccountSerial, AccountSerialMapper> {
 
-    public AccountSerialModel createAccountSerial(String userId, String accountNo, String accountType, Long updateVersion, String billNo, BigDecimal amount, AccountTradeType accountTradeType, AccountBaseOperation bookkeeping) throws Exception {
+    public AccountSerialModel createAccountSerial(String userId, String accountNo, String accountType, Long updateVersion, String billNo, BigDecimal amount, AccountTradeType accountTradeType, AccountBaseOperation bookkeeping,String postscript) {
         //#1.查询当前流水记录
         AccountSerialModel lastAccountSerial = this.queryLastAccountSerial(accountNo);
 
@@ -51,10 +52,11 @@ public class AccountSerialService extends BaseService<AccountSerialModel, Accoun
         newAccountSerial.setUpdateVersion(updateVersion);
         newAccountSerial.setAccountType(accountType);
         newAccountSerial.setBookkeeping(bookkeeping.name());
+        newAccountSerial.setPostscript(postscript);
         return this.createWithModel(newAccountSerial);
     }
 
-    public AccountSerialModel queryLastAccountSerial(String accountNo) throws Exception {
+    public AccountSerialModel queryLastAccountSerial(String accountNo) {
 
         AccountSerialModel accountSerialModel = null;
         List<AccountSerialModel> list = queryForTopList(1, "SEQUENCE_NBR" , false, accountNo);
@@ -73,26 +75,28 @@ public class AccountSerialService extends BaseService<AccountSerialModel, Accoun
      * @param initialBalance
      * @return
      */
-    private BigDecimal calaFinalBalance(AccountBaseOperation bookkeeping, BigDecimal amount, BigDecimal initialBalance) throws Exception {
-        BigDecimal finalBalance = new BigDecimal(0);
+    private BigDecimal calaFinalBalance(AccountBaseOperation bookkeeping, BigDecimal amount, BigDecimal initialBalance)  {
+        BigDecimal finalBalance = BigDecimal.ZERO;
         switch (bookkeeping) {
             case INCOME:
+            case UNFREEZE:
                 finalBalance = initialBalance.add(amount);
                 break;
             case SPEND:
+            case FREEZE:
                 finalBalance = initialBalance.subtract(amount);
                 if (finalBalance.doubleValue() < 0) {
-                    throw new BaseException("账户余额不足." , "" , "" );
+                    throw new AccountTradeException("账户余额不足." );
                 }
                 break;
             default:
-                throw new BaseException("账户操作类型有误." , "" , "" );
+                throw new AccountTradeException("账户操作类型有误." );
         }
         return finalBalance;
 
     }
 
-    public Page querySerialPage(Page page, String accountNo, String accountType, String userId) throws Exception {
+    public Page querySerialPage(Page page, String accountNo, String accountType, String userId)  {
         return this.queryForPage(page,"OPERATE_TIME",false,accountNo,accountType,userId);
     }
 
