@@ -56,4 +56,10 @@ public class AccountRechargeRecord extends BaseEntity {
      */
     @TableField("ACCOUNT_TYPE" )
     private String accountType;
+
+    @TableField("TRADE_CHANNEL" )
+    private String tradeChannel;
+
+    @TableField("TRADE_TYPE" )
+    private String tradeType;
 }

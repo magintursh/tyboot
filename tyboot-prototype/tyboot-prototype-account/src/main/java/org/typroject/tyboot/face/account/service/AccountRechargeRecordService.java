@@ -27,7 +27,7 @@ public class AccountRechargeRecordService extends BaseService<AccountRechargeRec
 {
 
 
-    public AccountRechargeRecordModel createRecord(String userId,String accountNo,BigDecimal rechargeAmount,String billNo,String accountType)
+    public AccountRechargeRecordModel createRecord(String userId,String accountNo,BigDecimal rechargeAmount,String billNo,String accountType,String tradeChannel,String tradeType)
     {
         AccountRechargeRecordModel newRecord = new AccountRechargeRecordModel();
         newRecord.setAccountNo(accountNo);
@@ -36,6 +36,8 @@ public class AccountRechargeRecordService extends BaseService<AccountRechargeRec
         newRecord.setRechargeAmount(rechargeAmount);
         newRecord.setRechargeTime(new Date());
         newRecord.setUserId(userId);
+        newRecord.setTradeChannel(tradeChannel);
+        newRecord.setTradeType(tradeType);
         return this.createWithModel(newRecord);
     }
 }

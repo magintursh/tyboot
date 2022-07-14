@@ -52,7 +52,7 @@ public class CashoutHandler  implements AccountTradeHandler {
 
 
 	/**交易参数*/
-	private enum CashoutParams implements TradeParams {
+	public enum CashoutParams implements TradeParams {
  
 		billNo(true,"账单号"),	   //用户賬單
 		applyStatus(false,"提現申請狀態"),
@@ -105,8 +105,8 @@ public class CashoutHandler  implements AccountTradeHandler {
 				// #2.更新提現記錄--默認是手動確認提現
 				 cashoutRecord.setApplyStatus(ValidationUtil.isEmpty(applyStatus)? AccountConstants.CASHOUT_STATUS_TRANSFERRED:applyStatus);
 				 accountCashoutRecordService.updateWithModel(cashoutRecord);
-				 // #3.將凍結賬戶的對應的提現凍結金額做出賬處理\
-				 account.spend(amount,DefaultAccountTradeType.CASH_OUT,billNo,postscript);
+				 // #3.体现成功后将冻结金额释放掉
+				 account.releaseFrozen(amount,billNo,postscript);
 			 }else{
 				 throw new AccountTradeException("提現交易參數有誤.");
 			 }

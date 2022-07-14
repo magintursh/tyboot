@@ -5,6 +5,7 @@ import org.typroject.tyboot.core.foundation.context.SpringContextHelper;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.face.account.model.AccountInfoModel;
 import org.typroject.tyboot.face.account.model.AccountSerialModel;
+import org.typroject.tyboot.face.account.service.AccountFrozenSerialService;
 import org.typroject.tyboot.face.account.service.AccountInfoService;
 import org.typroject.tyboot.face.account.service.AccountSerialService;
 import org.typroject.tyboot.prototype.account.trade.AccountTradeType;
@@ -39,12 +40,13 @@ public class Account {
 
     private static AccountInfoService accountInfoService;
     private static AccountSerialService accountSerialService;
+    private static AccountFrozenSerialService accountFrozenSerialService;
 
     static {
         accountInfoService = (AccountInfoService) SpringContextHelper.getBean(AccountInfoService.class);
         accountSerialService = (AccountSerialService) SpringContextHelper.getBean(AccountSerialService.class);
+        accountFrozenSerialService = (AccountFrozenSerialService) SpringContextHelper.getBean(AccountFrozenSerialService.class);
     }
-
 
     private Account() {
 
@@ -61,7 +63,7 @@ public class Account {
      *
      * @throws Exception
      */
-    protected static AccountInfoModel initAccountInfo(String userId, AccountType accountType)  {
+    protected static AccountInfoModel initAccountInfo(String userId, AccountType accountType) {
         return accountInfoService.initAccountInfo(userId, accountType, createAccountNo(userId, accountType));
     }
 
@@ -72,8 +74,8 @@ public class Account {
      * @return
      * @throws Exception
      */
-    public final boolean income(BigDecimal amount, AccountTradeType accountTradeType, String billNo,String postscript) {
-        return this.bookkeeping(amount, accountTradeType, billNo, AccountBaseOperation.INCOME,postscript);
+    public final boolean income(BigDecimal amount, AccountTradeType accountTradeType, String billNo, String postscript) {
+        return this.bookkeeping(amount, accountTradeType, billNo, AccountBaseOperation.INCOME, postscript);
     }
 
 
@@ -86,8 +88,8 @@ public class Account {
      * @return
      * @throws Exception
      */
-    public final boolean spend(BigDecimal amount, AccountTradeType accountTradeType, String billNo,String postscript) {
-        return this.bookkeeping(amount, accountTradeType, billNo, AccountBaseOperation.SPEND,postscript);
+    public final boolean spend(BigDecimal amount, AccountTradeType accountTradeType, String billNo, String postscript) {
+        return this.bookkeeping(amount, accountTradeType, billNo, AccountBaseOperation.SPEND, postscript);
     }
 
 
@@ -99,9 +101,43 @@ public class Account {
      * @return
      * @throws Exception
      */
-    public final boolean frozen(BigDecimal amount, String billNo,String postscript) {
-        return this.bookkeeping(amount, AccountBaseOperation.FREEZE, billNo, AccountBaseOperation.FREEZE,postscript);
+    public final boolean frozen(BigDecimal amount, AccountTradeType accountTradeType,String billNo, String postscript) {
+        accountFrozenSerialService.createAccountFrozenSerial(this.accountInfoModel.getUserId(),
+                this.accountInfoModel.getAccountNo(),
+                this.accountInfoModel.getAccountType(),
+                this.accountInfoModel.getUpdateVersion(),
+                billNo, amount,
+                accountTradeType,
+                AccountBaseOperation.FREEZE, postscript);
+        return this.bookkeeping(amount, accountTradeType, billNo, AccountBaseOperation.FREEZE, postscript);
     }
+
+    /**
+     * 从冻结余额中释放指定的金额
+     *
+     * @param amount
+     * @return
+     */
+    public final boolean releaseFrozen(BigDecimal amount, AccountTradeType accountTradeType,String billNo, String postscript) {
+        boolean returnFlag = false;
+
+        accountFrozenSerialService.createAccountFrozenSerial(this.accountInfoModel.getUserId(),
+                this.accountInfoModel.getAccountNo(),
+                this.accountInfoModel.getAccountType(),
+                this.accountInfoModel.getUpdateVersion(),
+                billNo, amount,
+                accountTradeType,
+                AccountBaseOperation.RELEASE_FROZEN, postscript);
+
+        AccountInfoModel updateResult = accountInfoService.releaseFrozen(this.accountInfoModel.getAccountNo(), amount, this.accountInfoModel.getUpdateVersion());
+        if (!ValidationUtil.isEmpty(updateResult)) {
+            returnFlag = true;
+            //#3.刷新账户信息
+            this.refresh(this.accountInfoModel.getAccountNo());
+        }
+        return returnFlag;
+    }
+
 
     /**
      * 冻结
@@ -111,8 +147,16 @@ public class Account {
      * @return
      * @throws Exception
      */
-    public final boolean unFrozen(BigDecimal amount, String billNo,String postscript) {
-        return this.bookkeeping(amount, AccountBaseOperation.UNFREEZE, billNo, AccountBaseOperation.UNFREEZE,postscript);
+    public final boolean unFrozen(BigDecimal amount,AccountTradeType accountTradeType, String billNo, String postscript) {
+
+        accountFrozenSerialService.createAccountFrozenSerial(this.accountInfoModel.getUserId(),
+                this.accountInfoModel.getAccountNo(),
+                this.accountInfoModel.getAccountType(),
+                this.accountInfoModel.getUpdateVersion(),
+                billNo, amount,
+                accountTradeType,
+                AccountBaseOperation.UNFREEZE, postscript);
+        return this.bookkeeping(amount, accountTradeType, billNo, AccountBaseOperation.UNFREEZE, postscript);
     }
 
 
@@ -123,7 +167,7 @@ public class Account {
      * @return
      * @throws Exception
      */
-    protected final boolean lock()  {
+    protected final boolean lock() {
         return updateAccountStatus(AccountStatus.LOCKED, AccountStatus.NORMAL);
     }
 
@@ -135,7 +179,7 @@ public class Account {
      * @return
      * @throws Exception
      */
-    protected final boolean unlock()  {
+    protected final boolean unlock() {
         return updateAccountStatus(AccountStatus.NORMAL, AccountStatus.LOCKED);
     }
 
@@ -216,19 +260,19 @@ public class Account {
     }
 
 
-    protected final Account setAccountInfo(AccountInfoModel accountInfoModel){
+    protected final Account setAccountInfo(AccountInfoModel accountInfoModel) {
         return newInstance(accountInfoModel);
     }
 
 
-    public static Account getAccountInstance(String userId, AccountType accountType)  {
+    public static Account getAccountInstance(String userId, AccountType accountType) {
         AccountInfoModel accountInfoModel = accountInfoService.queryByUserId(userId, accountType);
         if (ValidationUtil.isEmpty(accountInfoModel))
             accountInfoModel = initAccountInfo(userId, accountType);
         return newInstance(accountInfoModel);
     }
 
-    public static Account getAccountInstance(String accountNo)  {
+    public static Account getAccountInstance(String accountNo) {
         return newInstance(accountInfoService.queryByAccontNo(accountNo));
     }
 

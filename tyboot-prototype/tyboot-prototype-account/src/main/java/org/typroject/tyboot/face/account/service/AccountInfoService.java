@@ -118,8 +118,40 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
         return oldModel;
     }
 
+    /**
+     * 释放冻结中的金额
+     * @param accountNo  账户编号
+     * @param changeAmount  要释放的金额
+     * @param oldUpdateVersion 旧的账户版本号
+     * @return
+     */
+    public AccountInfoModel  releaseFrozen(String accountNo,BigDecimal changeAmount, Long oldUpdateVersion){
+        AccountInfoModel oldModel = this.queryByAccontNoAndVersion(accountNo, oldUpdateVersion);
+        if(!ValidationUtil.isEmpty(oldModel)){
+            if(oldModel.getFrozenBalance().doubleValue() < changeAmount.doubleValue()){
+                throw new AccountTradeException("释放冻结金额失败.冻结金额异常");
+            }
+            BigDecimal frozenBalance = oldModel.getFrozenBalance().subtract(changeAmount);
+            oldModel.setFrozenBalance(frozenBalance);
 
-    public void  incomeFrozenBalance(String accountNo,BigDecimal changeAmount){
+            oldModel.setUpdateVersion(sequence.nextId());
+            oldModel.setRecDate(new Date());
+            oldModel.setRecUserId(RequestContext.getExeUserId());
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("UPDATE_VERSION" , oldUpdateVersion);
+            params.put("ACCOUNT_NO" , accountNo);
+            params.put("ACCOUNT_STATUS" , AccountStatus.NORMAL.name());
+            QueryWrapper<AccountInfo> wrapper = new QueryWrapper<>();
+            wrapper.allEq(params, Boolean.FALSE);
+            boolean result = this.update(Bean.toPo(oldModel, new AccountInfo()), wrapper);
+            if (!result)
+                throw new AccountTradeException("更新余额失败." );
+
+        } else {
+            throw new AccountTradeException("找不到指定账户." );
+        }
+        return oldModel;
 
     }
 

@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  * <p>
- * 虚拟账户金额变更记录表，所有针对账户金额的变动操作都要记录到此表中， model
+ * 冻结账户的金额变更记录表，所有针对冻结账户的变动操作都要记录到此表中，
  * </p>
  *
  * @author 子杨
@@ -17,9 +17,9 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class AccountSerialModel extends BaseModel {
+public class AccountFrozenSerialModel extends BaseModel {
 
-    private static final long serialVersionUID = 543232453825648L;
+    private static final long serialVersionUID = 453254324839243L;
 
     /**
      * 账户编号(预留字段，暂不启用)

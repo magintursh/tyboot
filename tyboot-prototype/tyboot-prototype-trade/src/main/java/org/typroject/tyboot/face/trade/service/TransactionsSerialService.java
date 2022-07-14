@@ -90,6 +90,8 @@ public class TransactionsSerialService extends BaseService<TransactionsSerialMod
         serial.setBillType(billModel.getBillType());
         return  this.createWithModel(serial);
 
+
+
     }
 
 

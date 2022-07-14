@@ -22,7 +22,12 @@ public enum AccountBaseOperation implements AccountTradeType
 	FREEZE("冻结",AccountSpendRule.class),
 
 	UNFREEZE("解冻",AccountIncomeRule.class),
-	
+
+	/**
+	 * 临时冻结的金额已经处理成功之后，将其释放掉，
+	 */
+	RELEASE_FROZEN("释放冻结金额",AccountIncomeRule.class),
+
 	/**
 	 * 初始化账户
 	 */
