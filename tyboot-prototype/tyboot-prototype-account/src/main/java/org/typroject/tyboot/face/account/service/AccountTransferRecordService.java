@@ -37,7 +37,7 @@ public class AccountTransferRecordService extends BaseService<AccountTransferRec
 
 
       public AccountTransferRecordModel saveTransferRecord(String  userId, String billNo, String sourceAccountNo, String sourceAccountType,
-                                                           String targetAccountNo, String targetAccountType, BigDecimal amount, String postScript, String transferType) throws Exception
+                                                           String targetAccountNo, String targetAccountType, BigDecimal amount, String postScript, String transferType)
       {
           AccountTransferRecordModel record = new AccountTransferRecordModel();
           record.setBillNo(billNo);

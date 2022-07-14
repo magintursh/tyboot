@@ -1,4 +1,7 @@
 package org.typroject.tyboot.prototype.order.state;
+
+import org.typroject.tyboot.prototype.order.rule.OperationLimitHandler;
+
 /**
  * <pre>
  * 
@@ -36,14 +39,14 @@ public interface BranchOperationType
 	 * 操作规则验证
 	 * @return
 	 */
-	String getOprationRuleHandler();
+	Class<? extends OperationLimitHandler> getOprationRuleHandler();
 	
 	
 	/**
 	 * 分支操作处理器
 	 * @return
 	 */
-	String getBranchHandler();
+	Class<? extends BranchHandler> getBranchHandler();
 }
 
 /*

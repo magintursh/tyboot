@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.typroject.tyboot.face.trade.model.TransactionsSerialModel;
 import org.typroject.tyboot.face.trade.service.TransactionsSerialService;
 import org.typroject.tyboot.prototype.trade.Trade;
+import org.typroject.tyboot.prototype.trade.TradeException;
 import org.typroject.tyboot.prototype.trade.TradeResultModel;
 import org.typroject.tyboot.prototype.trade.channel.alipay.AlipayProperty;
 import org.typroject.tyboot.prototype.trade.PropertyConstants;
@@ -34,7 +35,7 @@ public class AlipayPayment implements Trade {
     private AlipayProperty alipayProperty;
 
     @Override
-    public TradeResultModel process(TransactionsSerialModel serialModel, Map<String, Object> extra) throws Exception {
+    public TradeResultModel process(TransactionsSerialModel serialModel, Map<String, Object> extra) {
 
         TradeResultModel resultModel = new TradeResultModel();
 
@@ -66,7 +67,7 @@ public class AlipayPayment implements Trade {
             resultModel.setCalledSuccess(true);
         } catch (AlipayApiException e) {
             logger.error(e.getErrMsg(), e);
-            throw e;
+            throw new TradeException("errCode："+e.getErrCode()+";errMsg："+e.getErrMsg());
         }
 
 

@@ -21,5 +21,5 @@ public interface ChannelType {
 	 * 交易渠道实现类beanName
 	 * @return
 	 */
-	String getChannelProcess();
+	Class<? extends ChannelProcessor> getChannelProcess();
 }

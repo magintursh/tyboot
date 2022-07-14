@@ -19,7 +19,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 public class AccountSerialModel extends BaseModel {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 543232453825648L;
 
     /**
      * 账户编号(预留字段，暂不启用)
@@ -63,4 +63,6 @@ public class AccountSerialModel extends BaseModel {
     private String bookkeeping;
 
     private String userId;
+
+    private String postscript;
 }

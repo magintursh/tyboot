@@ -1,26 +1,16 @@
 package org.typroject.tyboot.prototype.account.trade;
 
 
-/** 
- * 
- * <pre>
- *  Tyrest
- *  File: DefaultAccountTradeType.java
- * 
- *  Tyrest, Inc.
- *  Copyright (C): 2016
- * 
- *  Description:
- *  系统自身所支持的交易类型
- * 
- *  Notes:
- *  $Id: DefaultAccountTradeType.java  Tyrest\magintrursh $ 
- * 
- *  Revision History
- *  &lt;Date&gt;,			&lt;Who&gt;,			&lt;What&gt;
- *  2016年11月17日		magintrursh		Initial.
- *
- * </pre>
+import org.typroject.tyboot.prototype.account.AccountOperateRule;
+import org.typroject.tyboot.prototype.account.rule.AccountIncomeRule;
+import org.typroject.tyboot.prototype.account.rule.AccountSpendRule;
+import org.typroject.tyboot.prototype.account.trade.impl.CashoutHandler;
+import org.typroject.tyboot.prototype.account.trade.impl.PaymentHandler;
+import org.typroject.tyboot.prototype.account.trade.impl.RechargeHandler;
+import org.typroject.tyboot.prototype.account.trade.impl.TransferHandler;
+
+/**
+ * 系统自身所支持的交易类型
  */
 public enum DefaultAccountTradeType implements AccountTradeType {
 
@@ -28,41 +18,32 @@ public enum DefaultAccountTradeType implements AccountTradeType {
 	/**
 	 *	支付
 	 */
-	PAYMENT("支付","paymentHandler",""),
+	PAYMENT("支付", PaymentHandler.class, AccountSpendRule.class),
 	
 	/**
-	 * 充值
+	 * 从法币账户充值到虚拟账户
 	 */
-	RECHARGE("充值","rechargeHandler",""),
+	RECHARGE("充值", RechargeHandler.class, AccountIncomeRule.class),
 	
 	/**
-	 * 从虚拟账户提现到外部账户
+	 * 从虚拟账户提现到外部法币账户
 	 */
-	CASHOUT("提现","cashoutHandler",""),
+	CASH_OUT("提现", CashoutHandler.class,AccountSpendRule.class),
 
-
-	/**
-	 * 凍結
-	 */
-	FREEZE("凍結","freezeHandler",""),
-
-	UNFREEZE("解冻","unfreezeHandler",""),
-
-	UNFREEZE_DEST("转移冻结资金","",""),
 	
 	/**
 	 * 用戶閒内部賬戶轉賬
 	 */
-	TRANSFER_INTERNAL ("内部转账","transferHandler","");
+	TRANSFER_INTERNAL ("内部转账", TransferHandler.class,AccountSpendRule.class);
 	
 	
 	
 	
 	private String operationName;
-	private String accountTradeHandler;
-	private String operationRule;
+	private Class<? extends AccountTradeHandler>  accountTradeHandler;
+	private Class<? extends AccountOperateRule> operationRule;
 	
-	DefaultAccountTradeType(String operationName ,String accountTradeHandler,String operationRule)
+	DefaultAccountTradeType(String operationName ,Class<? extends AccountTradeHandler>  accountTradeHandler,Class<? extends AccountOperateRule> operationRule)
 	{
 		this.operationName = operationName;
 		this.accountTradeHandler = accountTradeHandler;
@@ -71,7 +52,7 @@ public enum DefaultAccountTradeType implements AccountTradeType {
 
 	
 
-	public String getAccountTradeHandler() {
+	public Class<? extends AccountTradeHandler>  getAccountTradeHandler() {
 		return accountTradeHandler;
 	}
 
@@ -93,7 +74,7 @@ public enum DefaultAccountTradeType implements AccountTradeType {
 
 
 	@Override
-	public String getOperationRule()
+	public Class<? extends AccountOperateRule> getOperationRule()
 	{
 		
 		return operationRule;

@@ -2,13 +2,13 @@ package org.typroject.tyboot.prototype.trade.channel.apple;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
-import org.typroject.tyboot.prototype.trade.channel.BaseChannelProcess;
-import org.typroject.tyboot.prototype.trade.channel.ChannelProcessor;
+import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
+import org.typroject.tyboot.face.trade.model.TransactionsSerialModel;
 import org.typroject.tyboot.prototype.trade.TradeResultModel;
 import org.typroject.tyboot.prototype.trade.TradeStatus;
 import org.typroject.tyboot.prototype.trade.TradeType;
-import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
-import org.typroject.tyboot.face.trade.model.TransactionsSerialModel;
+import org.typroject.tyboot.prototype.trade.channel.BaseChannelProcess;
+import org.typroject.tyboot.prototype.trade.channel.ChannelProcessor;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -23,7 +23,7 @@ import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component(value = "appleChannel" )
+@Component(value = "appleChannel")
 public class AppleChannel extends BaseChannelProcess implements ChannelProcessor {
 
 
@@ -55,45 +55,41 @@ public class AppleChannel extends BaseChannelProcess implements ChannelProcessor
     };
 
 
-    private static final String CHANNEL_PIX = "apple";
-
     @Override
-    public TradeResultModel processTradeRequest(TransactionsSerialModel serialModel, TradeType tradeType, Map<String, Object> extraParams)
-            throws Exception {
+    public TradeResultModel processTradeRequest(TransactionsSerialModel serialModel, TradeType tradeType, Map<String, Object> extraParams) {
         TradeResultModel resultModel = new TradeResultModel();//交易结果
         resultModel.setCalledSuccess(true);
         Map<String, String> result = new HashMap<>();
-        result.put("serialNo" , serialModel.getSerialNo());
-        result.put("billNo" , serialModel.getBillNo());
+        result.put("serialNo", serialModel.getSerialNo());
+        result.put("billNo", serialModel.getBillNo());
         resultModel.setResult(result);
         return resultModel;
     }
 
 
-    public TradeResultModel processTradeResult(String serialNo, TradeStatus tradeStatus, Object result)
-            throws Exception {
+    public TradeResultModel processTradeResult(String serialNo, TradeStatus tradeStatus, Object result) {
 
         TradeResultModel resultModel = new TradeResultModel();//交易结果
         if (!ValidationUtil.isEmpty(result)) {
             Map applePayInfo = (Map) result;
-            final String certificateCode = (String) applePayInfo.get("receipt" );
+            final String certificateCode = (String) applePayInfo.get("receipt");
 
             String resultStr = sendHttpsCoon(certificateUrl, certificateCode);
 
             JSONObject jsonObject = new JSONObject(resultStr);
-            int status = (Integer) jsonObject.get("status" );
+            int status = (Integer) jsonObject.get("status");
 
             if (status == 21007) {
                 resultStr = sendHttpsCoon(certificateUrlTest, certificateCode);
 
                 jsonObject = new JSONObject(resultStr);
-                status = (Integer) jsonObject.get("status" );
+                status = (Integer) jsonObject.get("status");
             }
             if (status == 0) {
                 resultModel.setCalledSuccess(true);
-                applePayInfo.put("receipt" , resultStr);
+                applePayInfo.put("receipt", resultStr);
                 resultModel.setResult(applePayInfo);
-                resultModel.setResultMessage("交易成功." );
+                resultModel.setResultMessage("交易成功.");
             }
         }
         return resultModel;
@@ -113,7 +109,7 @@ public class AppleChannel extends BaseChannelProcess implements ChannelProcessor
         }
         try {
             //设置SSLContext
-            SSLContext ssl = SSLContext.getInstance("SSL" );
+            SSLContext ssl = SSLContext.getInstance("SSL");
             ssl.init(null, new TrustManager[]{myX509TrustManager}, null);
 
             //打开连接
@@ -121,12 +117,12 @@ public class AppleChannel extends BaseChannelProcess implements ChannelProcessor
             //设置套接工厂
             conn.setSSLSocketFactory(ssl.getSocketFactory());
             //加入数据
-            conn.setRequestMethod("POST" );
+            conn.setRequestMethod("POST");
             conn.setDoOutput(true);
-            conn.setRequestProperty("Content-type" , "application/json" );
+            conn.setRequestProperty("Content-type", "application/json");
 
             JSONObject obj = new JSONObject();
-            obj.put("receipt-data" , code);
+            obj.put("receipt-data", code);
 
 
             BufferedOutputStream buffOutStr = new BufferedOutputStream(conn.getOutputStream());

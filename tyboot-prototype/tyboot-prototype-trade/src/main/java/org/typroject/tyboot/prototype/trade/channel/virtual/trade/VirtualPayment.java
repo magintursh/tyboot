@@ -25,7 +25,7 @@ public class VirtualPayment implements Trade{
 
 	
 	@Override
-	public TradeResultModel process(TransactionsSerialModel serialModel, Map<String, Object> extra) throws Exception {
+	public TradeResultModel process(TransactionsSerialModel serialModel, Map<String, Object> extra) {
 
 
 		TradeResultModel resultModel = new TradeResultModel();//交易结果
@@ -75,7 +75,7 @@ public class VirtualPayment implements Trade{
 	}
 
 
-	private TradeResultModel excu(String billNo,BigDecimal amount ,AccountManager accountManager) throws Exception
+	private TradeResultModel excu(String billNo,BigDecimal amount ,AccountManager accountManager)
 	{
 		TradeResultModel resultModel = new TradeResultModel();//交易结果
 		Map<String, Object> extra = new HashMap<>();

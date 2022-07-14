@@ -14,5 +14,5 @@ public interface OperationLimitHandler{
 	 * @return
 	 * @throws Exception
 	 */
-	boolean checkOperation(BaseOrder order) throws Exception;
+	boolean checkOperation(BaseOrder order) ;
 }

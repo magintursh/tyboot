@@ -47,4 +47,14 @@ public class AccountRechargeRecordModel extends BaseModel {
      */
     private String accountType;
 
+    /**
+     * 交易渠道
+     */
+    private String tradeChannel;
+
+    /**
+     * 交易类型
+     */
+    private String tradeType;
+
 }

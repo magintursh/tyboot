@@ -19,10 +19,10 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("account_serial" )
-public class AccountSerial extends BaseEntity {
+@TableName("account_frozen_serial" )
+public class AccountFrozenSerial extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 5436546543543L;
 
     /**
      * 账户编号(预留字段，暂不启用)

@@ -27,14 +27,14 @@ import org.typroject.tyboot.prototype.account.AccountOperateRule;
  * </pre>
  */
 @Component(value = "accountSpendRule")
-public class AccountSpendRule  implements AccountOperateRule
+public class AccountSpendRule  extends AccountOperateRule
 {
 
 	@Override
 	public boolean checkOperation(Account account )
 	{
 		
-		return false;
+		return this.checkAccountStatus(account);
 	}
 	
 }

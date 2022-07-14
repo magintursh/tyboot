@@ -43,7 +43,7 @@ public interface ChannelProcessor {
 	 * @return
 	 * @throws Exception
 	 */
-	TradeResultModel processTradeRequest(TransactionsSerialModel serialModel, TradeType tradeType, Map<String, Object> extraParams) throws Exception;
+	TradeResultModel processTradeRequest(TransactionsSerialModel serialModel, TradeType tradeType, Map<String, Object> extraParams);
 
 
 
@@ -60,7 +60,7 @@ public interface ChannelProcessor {
 	 * @return
 	 * @throws Exception
 	 */
-	TradeResultModel processTradeResult(String serialNo, TradeStatus tradeStatus, Object result)throws Exception;
+	TradeResultModel processTradeResult(String serialNo, TradeStatus tradeStatus, Object result);
 }
 
 /*

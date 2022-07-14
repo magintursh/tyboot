@@ -14,7 +14,7 @@ public interface TradeType {
 	 * 交易类型处理器beanName
 	 * @return
 	 */
-	String getTradeProcessor();
+	Class<? extends Trade> getTradeProcessor();
 	
 	/**
 	 * 交易类型中文名

@@ -9,7 +9,7 @@ public interface BranchHandler
 	 *	流程分支处理方法
 	 * @return
 	 */
-	public BaseOrder branchOperate()throws Exception;
+	public BaseOrder branchOperate();
 	
 	/**
 	 * 获得订单实体

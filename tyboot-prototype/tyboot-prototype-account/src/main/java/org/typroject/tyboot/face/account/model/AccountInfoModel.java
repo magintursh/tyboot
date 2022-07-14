@@ -19,7 +19,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 public class AccountInfoModel extends BaseModel {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 365435435435L;
 
     /**
      * agencycode
@@ -53,7 +53,24 @@ public class AccountInfoModel extends BaseModel {
      * 数据版本
      */
     private Long updateVersion;
+
+    /**
+     * 创建时间
+     */
     private Date createTime;
 
+    /**
+     * 用户id
+     */
     private String userId;
+
+    /**
+     * 冻结金额
+     */
+    private BigDecimal frozenBalance;
+
+    /**
+     * 出账总计
+     */
+    private BigDecimal spendAmount;
 }
