@@ -106,7 +106,7 @@ public class CashoutHandler  implements AccountTradeHandler {
 				 cashoutRecord.setApplyStatus(ValidationUtil.isEmpty(applyStatus)? AccountConstants.CASHOUT_STATUS_TRANSFERRED:applyStatus);
 				 accountCashoutRecordService.updateWithModel(cashoutRecord);
 				 // #3.体现成功后将冻结金额释放掉
-				 account.releaseFrozen(amount,billNo,postscript);
+				 account.releaseFrozen(amount,DefaultAccountTradeType.CASH_OUT,billNo,postscript);
 			 }else{
 				 throw new AccountTradeException("提現交易參數有誤.");
 			 }
