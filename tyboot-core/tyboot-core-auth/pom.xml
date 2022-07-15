@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.typroject</groupId>
 		<artifactId>tyboot-core</artifactId>
-		<version>1.1.28-SNAPSHOT</version>
+		<version>1.1.29-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.typroject</groupId>
@@ -20,7 +20,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-core-rdbms</artifactId>
-			<version>1.1.28-SNAPSHOT</version>
+			<version>1.1.29-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -32,7 +32,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-core-foundation</artifactId>
-			<version>1.1.28-SNAPSHOT</version>
+			<version>1.1.29-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
@@ -45,7 +45,7 @@
 		<dependency>
 			<groupId>org.typroject</groupId>
 			<artifactId>tyboot-component-cache</artifactId>
-			<version>1.1.28-SNAPSHOT</version>
+			<version>1.1.29-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.typroject</groupId>
