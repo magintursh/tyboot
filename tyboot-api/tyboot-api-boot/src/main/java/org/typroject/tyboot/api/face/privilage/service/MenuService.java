@@ -41,6 +41,7 @@ public class MenuService extends BaseService<MenuModel,Menu,MenuMapper> {
             throw new Exception("数据不存在");
         }
         this.updateWithModel(oldModel);
+        this.updateWithPretreatment(menuModel);
         return oldModel;
     }
 

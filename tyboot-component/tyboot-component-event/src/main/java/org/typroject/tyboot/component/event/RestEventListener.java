@@ -43,7 +43,6 @@ public class RestEventListener implements SmartApplicationListener
 		//先将事件转换为系统业务事件
 		RestEvent currentEvent = (RestEvent)event;
 		try {
-			currentEvent.getRequestContextModel();
 			RestEventHandler.getEventHandler(currentEvent).handleEvent(currentEvent);
 		} catch (Exception e) {
 			logger.error(e.getMessage());

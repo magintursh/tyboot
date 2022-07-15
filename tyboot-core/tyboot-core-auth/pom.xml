@@ -1,58 +1,79 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
 
-	<parent>
-		<groupId>org.typroject</groupId>
-		<artifactId>tyboot-core</artifactId>
-		<version>1.1.29-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>org.typroject</groupId>
+        <artifactId>tyboot-core</artifactId>
+        <version>1.2.0-SNAPSHOT</version>
+    </parent>
 
-	<groupId>org.typroject</groupId>
-	<artifactId>tyboot-core-auth</artifactId>
-	<packaging>jar</packaging>
-	<name>tyboot-core-auth</name>
-	<url>http://www.tycloud.org</url>
+    <groupId>org.typroject</groupId>
+    <artifactId>tyboot-core-auth</artifactId>
+    <packaging>jar</packaging>
+    <name>tyboot-core-auth</name>
+    <url>http://www.tycloud.org</url>
 
-	<dependencies>
+    <dependencies>
 
-		<dependency>
-			<groupId>org.typroject</groupId>
-			<artifactId>tyboot-core-rdbms</artifactId>
-			<version>1.1.29-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.typroject</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+        <dependency>
+            <groupId>org.typroject</groupId>
+            <artifactId>tyboot-core-rdbms</artifactId>
+            <version>1.2.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.typroject</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-		<dependency>
-			<groupId>org.typroject</groupId>
-			<artifactId>tyboot-core-foundation</artifactId>
-			<version>1.1.29-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.typroject</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+        <dependency>
+            <groupId>org.typroject</groupId>
+            <artifactId>tyboot-core-foundation</artifactId>
+            <version>1.2.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.typroject</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
 
-		<dependency>
-			<groupId>org.typroject</groupId>
-			<artifactId>tyboot-component-cache</artifactId>
-			<version>1.1.29-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.typroject</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+        <dependency>
+            <groupId>org.typroject</groupId>
+            <artifactId>tyboot-component-cache</artifactId>
+            <version>1.2.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.typroject</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

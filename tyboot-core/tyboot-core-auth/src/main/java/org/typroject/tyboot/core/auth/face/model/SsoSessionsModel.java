@@ -1,6 +1,6 @@
 package org.typroject.tyboot.core.auth.face.model;
 
-import lombok.Data;
+import lombok.*;
 import lombok.EqualsAndHashCode;
 import org.typroject.tyboot.core.rdbms.model.BaseModel;
 

@@ -30,12 +30,12 @@ public  class RoleService extends BaseService<RoleModel,Role,RoleMapper> {
 
 
 
-    public RoleModel createRole(RoleModel model)throws Exception
+    public RoleModel createRole(RoleModel model)
     {
         return     this.createWithModel(model);
     }
 
-    public RoleModel updateRole(RoleModel roleModel)throws Exception
+    public RoleModel updateRole(RoleModel roleModel)
     {
 
         RoleModel oldModel = this.queryBySeq(roleModel.getSequenceNbr());
@@ -50,7 +50,7 @@ public  class RoleService extends BaseService<RoleModel,Role,RoleMapper> {
     }
 
 
-    public boolean deleteRole(Long seq)throws Exception
+    public boolean deleteRole(Long seq)
 
     {
         return this.deleteBySeq(seq);
@@ -59,21 +59,21 @@ public  class RoleService extends BaseService<RoleModel,Role,RoleMapper> {
 
 
     public Page<RoleModel> qeuryByName(Page<RoleModel> page, String roleName ,
-                                        String agencyCode) throws Exception
+                                        String agencyCode)
     {
        return this.queryForPage(page,null,false,roleName,agencyCode);
     }
 
 
 
-    public List<RoleModel> selectByAgency(String agencyCode) throws Exception
+    public List<RoleModel> selectByAgency(String agencyCode)
     {
         return this.queryForList(null,false,agencyCode);
     }
 
 
 
-    public RoleModel updateRoleLockStatus(Long  sequenceNbr) throws Exception
+    public RoleModel updateRoleLockStatus(Long  sequenceNbr)
     {
         RoleModel role = this.queryBySeq(sequenceNbr);
         if(!ValidationUtil.isEmpty(role))

@@ -17,7 +17,7 @@ public class BaseEntity implements Serializable {
     private static final long serialVersionUID = 5354351431289739L;
 
 
-    @TableId(value = "SEQUENCE_NBR" , type = IdType.ID_WORKER)
+    @TableId(value = "SEQUENCE_NBR" , type = IdType.ASSIGN_ID)
     protected Long sequenceNbr;
 
     @TableField("REC_DATE" )

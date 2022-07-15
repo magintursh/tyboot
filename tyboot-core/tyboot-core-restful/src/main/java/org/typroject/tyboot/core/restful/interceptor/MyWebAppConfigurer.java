@@ -22,13 +22,7 @@ public class MyWebAppConfigurer
         // 多个拦截器组成一个拦截器链
         // addPathPatterns 用于添加拦截规则
         // excludePathPatterns 用户排除拦截
-        registry.addInterceptor(authInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/swagger-ui.html**")
-                .excludePathPatterns("/webjars/**")
-                .excludePathPatterns("/images/**")
-                .excludePathPatterns("/swagger-resources/**")
-                .excludePathPatterns("/v2/api-docs","/error");
+        registry.addInterceptor(authInterceptor);
 
     }
 }

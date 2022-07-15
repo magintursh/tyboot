@@ -2,9 +2,6 @@ package org.typroject.tyboot.api.controller.systemctl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +18,11 @@ import org.typroject.tyboot.core.restful.utils.ResponseModel;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * Created by magintursh on 2017-05-03.
+ * 字典管理
  */
-@TycloudResource(module = "systemctl",value = "DictionarieResource")
+@TycloudResource(name = "字典管理",module = "systemctl", resource = "DictionarieResource")
 @RequestMapping(value = "/v1/systemctl/dictionary")
-@Api(tags = "systemctl-字典管理")
 @RestController
 public class DictionarieResource {
     private final Logger logger = LogManager.getLogger(DictionarieResource.class);
@@ -35,8 +30,13 @@ public class DictionarieResource {
     @Autowired
     private DictionarieService dictionarieService;
 
-    @TycloudOperation( ApiLevel = UserType.ANONYMOUS)
-    @ApiOperation(value="创建字典")
+    /**
+     * 创建字典
+     * @param dictionaryModel
+     * @return
+     * @throws Exception
+     */
+    @TycloudOperation( name = "创建字典",ApiLevel = UserType.ANONYMOUS)
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseModel<DictionarieModel> createDictionary(@RequestBody DictionarieModel dictionaryModel) throws Exception
     {
@@ -45,8 +45,7 @@ public class DictionarieResource {
     }
 
 
-    @TycloudOperation(ApiLevel = UserType.AGENCY)
-    @ApiOperation(value="删除字典")
+    @TycloudOperation(name = "删除字典",ApiLevel = UserType.AGENCY)
     @RequestMapping(value = "", method = RequestMethod.DELETE)
     public ResponseModel<Boolean> deleteDictionary(@RequestBody String[] ids) throws Exception
     {
@@ -59,8 +58,7 @@ public class DictionarieResource {
     }
 
 
-    @TycloudOperation( ApiLevel = UserType.AGENCY)
-    @ApiOperation(value="更新字典")
+    @TycloudOperation(name = "更新字典",ApiLevel = UserType.AGENCY)
     @RequestMapping(value = "/{sequenceNbr}", method = RequestMethod.PUT)
     public ResponseModel<DictionarieModel> updateDictionary(
             @RequestBody DictionarieModel dictionaryModel,
@@ -70,18 +68,31 @@ public class DictionarieResource {
     }
 
 
-    @TycloudOperation( ApiLevel = UserType.ANONYMOUS)
-    @ApiOperation(value="根据code获取字典")
+    /**
+     * 根据code获取字典
+     * @param dictCode  字典编号
+     * @return
+     * @throws Exception
+     */
+    @TycloudOperation(name = "根据code获取字典",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/{dictCode}", method = RequestMethod.GET)
     public ResponseModel<DictionarieModel> queryByCode(
-            @ApiParam
             @PathVariable(value = "dictCode") String dictCode) throws Exception {
         return ResponseHelper.buildResponse(dictionarieService.queryByCode("SUPER_ADMIN",dictCode));
     }
 
 
-    @TycloudOperation( ApiLevel = UserType.ANONYMOUS)
-    @ApiOperation(value = "分页查询字典信息")
+    /**
+     * 分页查询字典信息
+     * @param agencyCode  机构编号
+     * @param dictName  字典名称
+     * @param dictCode 字典编号
+     * @param current  当前页
+     * @param size     分页长度
+     * @return
+     * @throws Exception
+     */
+    @TycloudOperation(name = "分页查询字典信息",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseModel<IPage> queryForPage(
             @RequestParam(value = "agencyCode",required = false) String agencyCode,
@@ -96,17 +107,20 @@ public class DictionarieResource {
         return ResponseHelper.buildResponse(dictionarieService.queryDictPage(page,agencyCode,dictName,dictCode));
     }
 
-
-    @TycloudOperation(ApiLevel = UserType.ANONYMOUS)
-    @ApiOperation(value = "检查字典编号是否可用")
+    /**
+     * 检查字典编号是否可用
+     * @param dictCode 字典编号
+     * @return
+     * @throws Exception
+     */
+    @TycloudOperation(name = "检查字典编号是否可用",ApiLevel = UserType.ANONYMOUS)
     @RequestMapping(value = "/{dictCode}/available", method = RequestMethod.GET)
     public ResponseModel<Boolean> isDictionaryCodeAvailable(
             @PathVariable(value = "dictCode") String dictCode) throws Exception {
         return ResponseHelper.buildResponse(ValidationUtil.isEmpty(dictionarieService.queryByCode("SUPER_ADMIN",dictCode)));
     }
 
-    @TycloudOperation(ApiLevel = UserType.ANONYMOUS,needAuth = false)
-    @ApiOperation(value = "测试接口")
+    @TycloudOperation(name = "测试接口",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/string/teststring", method = RequestMethod.GET)
     public String isDictionaryCodeAvailable() throws Exception {
         return "success";

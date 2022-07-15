@@ -3,7 +3,6 @@ package org.typroject.tyboot.core.rdbms.service;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -57,14 +56,8 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
     @SuppressWarnings("unchecked")
     public final Class<V> getModelClass() {
         if (modelCalss == null) {
-
-            boolean superFlag = this.getClass().getSuperclass().getGenericSuperclass() instanceof ParameterizedType;
-            boolean flag = this.getClass().getGenericSuperclass() instanceof ParameterizedType;
-
-            if (flag)
-                modelCalss = (Class<V>) ReflectionKit.getSuperClassGenericType(this.getClass(), 0);
-            else if (superFlag)
-                modelCalss = (Class<V>) ReflectionKit.getSuperClassGenericType(this.getClass().getSuperclass(), 0);
+            modelCalss =   (Class<V>) ((ParameterizedType) getClass()
+                    .getGenericSuperclass()).getActualTypeArguments()[0];
         }
         return modelCalss;
     }
@@ -282,6 +275,17 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
     }
 
 
+    public final V updateWithPretreatment(V model) {
+        V v = this.queryBySeq(model.getSequenceNbr());
+        if (!ValidationUtil.isEmpty(v)) {
+            Bean.copyExistPropertis(model,v);
+            v = this.updateWithModel(v);
+        } else {
+            throw new BaseException("找不到指定的数据,", 400, "找不到指定的数据");
+        }
+        return v;
+    }
+
     /**
      * 更新对象到db TODO 处理要设置为null的情况
      *
@@ -292,17 +296,6 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
         P entity = this.prepareEntity(model);
         this.updateById(entity);
         return Bean.toModel(entity, model);
-    }
-
-    public final V updateWithPretreatment(V model) {
-        V v = this.queryBySeq(model.getSequenceNbr());
-        if (!ValidationUtil.isEmpty(v)) {
-            Bean.copyExistPropertis(model,v);
-            v = this.updateWithModel(v);
-        } else {
-            throw new BaseException("找不到指定的数据,", 400, "找不到指定的数据");
-        }
-        return v;
     }
 
 
@@ -376,7 +369,7 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
         entity = newInstance(this.getPoClass());
         Class clzz = Bean.getClassByName(Thread.currentThread().getStackTrace()[2].getClassName());
         Method crurrntMethod = Bean.getMethodByName(Thread.currentThread().getStackTrace()[2].getMethodName(), clzz);
-        String[] parameterNames = Bean.getMethodParameterNamesByAsm4(clzz, crurrntMethod);
+        String[] parameterNames = Bean.getMethodParameterNamesByAsm7(clzz, crurrntMethod);
 
         for (int i = 0; i < params.length; i++) {
             if (!ValidationUtil.isEmpty(params[i]))
@@ -405,7 +398,7 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
         P entity = newInstance(this.getPoClass());
         Class clzz = Bean.getClassByName(Thread.currentThread().getStackTrace()[2].getClassName());
         Method crurrntMethod = Bean.getMethodByName(Thread.currentThread().getStackTrace()[2].getMethodName(), clzz);
-        String[] parameterNames = Bean.getMethodParameterNamesByAsm4(clzz, crurrntMethod);
+        String[] parameterNames = Bean.getMethodParameterNamesByAsm7(clzz, crurrntMethod);
 
         for (int i = 0; i < params.length; i++) {
             if (!ValidationUtil.isEmpty(params[i]))
@@ -430,7 +423,7 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
             P entity = newInstance(this.getPoClass());
             Class clzz = Bean.getClassByName(Thread.currentThread().getStackTrace()[2].getClassName());
             Method crurrntMethod = Bean.getMethodByName(Thread.currentThread().getStackTrace()[2].getMethodName(), clzz);
-            String[] parameterNames = Bean.getMethodParameterNamesByAsm4(clzz, crurrntMethod);
+            String[] parameterNames = Bean.getMethodParameterNamesByAsm7(clzz, crurrntMethod);
 
             for (int i = 0; i < params.length; i++) {
                 if (!ValidationUtil.isEmpty(params[i]))
@@ -455,7 +448,7 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
 
     private <T> T newInstance(Class<T> clzz) {
         try {
-            return clzz.newInstance();
+            return clzz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage(), e.getCause());
@@ -500,7 +493,7 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
      * @param params
      * @return
      */
-    protected final int queryCount(Object... params) {
+    protected final long queryCount(Object... params) {
         Wrapper<P> wrapper = this.assemblyWrapperParams(
                 Thread.currentThread().getStackTrace()[2].getMethodName(),
                 Bean.getClassByName(Thread.currentThread().getStackTrace()[2].getClassName()),
@@ -646,7 +639,7 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
             return queryParamMap;
 
         if (!ValidationUtil.isEmpty(crurrntMethod)) {
-            String[] parameterNames = Bean.getMethodParameterNamesByAsm4(clzz, crurrntMethod);
+            String[] parameterNames = Bean.getMethodParameterNamesByAsm7(clzz, crurrntMethod);
 
             //將參數名稱轉換為字段名稱  map<属性名,字段名>
             Map<String, String> cloMap = Bean.propertyToColum(parameterNames);
@@ -694,7 +687,7 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
             Annotation[][] annotations = crurrntMethod.getParameterAnnotations();
 
             //獲得方法的參數名稱列表
-            String[] parameterNames = Bean.getMethodParameterNamesByAsm4(clzz, crurrntMethod);
+            String[] parameterNames = Bean.getMethodParameterNamesByAsm7(clzz, crurrntMethod);
 
             //將參數名稱轉換為字段名稱
             Map<String, String> cloMap = Bean.propertyToColum(parameterNames);

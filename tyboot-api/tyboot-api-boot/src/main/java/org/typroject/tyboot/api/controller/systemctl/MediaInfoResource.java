@@ -1,7 +1,5 @@
 package org.typroject.tyboot.api.controller.systemctl;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +27,8 @@ import java.util.Map;
  */
 
 @RestController
-@TycloudResource(module = "systemctl",value = "mediainfo")
+@TycloudResource(name = "多媒体信息关联",module = "systemctl", resource = "mediainfo")
 @RequestMapping(value = "/v1/systemctl/mediainfo")
-@Api(tags = "systemctl-多媒体信息关联")
 public class MediaInfoResource {
 
     private final Logger logger = LogManager.getLogger(FeedbackResource.class);
@@ -39,8 +36,7 @@ public class MediaInfoResource {
     @Autowired
     private MediaInfoService mediaInfoService;
 
-    @TycloudOperation( ApiLevel = UserType.PUBLIC)
-    @ApiOperation(value="删除媒体文件信息")
+    @TycloudOperation( name = "删除媒体文件信息",ApiLevel = UserType.PUBLIC)
     @RequestMapping(value = "/{ids}", method = RequestMethod.DELETE)
     public ResponseModel deleteMediaInfo(@PathVariable String ids) throws Exception
     {
@@ -49,8 +45,7 @@ public class MediaInfoResource {
     }
 
 
-    @TycloudOperation( ApiLevel = UserType.PUBLIC)
-    @ApiOperation(value="封禁指定图片")
+    @TycloudOperation( name = "封禁指定图片",ApiLevel = UserType.PUBLIC)
     @RequestMapping(value = "/media/disabled", method = RequestMethod.PUT)
     public ResponseModel disabled(@RequestBody Map<String,String> map) throws Exception
     {

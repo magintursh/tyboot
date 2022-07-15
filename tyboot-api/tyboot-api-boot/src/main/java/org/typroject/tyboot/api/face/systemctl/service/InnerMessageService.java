@@ -35,7 +35,7 @@ public class InnerMessageService extends BaseService<InnerMessageModel, InnerMes
     public static final String NO_MESSAGE = "NO_MESSAGE";//无新消息
 
 
-    public InnerMessageModel createMessage(String msgContent, String targetUserId, String messageType) throws Exception {
+    public InnerMessageModel createMessage(String msgContent, String targetUserId, String messageType)  {
         InnerMessageModel messageModel = new InnerMessageModel();
         messageModel.setUserId(RequestContext.getExeUserId());
         messageModel.setMsgContent(msgContent);
@@ -47,7 +47,7 @@ public class InnerMessageService extends BaseService<InnerMessageModel, InnerMes
     }
 
 
-    public Page queryForInnerMessagePage(Page page, String targetUserId, String messageType) throws Exception {
+    public Page queryForInnerMessagePage(Page page, String targetUserId, String messageType)  {
         Page rePage = this.queryForPage(page, "CREATE_TIME", false, targetUserId, messageType);
 
         List<InnerMessageModel> msgList = rePage.getRecords();
@@ -69,12 +69,12 @@ public class InnerMessageService extends BaseService<InnerMessageModel, InnerMes
      * @param targetUserId
      * @return
      */
-    public Integer queryNewMsgCount(String targetUserId, String messageStatus) throws Exception {
+    public long  queryNewMsgCount(String targetUserId, String messageStatus)  {
         return this.queryCount(targetUserId, messageStatus);
     }
 
 
-    private List<InnerMessageModel> queryForMessageList(String targetUserId, String messageStatus) throws Exception {
+    private List<InnerMessageModel> queryForMessageList(String targetUserId, String messageStatus)  {
         return this.queryForList(null, false, targetUserId, messageStatus);
     }
 

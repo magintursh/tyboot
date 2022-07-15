@@ -1,8 +1,5 @@
 package org.typroject.tyboot.api.face.systemctl.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.typroject.tyboot.api.face.systemctl.enumeration.MediaType;
@@ -10,7 +7,6 @@ import org.typroject.tyboot.api.face.systemctl.model.MediaInfoModel;
 import org.typroject.tyboot.api.face.systemctl.orm.dao.MediaInfoMapper;
 import org.typroject.tyboot.api.face.systemctl.orm.entity.MediaInfo;
 import org.typroject.tyboot.component.cache.Redis;
-import org.typroject.tyboot.component.opendata.storage.Storage;
 import org.typroject.tyboot.core.foundation.exception.BaseException;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.core.rdbms.service.BaseService;
@@ -39,11 +35,11 @@ public class MediaInfoService extends BaseService<MediaInfoModel, MediaInfo, Med
     private String spaceName;
 
 
-    @Autowired
+   /* @Autowired
     private RedisTemplate redisTemplate;
 
     //@Autowired
-    private Storage storage;
+    private Storage storage;*/
 
 
     public static final String CACHEKEY_MEDIAINFO = "MEDIAINFO";
@@ -243,7 +239,7 @@ public class MediaInfoService extends BaseService<MediaInfoModel, MediaInfo, Med
             }
 
             //从七牛中删除
-            storage.deleteFile(spaceName, fileName);
+           // storage.deleteFile(spaceName, fileName);
 
             //清理缓存
         } else {

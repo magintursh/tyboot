@@ -75,7 +75,8 @@ public class DictionarieService extends BaseService<DictionarieModel,Dictionarie
 
     public DictionarieModel queryByCode(String agencyCode,String dictCode) throws Exception
     {
-        return this.queryModelByParamsWithCache(agencyCode,dictCode);
+        return this.queryModelByParams(agencyCode,dictCode);
+       // return this.queryModelByParamsWithCache(agencyCode,dictCode);
     }
 
 
