@@ -11,7 +11,9 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.math.BigDecimal;
+import java.net.InetAddress;
 import java.net.URLDecoder;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -355,6 +357,28 @@ public final class StringUtil
 		}
     	return returnStr;
     }
+
+    public static String getLocalIp(){
+		InetAddress inetAddress = null;
+		try {
+			inetAddress = InetAddress.getLocalHost();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			throw new RuntimeException("未能获取到本地ip地址");
+		}
+		return inetAddress.getHostAddress();
+	}
+
+	public static InetAddress getLocalInetAddress(){
+		InetAddress inetAddress = null;
+		try {
+			inetAddress = InetAddress.getLocalHost();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			throw new RuntimeException("未能获取到本地ip地址");
+		}
+		return inetAddress;
+	}
 }
 
 /*

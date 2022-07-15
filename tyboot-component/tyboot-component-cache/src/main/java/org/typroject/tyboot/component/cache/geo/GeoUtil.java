@@ -24,7 +24,7 @@ public class GeoUtil {
         Distance distance                                           = new Distance(radius, RedisGeoCommands.DistanceUnit.METERS);
         Circle circle = new Circle(point,distance);
         RedisGeoCommands.GeoRadiusCommandArgs geoRadiusCommandArgs  = RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().limit(limit).sortAscending().includeCoordinates().includeDistance();
-        GeoResults result             = Redis.getRedisTemplate().opsForGeo().geoRadius(geoCacheKey,circle,geoRadiusCommandArgs);
+        GeoResults result             = Redis.getRedisTemplate().opsForGeo().radius(geoCacheKey,circle,geoRadiusCommandArgs);
         GeoResults<RedisGeoCommands.GeoLocation> geoResults         = new GeoResults(result.getContent().subList(offset,(offset+size)>result.getContent().size()?result.getContent().size():(offset+size)),result.getAverageDistance());
         return geoResults;
     }
@@ -39,7 +39,7 @@ public class GeoUtil {
         //根据当前位置查询附近的人
         Distance distance                                           = new Distance(radius, RedisGeoCommands.DistanceUnit.METERS);
         RedisGeoCommands.GeoRadiusCommandArgs geoRadiusCommandArgs  = RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().limit(limit).sortAscending().includeCoordinates().includeDistance();
-        GeoResults result             = Redis.getRedisTemplate().opsForGeo().geoRadiusByMember(geoCacheKey,member,distance,geoRadiusCommandArgs);
+        GeoResults result             = Redis.getRedisTemplate().opsForGeo().radius(geoCacheKey,member,distance,geoRadiusCommandArgs);
         GeoResults<RedisGeoCommands.GeoLocation> geoResults         = new GeoResults(result.getContent().subList(offset,(offset+size)>result.getContent().size()?result.getContent().size():(offset+size)),result.getAverageDistance());
         return geoResults;
     }

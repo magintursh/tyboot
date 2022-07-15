@@ -1,7 +1,5 @@
 package org.typroject.tyboot.api.controller.auth;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +21,8 @@ import org.typroject.tyboot.core.restful.utils.ResponseModel;
 /**
  * Created by magintursh on 2017-05-03.
  */
-@TycloudResource(module = "auth",value = "customer")
+@TycloudResource(name = "auth-公网用户登录验证",module = "auth", resource = "customer")
 @RequestMapping(value = "/v1/auth/customer")
-@Api(tags = "auth-公网用户登录验证")
 @RestController
 public class CustomerAuthResource {
     private final Logger logger = LogManager.getLogger(CustomerAuthResource.class) ;
@@ -35,8 +32,7 @@ public class CustomerAuthResource {
     private LoginAuthenticator loginAuthenticator;
 
 
-    @TycloudOperation( ApiLevel = UserType.ANONYMOUS,needAuth = false)
-    @ApiOperation(value="公网用户名密码登录")
+    @TycloudOperation(name = "公网用户名密码登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/public/idpassword", method = RequestMethod.POST)
     public ResponseModel idPasswordAuthForPublic(@RequestBody IdPasswordAuthModel model) throws Exception
     {

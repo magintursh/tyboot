@@ -1,8 +1,6 @@
 package org.typroject.tyboot.api.controller.privilage;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.typroject.tyboot.api.face.privilage.model.RoleModel;
@@ -13,7 +11,6 @@ import org.typroject.tyboot.core.foundation.constans.CoreConstans;
 import org.typroject.tyboot.core.foundation.constans.PropertyValueConstants;
 import org.typroject.tyboot.core.foundation.context.RequestContext;
 import org.typroject.tyboot.core.foundation.enumeration.UserType;
-import org.typroject.tyboot.core.foundation.utils.Bean;
 import org.typroject.tyboot.core.restful.doc.TycloudOperation;
 import org.typroject.tyboot.core.restful.doc.TycloudResource;
 import org.typroject.tyboot.core.restful.utils.ResponseHelper;
@@ -31,9 +28,8 @@ import java.util.List;
  * @author magintursh
  * @since 2017-08-18
  */
-@TycloudResource(module = "privilege",value = "role")
+@TycloudResource(name = "角色管理",module = "privilege", resource = "role")
 @RequestMapping(value = "/v1/privilege/role")
-@Api(tags = "privilege-角色管理")
 @RestController
 public class RoleResource {
 
@@ -46,8 +42,7 @@ public class RoleResource {
     @Autowired
     private UserRoleService userRoleService;
 
-    @TycloudOperation( ApiLevel = UserType.AGENCY,needAuth = false)
-    @ApiOperation(value = "分页查询角色信息")
+    @TycloudOperation( name = "分页查询角色信息",ApiLevel = UserType.AGENCY,needAuth = false)
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseModel<Page<RoleModel>> queryForPage (
             @RequestParam(value = "roleName", required = false) String roleName,
@@ -67,12 +62,13 @@ public class RoleResource {
     }
 
 
-
-
-    @TycloudOperation( ApiLevel = UserType.AGENCY)
-    @ApiOperation(value = "获取当前机构所有的角色")
+    /**
+     *
+     * @return
+     */
+    @TycloudOperation(name = "获取当前机构所有的角色",ApiLevel = UserType.AGENCY)
     @RequestMapping(value = "/agency", method = RequestMethod.GET)
-    public ResponseModel<List<RoleModel>> selectByAgency () throws Exception
+    public ResponseModel<List<RoleModel>> selectByAgency ()
     {
         return ResponseHelper.buildResponse(roleService.selectByAgency(RequestContext.getAgencyCode()));
     }
@@ -84,16 +80,14 @@ public class RoleResource {
 
 
 
-    @TycloudOperation( ApiLevel = UserType.AGENCY,needAuth = false)
-    @ApiOperation(value = "查询单个角色信息")
+    @TycloudOperation(name = "查询单个角色信息",ApiLevel = UserType.AGENCY,needAuth = false)
     @RequestMapping(value = "/{sequenceNBR}", method = RequestMethod.GET)
     public ResponseModel<RoleModel> queryByCode(
             @PathVariable(value = "sequenceNBR") Long  sequenceNBR) throws Exception {
         return ResponseHelper.buildResponse(roleService.queryBySeq(sequenceNBR));
     }
 
-    @TycloudOperation( ApiLevel = UserType.AGENCY)
-    @ApiOperation(value="创建角色")
+    @TycloudOperation( name = "创建角色",ApiLevel = UserType.AGENCY)
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseModel<RoleModel> createRole(@RequestBody RoleModel roleModel) throws Exception
     {
@@ -105,8 +99,7 @@ public class RoleResource {
         return ResponseHelper.buildResponse(roleModel);
     }
 
-    @TycloudOperation( ApiLevel = UserType.AGENCY)
-    @ApiOperation(value="更新角色")
+    @TycloudOperation(name = "更新角色",ApiLevel = UserType.AGENCY)
     @RequestMapping(value = "/{sequenceNBR}", method = RequestMethod.PUT)
     @RestEventTrigger("roleUpdateEventHandler")
     public ResponseModel<RoleModel> updateRole(@RequestBody RoleModel roleModel, @PathVariable Long sequenceNBR) throws Exception
@@ -117,8 +110,7 @@ public class RoleResource {
 
 
 
-    @TycloudOperation( ApiLevel = UserType.SUPER_ADMIN)
-    @ApiOperation(value="删除角色")
+    @TycloudOperation( name = "删除角色",ApiLevel = UserType.SUPER_ADMIN)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseModel<Boolean> deleteMenu(@PathVariable Long   id) throws Exception
     {

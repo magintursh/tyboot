@@ -30,14 +30,29 @@ public class ResponseModel<T> implements Serializable
 	 */
 	private static final long serialVersionUID = -1241360949457314497L;
 
+	/**
+	 * 请求处理结果状态，会填充http状态码 正常为200，401 为token失效
+	 */
 	private int status;
 
+	/**
+	 * 接口结果数据
+	 */
 	private T result ;
-	
+
+	/**
+	 * 请求标识
+	 */
 	private String traceId;
-	
+
+	/**
+	 * 研发调试用的信息字段，系统报错的时候 错误信息会打印在这个字段
+	 */
 	private String devMessage = "";
 
+	/**
+	 * 
+	 */
 	private String message = "";
 
 	private String path;
