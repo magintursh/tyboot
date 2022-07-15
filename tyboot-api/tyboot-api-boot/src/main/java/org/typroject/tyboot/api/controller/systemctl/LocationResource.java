@@ -33,35 +33,35 @@ public class LocationResource {
     LocationInfoService locationInfoService;
 
 
-    @TycloudOperation( operation = "获取所有省份信息",ApiLevel = UserType.ANONYMOUS,needAuth = false)
+    @TycloudOperation( name = "获取所有省份信息",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/provinces", method = RequestMethod.GET)
     public ResponseModel<List<LocationInfoModel>> getProvince() throws Exception {
         return ResponseHelper.buildResponse(locationInfoService.getByParent("0"));
     }
 
 
-    @TycloudOperation(operation = "获得省辖区所有城市",ApiLevel = UserType.ANONYMOUS)
+    @TycloudOperation(name = "获得省辖区所有城市",ApiLevel = UserType.ANONYMOUS)
     @RequestMapping(value = "/{provinceCode}/cities", method = RequestMethod.GET)
     public ResponseModel<List<LocationInfoModel>> getCitiesByProvince(
             @PathVariable String provinceCode) throws Exception {
         return ResponseHelper.buildResponse(locationInfoService.getByParent(provinceCode));
     }
 
-    @TycloudOperation( operation = "获得市辖区所有县区",ApiLevel = UserType.ANONYMOUS)
+    @TycloudOperation( name = "获得市辖区所有县区",ApiLevel = UserType.ANONYMOUS)
     @RequestMapping(value = "/{cityCode}/regions", method = RequestMethod.GET)
     public ResponseModel<List<LocationInfoModel>> getRegionsByCity(
             @PathVariable String cityCode) throws Exception {
         return ResponseHelper.buildResponse(locationInfoService.getByParent(cityCode));
     }
 
-    @TycloudOperation(operation = "根据位置编码获取位置信息",ApiLevel = UserType.ANONYMOUS,needAuth = false)
+    @TycloudOperation(name = "根据位置编码获取位置信息",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/{locationCode}", method = RequestMethod.GET)
     public ResponseModel<LocationInfoModel> getByCode(@PathVariable String locationCode)
             throws Exception {
         return ResponseHelper.buildResponse(locationInfoService.getByCode(locationCode));
     }
 
-    @TycloudOperation( operation = "获取所辖地区",ApiLevel = UserType.ANONYMOUS)
+    @TycloudOperation( name = "获取所辖地区",ApiLevel = UserType.ANONYMOUS)
     @RequestMapping(value = "/{parentCode}/areas", method = RequestMethod.GET)
     public ResponseModel<List<LocationInfoModel>> getByParentCode(@PathVariable String parentCode)
             throws Exception {

@@ -34,7 +34,7 @@ public class CaptchaResource {
      * @return
      * @throws Exception
      */
-    @TycloudOperation(operation = "创建",ApiLevel = UserType.ANONYMOUS, needAuth = false)
+    @TycloudOperation(name = "创建",ApiLevel = UserType.ANONYMOUS, needAuth = false)
     @RequestMapping(value = "/image", method = RequestMethod.GET)
     public ResponseModel getKaptchaImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();

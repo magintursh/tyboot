@@ -37,7 +37,7 @@ public class InnerMessageResource {
     private InnerMessageService innerMessageService;
 
 
-    @TycloudOperation(operation = "分页查询",ApiLevel = UserType.PUBLIC)
+    @TycloudOperation(name = "分页查询",ApiLevel = UserType.PUBLIC)
     @RequestMapping(value = "/public/page", method = RequestMethod.GET)
     public ResponseModel<Page> queryForInnerMessagePage(
             @RequestParam(value = "messageType", required = false) String messageType,

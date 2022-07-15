@@ -42,7 +42,7 @@ public class RoleResource {
     @Autowired
     private UserRoleService userRoleService;
 
-    @TycloudOperation( operation = "分页查询角色信息",ApiLevel = UserType.AGENCY,needAuth = false)
+    @TycloudOperation( name = "分页查询角色信息",ApiLevel = UserType.AGENCY,needAuth = false)
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseModel<Page<RoleModel>> queryForPage (
             @RequestParam(value = "roleName", required = false) String roleName,
@@ -66,7 +66,7 @@ public class RoleResource {
      *
      * @return
      */
-    @TycloudOperation(operation = "获取当前机构所有的角色",ApiLevel = UserType.AGENCY)
+    @TycloudOperation(name = "获取当前机构所有的角色",ApiLevel = UserType.AGENCY)
     @RequestMapping(value = "/agency", method = RequestMethod.GET)
     public ResponseModel<List<RoleModel>> selectByAgency ()
     {
@@ -80,14 +80,14 @@ public class RoleResource {
 
 
 
-    @TycloudOperation(operation = "查询单个角色信息",ApiLevel = UserType.AGENCY,needAuth = false)
+    @TycloudOperation(name = "查询单个角色信息",ApiLevel = UserType.AGENCY,needAuth = false)
     @RequestMapping(value = "/{sequenceNBR}", method = RequestMethod.GET)
     public ResponseModel<RoleModel> queryByCode(
             @PathVariable(value = "sequenceNBR") Long  sequenceNBR) throws Exception {
         return ResponseHelper.buildResponse(roleService.queryBySeq(sequenceNBR));
     }
 
-    @TycloudOperation( operation = "创建角色",ApiLevel = UserType.AGENCY)
+    @TycloudOperation( name = "创建角色",ApiLevel = UserType.AGENCY)
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseModel<RoleModel> createRole(@RequestBody RoleModel roleModel) throws Exception
     {
@@ -99,7 +99,7 @@ public class RoleResource {
         return ResponseHelper.buildResponse(roleModel);
     }
 
-    @TycloudOperation(operation = "更新角色",ApiLevel = UserType.AGENCY)
+    @TycloudOperation(name = "更新角色",ApiLevel = UserType.AGENCY)
     @RequestMapping(value = "/{sequenceNBR}", method = RequestMethod.PUT)
     @RestEventTrigger("roleUpdateEventHandler")
     public ResponseModel<RoleModel> updateRole(@RequestBody RoleModel roleModel, @PathVariable Long sequenceNBR) throws Exception
@@ -110,7 +110,7 @@ public class RoleResource {
 
 
 
-    @TycloudOperation( operation = "删除角色",ApiLevel = UserType.SUPER_ADMIN)
+    @TycloudOperation( name = "删除角色",ApiLevel = UserType.SUPER_ADMIN)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseModel<Boolean> deleteMenu(@PathVariable Long   id) throws Exception
     {

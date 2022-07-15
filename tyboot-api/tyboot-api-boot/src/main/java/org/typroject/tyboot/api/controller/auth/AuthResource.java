@@ -43,7 +43,7 @@ public class AuthResource {
      * @return
      * @throws Exception
      */
-    @TycloudOperation(operation = "公网用户名密码登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
+    @TycloudOperation(name = "公网用户名密码登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/public/idpassword", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> idPasswordAuthForPublic(@RequestBody IdPasswordAuthModel model)
     {
@@ -55,7 +55,7 @@ public class AuthResource {
      * @param model
      * @return
      */
-    @TycloudOperation( operation = "机构用户名密码登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
+    @TycloudOperation( name = "机构用户名密码登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/agency/idpassword", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> idPasswordAuthForAgency(@RequestBody IdPasswordAuthModel model)
     {
@@ -67,7 +67,7 @@ public class AuthResource {
      * @param model
      * @return
      */
-    @TycloudOperation( operation = "平台用户名密码登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
+    @TycloudOperation( name = "平台用户名密码登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/super/idpassword", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> idPasswordAuthForSuper(@RequestBody IdPasswordAuthModel model)
     {
@@ -80,7 +80,7 @@ public class AuthResource {
      * @param model
      * @return
      */
-    @TycloudOperation(operation = "短信登录", ApiLevel = UserType.ANONYMOUS,needAuth = false)
+    @TycloudOperation(name = "短信登录", ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/sms", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> smsAuth(@RequestBody SmsAuthModel model)
     {
@@ -93,7 +93,7 @@ public class AuthResource {
      * @param model
      * @return
      */
-    @TycloudOperation( operation = "第三方登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
+    @TycloudOperation( name = "第三方登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/openId", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> thirdPartyAuth(@RequestBody IdPasswordAuthModel model)
     {
@@ -107,7 +107,7 @@ public class AuthResource {
      * @return
      * @throws Exception
      */
-    @TycloudOperation(operation = "匿名用户登录", ApiLevel = UserType.ANONYMOUS,needAuth = false)
+    @TycloudOperation(name = "匿名用户登录", ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/anonymous", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> anonymousAuth(@RequestBody IdPasswordAuthModel model)
     {

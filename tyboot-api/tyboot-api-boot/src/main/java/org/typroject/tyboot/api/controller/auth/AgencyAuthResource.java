@@ -43,7 +43,7 @@ public class AgencyAuthResource {
      * @return
      * @throws Exception
      */
-    @TycloudOperation(operation = "机构用户名密码登录", ApiLevel = UserType.ANONYMOUS, needAuth = false)
+    @TycloudOperation(name = "机构用户名密码登录", ApiLevel = UserType.ANONYMOUS, needAuth = false)
     @RequestMapping(value = "/agency/idpassword", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> idPasswordAuthForAgency(@RequestBody IdPasswordAuthModel model) throws Exception {
         return this.doAuthenticate(IdType.userName, AuthType.ID_PASSWORD, UserType.AGENCY, model);

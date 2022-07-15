@@ -40,7 +40,7 @@ public class RoleMenuResource {
      * @return
      * @throws Exception
      */
-    @TycloudOperation(operation = "更新角色菜单权限",ApiLevel = UserType.AGENCY)
+    @TycloudOperation(name = "更新角色菜单权限",ApiLevel = UserType.AGENCY)
     @RequestMapping(value = "/role/{sequenceNBR}", method = RequestMethod.PUT)
     public ResponseModel<List<RoleMenuModel>> updateByRole(@PathVariable Long sequenceNBR, @RequestBody String [] menuIds) throws Exception
     {

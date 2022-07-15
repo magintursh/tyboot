@@ -32,7 +32,7 @@ public class SmsResource {
     private SmsRecordService smsRecordService;
 
 
-    @TycloudOperation(operation = "发送短信验证码",ApiLevel = UserType.ANONYMOUS, needAuth = false)
+    @TycloudOperation(name = "发送短信验证码",ApiLevel = UserType.ANONYMOUS, needAuth = false)
     @RequestMapping(value = "/{smsType}/verify/{mobile}", method = RequestMethod.POST)
     public ResponseModel sendVerifyCode(@PathVariable String smsType, @PathVariable String mobile) throws Exception {
         RequestContext.setExeUserId("SYSTEM");
@@ -41,7 +41,7 @@ public class SmsResource {
     }
 
 
-    @TycloudOperation(operation = "认证手机和验证码",ApiLevel = UserType.ANONYMOUS, needAuth = false)
+    @TycloudOperation(name = "认证手机和验证码",ApiLevel = UserType.ANONYMOUS, needAuth = false)
     @RequestMapping(value = "/{smsType}/verify/{mobile}/{verifyCode}/verification", method = RequestMethod.GET)
     public ResponseModel smsForLogin(@PathVariable String smsType, @PathVariable String mobile, @PathVariable String verifyCode) throws Exception {
         RequestContext.setExeUserId("SYSTEM");

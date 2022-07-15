@@ -45,7 +45,7 @@ public @interface TycloudOperation {
 	 * 接口操作标题
 	 * @return
 	 */
-	String operation() default "";
+	String name() default "";
 
 	/**
 	 * 是否需要验证

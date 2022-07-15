@@ -36,7 +36,7 @@ public class MediaInfoResource {
     @Autowired
     private MediaInfoService mediaInfoService;
 
-    @TycloudOperation( operation = "删除媒体文件信息",ApiLevel = UserType.PUBLIC)
+    @TycloudOperation( name = "删除媒体文件信息",ApiLevel = UserType.PUBLIC)
     @RequestMapping(value = "/{ids}", method = RequestMethod.DELETE)
     public ResponseModel deleteMediaInfo(@PathVariable String ids) throws Exception
     {
@@ -45,7 +45,7 @@ public class MediaInfoResource {
     }
 
 
-    @TycloudOperation( operation = "封禁指定图片",ApiLevel = UserType.PUBLIC)
+    @TycloudOperation( name = "封禁指定图片",ApiLevel = UserType.PUBLIC)
     @RequestMapping(value = "/media/disabled", method = RequestMethod.PUT)
     public ResponseModel disabled(@RequestBody Map<String,String> map) throws Exception
     {

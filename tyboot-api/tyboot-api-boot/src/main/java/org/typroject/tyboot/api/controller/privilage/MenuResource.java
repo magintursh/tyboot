@@ -66,7 +66,7 @@ public class MenuResource {
      * @return
      * @throws Exception
      */
-    @TycloudOperation( operation = "查询单个权限菜单",ApiLevel = UserType.AGENCY)
+    @TycloudOperation( name = "查询单个权限菜单",ApiLevel = UserType.AGENCY)
     @RequestMapping(value = "/{sequenceNBR}", method = RequestMethod.GET)
     public ResponseModel<MenuModel> seleteOne(@PathVariable Long sequenceNbr) throws Exception
     {
@@ -76,7 +76,7 @@ public class MenuResource {
 
 
 
-    @TycloudOperation(operation = "根据机构获取菜单",ApiLevel = UserType.AGENCY)
+    @TycloudOperation(name = "根据机构获取菜单",ApiLevel = UserType.AGENCY)
     @RequestMapping(value = "/agency/menus", method = RequestMethod.GET)
     public ResponseModel<List<MenuModel>> selectByAgency() throws Exception
     {
@@ -88,7 +88,7 @@ public class MenuResource {
 
 
 
-    @TycloudOperation(operation = "更新菜单权限",ApiLevel = UserType.AGENCY)
+    @TycloudOperation(name = "更新菜单权限",ApiLevel = UserType.AGENCY)
     @RequestMapping(value = "/{sequenceNBR}", method = {RequestMethod.PUT,RequestMethod.PATCH})
     public ResponseModel<MenuModel> updateMenu(@RequestBody MenuModel menuModel, @PathVariable Long sequenceNBR) throws Exception
     {
@@ -97,7 +97,7 @@ public class MenuResource {
     }
 
 
-    @TycloudOperation( operation = "删除权限菜单",ApiLevel = UserType.SUPER_ADMIN)
+    @TycloudOperation( name = "删除权限菜单",ApiLevel = UserType.SUPER_ADMIN)
     @RequestMapping(value = "/{ids}", method = RequestMethod.DELETE)
     public ResponseModel<String> deleteMenu(@PathVariable String ids) throws Exception
     {

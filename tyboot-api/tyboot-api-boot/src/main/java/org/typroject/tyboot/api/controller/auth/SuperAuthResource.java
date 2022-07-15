@@ -43,7 +43,7 @@ public class SuperAuthResource {
      * @return
      * @throws Exception
      */
-    @TycloudOperation( operation = "平台用户名密码登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
+    @TycloudOperation( name = "平台用户名密码登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/super/idpassword", method = RequestMethod.POST)
     public ResponseModel<LoginInfoModel> idPasswordAuthForSuper(@RequestBody IdPasswordAuthModel model) throws Exception
     {

@@ -32,7 +32,7 @@ public class CustomerAuthResource {
     private LoginAuthenticator loginAuthenticator;
 
 
-    @TycloudOperation(operation = "公网用户名密码登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
+    @TycloudOperation(name = "公网用户名密码登录",ApiLevel = UserType.ANONYMOUS,needAuth = false)
     @RequestMapping(value = "/public/idpassword", method = RequestMethod.POST)
     public ResponseModel idPasswordAuthForPublic(@RequestBody IdPasswordAuthModel model) throws Exception
     {

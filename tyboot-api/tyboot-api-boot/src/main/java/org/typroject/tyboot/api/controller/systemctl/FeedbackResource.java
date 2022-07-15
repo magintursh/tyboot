@@ -36,7 +36,7 @@ public class FeedbackResource {
     private FeedbackService feedbackService;
 
 
-    @TycloudOperation(operation = "创建",ApiLevel = UserType.PUBLIC)
+    @TycloudOperation(name = "创建",ApiLevel = UserType.PUBLIC)
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseModel<FeedbackModel> create(@RequestBody FeedbackModel model) throws Exception {
         if (ValidationUtil.isEmpty(model) || ValidationUtil.isEmpty(model.getContent()))
@@ -48,14 +48,23 @@ public class FeedbackResource {
     }
 
 
-    @TycloudOperation(operation = "删除",ApiLevel = UserType.PUBLIC)
+    @TycloudOperation(name = "删除",ApiLevel = UserType.PUBLIC)
     @RequestMapping(value = "/{sequenceNbr}", method = RequestMethod.DELETE)
     public ResponseModel create(@PathVariable Long  sequenceNbr) throws Exception {
         return ResponseHelper.buildResponse(feedbackService.deleteBySeq(sequenceNbr));
     }
 
 
-    @TycloudOperation(operation = "分页查询",ApiLevel = UserType.PUBLIC)
+    /**
+     * 分页查询
+     * @param contact
+     * @param userId
+     * @param current
+     * @param size
+     * @return
+     * @throws Exception
+     */
+    @TycloudOperation(name = "分页查询",ApiLevel = UserType.PUBLIC)
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseModel<Page> queryForPage(
             @RequestParam(value = "contact", required = false) String contact,
