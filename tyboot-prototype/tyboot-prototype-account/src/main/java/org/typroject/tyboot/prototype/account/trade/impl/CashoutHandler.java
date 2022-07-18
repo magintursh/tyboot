@@ -3,7 +3,7 @@ package org.typroject.tyboot.prototype.account.trade.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
-import org.typroject.tyboot.face.account.model.AccountCashoutRecordModel;
+import org.typroject.tyboot.face.account.model.*;
 import org.typroject.tyboot.face.account.service.AccountCashoutRecordService;
 import org.typroject.tyboot.face.account.service.AccountTransferRecordService;
 import org.typroject.tyboot.prototype.account.Account;
@@ -96,7 +96,7 @@ public class CashoutHandler  implements AccountTradeHandler {
 			 BigDecimal amount					  = CashoutParams.amount.getValue(params);
 			 String  postscript					  = CashoutParams.postscript.getValue(params);
 			 String applyStatus					  = CashoutParams.applyStatus.getValue(params);
-			 AccountCashoutRecordModel cashoutRecord   = accountCashoutRecordService.queryByApplyNo(billNo);
+			 AccountCashoutModel cashoutRecord   = accountCashoutRecordService.queryByApplyNo(billNo);
 
 			 if( !ValidationUtil.isEmpty(cashoutRecord)
 					 &&	amount.doubleValue() == cashoutRecord.getApplayAmount().doubleValue()

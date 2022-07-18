@@ -17,7 +17,7 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class AccountCashoutRecordModel extends BaseModel {
+public class AccountCashoutModel extends BaseModel {
 
     private static final long serialVersionUID = 543543543L;
 

@@ -310,6 +310,11 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
     }
 
 
+    /**
+     * 根据物理主键删除对象，删除之前校验是否存在。
+     * @param seq
+     * @return
+     */
     public final boolean deleteWithPretreatment(Long seq) {
         boolean result = false;
         V v = this.queryBySeq(seq);
@@ -353,6 +358,11 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
         return Bean.toModels(this.getBaseMapper().selectBatchIds(seqs), getModelClass());
     }
 
+    /**
+     * 以对象中填充的字段为条件，查询指定的一个对象
+     * @param model
+     * @return
+     */
     protected final V queryByModel(V model) {
         P entity = null;
         entity = Bean.toPo(model, newInstance(this.getPoClass()));
@@ -362,6 +372,11 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
     }
 
 
+    /**
+     * 根据条件查询数据是否存在。
+     * @param params
+     * @return
+     */
     protected final boolean queryForExits(Object... params) {
         if (allParamsIsNull(params))
             throw new RuntimeException("parameter params can not be empty or null  for method queryModelByParams.");
@@ -410,6 +425,11 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
     }
 
 
+    /**
+     * 从缓存中查询指定对象，如果缓存中不存在，则中数据库中查询。
+     * @param params
+     * @return
+     */
     protected final V queryModelByParamsWithCache(Object... params) {
         if (allParamsIsNull(params))
             throw new RuntimeException("parameter params can not be empty or null  for method queryModelByParamsWithCache.");

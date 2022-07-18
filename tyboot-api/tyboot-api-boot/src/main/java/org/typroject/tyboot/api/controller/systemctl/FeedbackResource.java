@@ -26,7 +26,7 @@ import org.typroject.tyboot.core.restful.utils.ResponseModel;
  */
 
 @RestController
-@TycloudResource(name = "用户反馈",module = "systemctl", resource = "systemctl")
+@TycloudResource(name = "用户反馈",module = "systemctl", resource = "feedback")
 @RequestMapping(value = "/v1/systemctl/feedback")
 public class FeedbackResource {
 

@@ -20,7 +20,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("account_cashout_record" )
-public class AccountCashoutRecord extends BaseEntity {
+public class AccountCashout extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 

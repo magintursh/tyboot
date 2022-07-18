@@ -22,7 +22,7 @@ import java.util.List;
  * Created by magintursh on 2017-05-03.
  */
 
-@TycloudResource(name = "位置信息管理",module = "systemctl", resource = "LocationResource")
+@TycloudResource(name = "位置信息管理",module = "systemctl", resource = "location")
 @RequestMapping(path = "/v1/systemctl/location")
 @RestController
 public class LocationResource {

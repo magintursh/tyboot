@@ -34,7 +34,7 @@ public class ExtendAuthHandler implements InitializingBean {
         authWithSessionHandlers.add(userTypeAuthHandler);
     }
 
-    public static void doAuth(SsoSessionsModel ssoSessionsModel, HandlerMethod handlerMethod, String token, String appKey, String product) throws Exception {
+    public static void doAuth(SsoSessionsModel ssoSessionsModel, HandlerMethod handlerMethod, String token, String appKey, String product)  {
 
 
         //扩展的验证规则

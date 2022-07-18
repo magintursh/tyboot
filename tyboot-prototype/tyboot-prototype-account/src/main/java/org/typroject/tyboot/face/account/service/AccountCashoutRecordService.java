@@ -9,17 +9,12 @@ import org.typroject.tyboot.core.foundation.exception.BaseException;
 import org.typroject.tyboot.core.foundation.utils.Sequence;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
 import org.typroject.tyboot.core.rdbms.service.BaseService;
-import org.typroject.tyboot.face.account.model.AccountCashoutRecordModel;
+import org.typroject.tyboot.face.account.model.AccountCashoutModel;
 import org.typroject.tyboot.face.account.orm.dao.AccountCashoutRecordMapper;
-import org.typroject.tyboot.face.account.orm.entity.AccountCashoutRecord;
-import org.typroject.tyboot.prototype.account.AccountManager;
+import org.typroject.tyboot.face.account.orm.entity.AccountCashout;
 import org.typroject.tyboot.prototype.account.AccountType;
-import org.typroject.tyboot.prototype.account.DefaultAccountType;
-import org.typroject.tyboot.prototype.account.trade.DefaultAccountTradeType;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -31,7 +26,7 @@ import java.util.Map;
  * @since 2018-01-23
  */
 @Component
-public class AccountCashoutRecordService extends BaseService<AccountCashoutRecordModel, AccountCashoutRecord, AccountCashoutRecordMapper> {
+public class AccountCashoutRecordService extends BaseService<AccountCashoutModel, AccountCashout, AccountCashoutRecordMapper> {
 
     /**
      * 提现状态-待手工处理-大于指定金额的提现申请 需要后台审核之后才能实际转账
@@ -59,13 +54,13 @@ public class AccountCashoutRecordService extends BaseService<AccountCashoutRecor
     public static final String CASHOUT_STATUS_FAILED = "FAILED";
 
 
-    public AccountCashoutRecordModel queryByApplyNo(String applayNo) {
+    public AccountCashoutModel queryByApplyNo(String applayNo) {
         return queryModelByParams(applayNo);
     }
 
 
     @Transactional(rollbackFor = {Exception.class, BaseException.class})
-    public AccountCashoutRecordModel createCashoutRecord(AccountCashoutRecordModel cashoutRecordModel, AccountType accountType) throws Exception {
+    public AccountCashoutModel createCashoutRecord(AccountCashoutModel cashoutRecordModel, AccountType accountType) throws Exception {
         cashoutRecordModel.setUserId(RequestContext.getExeUserId());
         cashoutRecordModel.setApplayNo(Sequence.generatorBillNo());
         cashoutRecordModel.setApplyStatus(CASHOUT_STATUS_SUSPEND);
@@ -87,8 +82,8 @@ public class AccountCashoutRecordService extends BaseService<AccountCashoutRecor
      * @return
      * @throws Exception
      */
-    public AccountCashoutRecordModel comfirm(String applyNo) throws Exception {
-        AccountCashoutRecordModel cashoutRecordModel = this.queryByApplyNo(applyNo);
+    public AccountCashoutModel comfirm(String applyNo) throws Exception {
+        AccountCashoutModel cashoutRecordModel = this.queryByApplyNo(applyNo);
         if (!ValidationUtil.isEmpty(cashoutRecordModel) && CASHOUT_STATUS_SUSPEND.equals(cashoutRecordModel.getApplyStatus())) {
             cashoutRecordModel.setApplyStatus(CASHOUT_STATUS_PENDING);
             this.updateWithModel(cashoutRecordModel);
@@ -109,8 +104,8 @@ public class AccountCashoutRecordService extends BaseService<AccountCashoutRecor
      * @throws Exception
      */
     @Transactional(rollbackFor = {Exception.class, BaseException.class})
-    public AccountCashoutRecordModel transferComfirm(String applyNo) throws Exception {
-        AccountCashoutRecordModel cashoutRecordModel = this.queryByApplyNo(applyNo);
+    public AccountCashoutModel transferComfirm(String applyNo) throws Exception {
+        AccountCashoutModel cashoutRecordModel = this.queryByApplyNo(applyNo);
         if (!ValidationUtil.isEmpty(cashoutRecordModel) && CASHOUT_STATUS_PENDING.equals(cashoutRecordModel.getApplyStatus())) {
 
             //将申请记录设置为提现成功
@@ -131,8 +126,8 @@ public class AccountCashoutRecordService extends BaseService<AccountCashoutRecor
      * @throws Exception
      */
     @Transactional(rollbackFor = {Exception.class, BaseException.class})
-    public AccountCashoutRecordModel refuse(String applyNo, AccountType accountType) throws Exception {
-        AccountCashoutRecordModel cashoutRecordModel = this.queryByApplyNo(applyNo);
+    public AccountCashoutModel refuse(String applyNo, AccountType accountType) throws Exception {
+        AccountCashoutModel cashoutRecordModel = this.queryByApplyNo(applyNo);
         if (!ValidationUtil.isEmpty(cashoutRecordModel) && CASHOUT_STATUS_SUSPEND.equals(cashoutRecordModel.getApplyStatus())) {
 
 

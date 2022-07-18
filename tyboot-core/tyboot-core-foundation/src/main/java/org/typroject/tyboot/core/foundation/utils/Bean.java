@@ -455,7 +455,7 @@ public class Bean {
                     if (!method.getName().equals(name) || !Arrays.equals(argumentTypes, types)) {
                         return null;
                     }
-                    return new MethodVisitor(Opcodes.ASM5) {
+                    return new MethodVisitor(Opcodes.ASM7) {
                         @Override
                         public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
                             // 静态方法第一个参数就是方法的参数，如果是实例方法，第一个参数是this

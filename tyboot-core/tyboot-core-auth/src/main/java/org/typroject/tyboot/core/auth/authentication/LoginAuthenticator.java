@@ -88,7 +88,7 @@ public   class LoginAuthenticator {
             ssoSessionsModel.setAgencyCode(loginInfoModel.getAgencyCode());
             ssoSessionsModel.setLoginId(loginInfoModel.getLoginId());
             ssoSessionsModel.setUserId(loginInfoModel.getUserId());
-           // ssoSessionsModel.setUserName(loginInfoModel.get);
+            // ssoSessionsModel.setUserName(loginInfoModel.get);
             ssoSessionsModel.setUserType(userType.name());
 
         }
