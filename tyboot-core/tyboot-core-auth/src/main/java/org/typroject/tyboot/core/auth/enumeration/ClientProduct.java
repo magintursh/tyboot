@@ -10,9 +10,17 @@ import org.typroject.tyboot.core.foundation.enumeration.UserType;
  */
 public interface ClientProduct {
 
+    /**
+     * 外部平台名称
+     * @return
+     */
     String getProduct();
 
-    UserType[] userType();
+    /**
+     * 支持的用户类型
+     * @return
+     */
+    UserType[] userTypes();
 
 
 }

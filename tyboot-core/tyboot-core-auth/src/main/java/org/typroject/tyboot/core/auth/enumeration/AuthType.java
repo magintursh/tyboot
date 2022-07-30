@@ -1,21 +1,24 @@
 package org.typroject.tyboot.core.auth.enumeration;
 
 
+import org.typroject.tyboot.core.auth.authentication.IdPasswordLoginAuthenticator;
+import org.typroject.tyboot.core.auth.authentication.LoginAuthenticatorHandler;
+
 public enum AuthType implements ProvidedAuthType{
-	ID_PASSWORD("idPasswordLoginAuthenticator");
+	ID_PASSWORD(IdPasswordLoginAuthenticator.class);
 
 
 
 
-	 AuthType(String authenticator)
+	 AuthType(Class<? extends LoginAuthenticatorHandler> authenticator)
 	{
 			this.authenticator = authenticator;
 	}
 
-	private String  authenticator;
+	private Class<? extends LoginAuthenticatorHandler>  authenticator;
 
 
-	public String getAuthenticator() {
+	public Class<? extends LoginAuthenticatorHandler> getAuthenticator() {
 		return authenticator;
 	}
 
