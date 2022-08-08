@@ -194,6 +194,7 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
      */
     protected final boolean deleteBySeqWithCache(Long seq, String... cacheKeyForDelete) {
         boolean flag = this.deleteBySeq(seq);
+        deleteFromCache(genCacheKeyForModel(String.valueOf(seq)));
         deleteFromCache(cacheKeyForDelete);
         return flag;
     }
@@ -206,14 +207,15 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
      * @return
      */
     protected final V queryBySeqWithCache(Long seq) {
-        Object v = queryFromCache(genCacheKeyForModel(String.valueOf(seq)));
+        String cacheKey = genCacheKeyForModel(String.valueOf(seq));
+        Object v = queryFromCache(cacheKey);
         if (ValidationUtil.isEmpty(v)) {
             v = this.queryBySeq(seq);
             if (!ValidationUtil.isEmpty(v))
-                saveCache(genCacheKeyForModel(String.valueOf(seq)), v);
+                saveCache(cacheKey, v);
 
             if (ValidationUtil.isEmpty(v) && cacheNullModel)
-                saveCache(genCacheKeyForModel(String.valueOf(seq)), valueOfNullModel);
+                saveCache(cacheKey, valueOfNullModel);
         }
         if (valueOfNullModel.equals(v))
             v = null;
@@ -438,7 +440,7 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
         for (int i = 0; i < params.length; i++)
             asKey[i] = String.valueOf(params[i]);
 
-        Object v = queryFromCache(genCacheKeyForModel(Redis.genKey(asKey)));
+        V v = queryFromCache(genCacheKeyForModel(Redis.genKey(asKey)));
         if (ValidationUtil.isEmpty(v)) {
             P entity = newInstance(this.getPoClass());
             Class clzz = Bean.getClassByName(Thread.currentThread().getStackTrace()[2].getClassName());
