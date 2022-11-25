@@ -4,10 +4,7 @@ package org.typroject.tyboot.prototype.account.trade;
 import org.typroject.tyboot.prototype.account.AccountOperateRule;
 import org.typroject.tyboot.prototype.account.rule.AccountIncomeRule;
 import org.typroject.tyboot.prototype.account.rule.AccountSpendRule;
-import org.typroject.tyboot.prototype.account.trade.impl.CashoutHandler;
-import org.typroject.tyboot.prototype.account.trade.impl.PaymentHandler;
-import org.typroject.tyboot.prototype.account.trade.impl.RechargeHandler;
-import org.typroject.tyboot.prototype.account.trade.impl.TransferHandler;
+import org.typroject.tyboot.prototype.account.trade.impl.*;
 
 /**
  * 系统自身所支持的交易类型
@@ -24,12 +21,17 @@ public enum DefaultAccountTradeType implements AccountTradeType {
 	 * 从法币账户充值到虚拟账户
 	 */
 	RECHARGE("充值", RechargeHandler.class, AccountIncomeRule.class),
-	
+
 	/**
 	 * 从虚拟账户提现到外部法币账户
 	 */
 	CASH_OUT("提现", CashoutHandler.class,AccountSpendRule.class),
 
+
+	/**
+	 * 内部账户货币兑换
+	 */
+	EXCHANGE("兑换", ExchangeHandler.class,AccountSpendRule.class),
 	
 	/**
 	 * 用戶閒内部賬戶轉賬

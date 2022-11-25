@@ -86,7 +86,7 @@ public class APIRestrictiveStrategy implements LimitStrategy {
         }
         return Redis.genKey(Strategy.API.name(),strategyKey);
     }
-
+    
     @Override
     public boolean isEnable(HandlerMethod handlerMethod) {
 

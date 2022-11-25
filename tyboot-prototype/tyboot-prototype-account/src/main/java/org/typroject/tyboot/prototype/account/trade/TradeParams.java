@@ -18,5 +18,4 @@ public interface TradeParams {
     String getParamCode();
 
     <T> T getValue(Map<String,Object> params);
-
 }

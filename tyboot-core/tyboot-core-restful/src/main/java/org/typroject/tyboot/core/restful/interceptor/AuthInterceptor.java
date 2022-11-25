@@ -75,8 +75,9 @@ public class AuthInterceptor implements AsyncHandlerInterceptor {
         RequestContext.setToken(token);
         RequestContext.setDeviceId(deviceId);
 
-        if (!(handler instanceof HandlerMethod)) //TODO 临时处理，再做打算
-            return true;
+        if (!(handler instanceof HandlerMethod)) {
+            throw new AuthException("不支持的资源请求类型.");
+        }
 
         HandlerMethod handlerMethod = (HandlerMethod) handler;
 
