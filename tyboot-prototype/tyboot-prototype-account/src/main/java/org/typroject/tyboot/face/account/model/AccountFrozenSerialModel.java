@@ -64,5 +64,7 @@ public class AccountFrozenSerialModel extends BaseModel {
 
     private String userId;
 
+    private String agencyCode;
+
     private String postscript;
 }

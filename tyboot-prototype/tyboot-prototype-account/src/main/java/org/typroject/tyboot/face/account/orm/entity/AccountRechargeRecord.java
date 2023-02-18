@@ -30,6 +30,11 @@ public class AccountRechargeRecord extends BaseEntity {
      */
     @TableField("USER_ID" )
     private String userId;
+
+
+    @TableField("AGENCY_CODE" )
+    private String agencyCode;
+
     /**
      * /**
      * 充值账户编号

@@ -14,4 +14,10 @@ public class AccountTradeException extends BaseException {
         super(message,AccountTradeException.class.getSimpleName(),"虚拟账户交易出错.");
         this.httpStatus = 400;
     }
+
+    public AccountTradeException(String message,String devMessage)
+    {
+        super(message,AccountTradeException.class.getSimpleName(),devMessage);
+        this.httpStatus = 400;
+    }
 }

@@ -64,4 +64,6 @@ public class AccountTransferRecordModel extends BaseModel {
     private String targetAccountType;
 
     private String userId;
+
+    private String agencyCode;
 }
