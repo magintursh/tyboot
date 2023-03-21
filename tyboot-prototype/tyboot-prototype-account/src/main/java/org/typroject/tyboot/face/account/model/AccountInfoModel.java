@@ -73,4 +73,9 @@ public class AccountInfoModel extends BaseModel {
      * 出账总计
      */
     private BigDecimal spendAmount;
+
+    /**
+     * 冻结账户版本号
+     */
+    private Long frozenUpdateVersion;
 }

@@ -72,4 +72,7 @@ public class AccountInfo extends BaseEntity {
     private BigDecimal frozenBalance;
     @TableField("SPEND_AMOUNT" )
     private BigDecimal spendAmount;
+
+    @TableField("FROZEN_UPDATE_VERSION" )
+    private Long frozenUpdateVersion;
 }

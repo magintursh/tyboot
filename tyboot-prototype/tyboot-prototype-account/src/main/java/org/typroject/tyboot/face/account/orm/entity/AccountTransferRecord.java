@@ -78,4 +78,7 @@ public class AccountTransferRecord extends BaseEntity {
 
     @TableField("USER_ID" )
     private String userId;
+
+    @TableField("AGENCY_CODE" )
+    private String agencyCode;
 }

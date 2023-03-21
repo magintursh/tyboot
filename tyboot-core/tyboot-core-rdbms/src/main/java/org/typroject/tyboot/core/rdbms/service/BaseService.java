@@ -91,7 +91,7 @@ public class BaseService<V extends BaseModel, P extends BaseEntity, M extends Ba
         if (entity instanceof BaseEntity) {
             BaseEntity temp = (BaseEntity) entity;
             temp.setRecDate(new Date());
-            if (ValidationUtil.isEmpty(temp.getRecUserId()))
+            if (ValidationUtil.isEmpty(temp.getRecUserId()) || !ValidationUtil.isEmpty(RequestContext.getExeUserId()))
                 temp.setRecUserId(RequestContext.getExeUserId());
         }
         return entity;

@@ -29,9 +29,11 @@ import java.util.List;
 public class AccountFrozenSerialService extends BaseService<AccountFrozenSerialModel, AccountFrozenSerial, AccountFrozenSerialMapper> {
 
     public AccountFrozenSerialModel createAccountFrozenSerial(String userId,
+                                                              String agencyCode,
                                                               String accountNo,
                                                               String accountType,
-                                                              Long updateVersion,
+                                                              Long oldUpdateVersion,
+                                                              Long newUpdateVersion,
                                                               String billNo,
                                                               BigDecimal amount,
                                                               AccountTradeType accountTradeType,
@@ -42,6 +44,9 @@ public class AccountFrozenSerialService extends BaseService<AccountFrozenSerialM
 
         BigDecimal initialBalance = new BigDecimal(0);        //起始金额
         if (!ValidationUtil.isEmpty(lastAccountSerial)) {
+            if(!lastAccountSerial.getUpdateVersion().equals(oldUpdateVersion)){
+                throw new AccountTradeException("账户异常!","冻结账户信息与冻结流水记录的版本号不一致.");
+            }
             initialBalance = lastAccountSerial.getFinalBalance();
         }
         BigDecimal finalBalance = this.calaFinalBalance(bookkeeping, amount, initialBalance);//最终余额
@@ -56,7 +61,8 @@ public class AccountFrozenSerialService extends BaseService<AccountFrozenSerialM
         newAccountSerial.setOperateTime(new Date());
         newAccountSerial.setOperationType(accountTradeType.getAccountTradeType());
         newAccountSerial.setUserId(userId);
-        newAccountSerial.setUpdateVersion(updateVersion);
+        newAccountSerial.setAgencyCode(agencyCode);
+        newAccountSerial.setUpdateVersion(newUpdateVersion);
         newAccountSerial.setAccountType(accountType);
         newAccountSerial.setBookkeeping(bookkeeping.name());
         newAccountSerial.setPostscript(postscript);

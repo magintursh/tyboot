@@ -78,6 +78,9 @@ public class AccountFrozenSerial extends BaseEntity {
     @TableField("USER_ID" )
     private String userId;
 
+    @TableField("AGENCY_CODE" )
+    private String agencyCode;
+
     @TableField("POSTSCRIPT" )
     private String postscript;
 }

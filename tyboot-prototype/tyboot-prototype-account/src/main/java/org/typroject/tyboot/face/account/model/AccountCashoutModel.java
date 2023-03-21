@@ -67,4 +67,6 @@ public class AccountCashoutModel extends BaseModel {
     private BigDecimal applayAmount;
 
     private String userId;
+
+    private String agencyCode;
 }

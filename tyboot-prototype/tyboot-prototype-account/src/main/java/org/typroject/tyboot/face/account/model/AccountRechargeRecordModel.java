@@ -26,6 +26,9 @@ public class AccountRechargeRecordModel extends BaseModel {
      * 用户编号
      */
     private String userId;
+
+    private String agencyCode;
+
     /**
      * 充值账户编号
      */

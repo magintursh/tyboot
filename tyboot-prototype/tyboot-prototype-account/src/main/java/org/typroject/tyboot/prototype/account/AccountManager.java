@@ -20,9 +20,14 @@ public final class AccountManager {
 	 * @throws Exception
 	 */
 	public AccountManager(String  userId,AccountType accountType)  {
-		this.account  = Account.getAccountInstance(userId,accountType);
+		this.account  = Account.getAccountInstance(userId,null,accountType);
 	}
-	
+
+	public AccountManager(String  userId,String agencyCode,AccountType accountType)  {
+		this.account  = Account.getAccountInstance(userId,agencyCode,accountType);
+	}
+
+
 	/**
 	 * 根据accountNo创建一个AccountManager操作对象
 	 * @param accountNo
@@ -58,9 +63,9 @@ public final class AccountManager {
 	
 	
 
-	public static boolean initAccountInfo(String userId,AccountType accountType)
+	public static boolean initAccountInfo(String userId,String agencyCode,AccountType accountType)
 	{
-		Account.initAccountInfo(userId,accountType);
+		Account.initAccountInfo(userId,agencyCode,accountType);
 		return true;
 	}
 	

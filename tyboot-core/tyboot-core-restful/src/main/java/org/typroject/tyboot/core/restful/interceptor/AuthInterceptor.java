@@ -108,6 +108,11 @@ public class AuthInterceptor implements AsyncHandlerInterceptor {
         //在刷新session之前执行扩展规则验证
         Boolean flag = ExtendAuthHandler.doAuth(handlerMethod, token, appKey, product);
 
+        //重新填充token  用以支持外部系统的信息在验证规则中的处理。
+        token = RequestContext.getToken();
+        appKey = RequestContext.getAppKey();
+        product = RequestContext.getProduct();
+
         //跳过剩下所有校验.
         if (flag)
             return true;
