@@ -64,5 +64,10 @@ public class AccountSerialModel extends BaseModel {
 
     private String userId;
 
+    /**
+     * 机构编号
+     */
+    private String agencyCode;
+
     private String postscript;
 }

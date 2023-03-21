@@ -37,10 +37,11 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
     @Autowired
     private Sequence sequence;
 
-    public AccountInfoModel initAccountInfo(String userId, AccountType accountType, String accountNo) {
+    public AccountInfoModel initAccountInfo(String userId, AccountType accountType, String accountNo,String agencyCode) {
         AccountInfoModel accountInfo = new AccountInfoModel();
         accountInfo.setAccountNo(accountNo);//账户编号生成
         accountInfo.setUserId(userId);
+        accountInfo.setAgencyCode(agencyCode);
         accountInfo.setAccountType(accountType.getAccountType());
         accountInfo.setAccountStatus(AccountStatus.NORMAL.name());
         accountInfo.setAgencyCode(CoreConstans.CODE_SUPER_ADMIN);
@@ -65,10 +66,18 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
      * @return
      * @throws Exception
      */
-    public AccountInfoModel updateFinalBalance(String accountNo, BigDecimal changeAmount,BigDecimal finalBalance, Long oldUpdateVersion, AccountBaseOperation bookkeeping)  {
+    public AccountInfoModel updateFinalBalance(String accountNo, BigDecimal changeAmount,BigDecimal finalBalance,
+                                               Long oldUpdateVersion,Long newUpdateVersion,
+                                               AccountBaseOperation bookkeeping,
+                                               Long oldFrozenUpdateVersion,
+                                               Long newFrozenUpdateVersion)  {
         AccountInfoModel oldModel = this.queryByAccontNoAndVersion(accountNo, oldUpdateVersion);
         if (!ValidationUtil.isEmpty(oldModel)) {
-            oldModel.setBalance(finalBalance);
+
+            if(oldModel.getFrozenUpdateVersion().equals(oldFrozenUpdateVersion)){
+                throw new AccountTradeException("账户异常!","冻结账户信息与冻结流水记录的版本号不一致.");
+            }
+
             if(ValidationUtil.isEmpty(oldModel.getCumulativeBalance())){
                 oldModel.setCumulativeBalance(BigDecimal.ZERO);
             }
@@ -76,29 +85,48 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
                 oldModel.setSpendAmount(BigDecimal.ZERO);
             }
 
+            if(ValidationUtil.isEmpty(oldModel.getFrozenBalance())){
+                oldModel.setFrozenBalance(BigDecimal.ZERO);
+            }
+
             switch (bookkeeping){
                 case INCOME:
+                    oldModel.setBalance(finalBalance);
+                    oldModel.setUpdateVersion(newUpdateVersion);
                     oldModel.setCumulativeBalance(oldModel.getCumulativeBalance().add(changeAmount));
                     break;
                 case SPEND:
+                    oldModel.setBalance(finalBalance);
+                    oldModel.setUpdateVersion(newUpdateVersion);
                     oldModel.setSpendAmount(oldModel.getSpendAmount().add(changeAmount));
                     break;
                 case FREEZE:
-                    oldModel.setSpendAmount(oldModel.getSpendAmount().add(changeAmount));
+                    oldModel.setBalance(finalBalance);
+                    oldModel.setUpdateVersion(newUpdateVersion);
+                    oldModel.setFrozenUpdateVersion(newFrozenUpdateVersion);
                     oldModel.setFrozenBalance(oldModel.getFrozenBalance().add(changeAmount));
                     break;
                 case UNFREEZE:
+                    oldModel.setBalance(finalBalance);
+                    oldModel.setUpdateVersion(newUpdateVersion);
+                    oldModel.setFrozenUpdateVersion(newFrozenUpdateVersion);
                     if(oldModel.getFrozenBalance().doubleValue() < changeAmount.doubleValue()){
                         throw new AccountTradeException("冻结账户金额不足.");
                     }
-                    oldModel.setCumulativeBalance(oldModel.getCumulativeBalance().add(changeAmount));
                     oldModel.setFrozenBalance(oldModel.getFrozenBalance().subtract(changeAmount));
+                    break;
+                case RELEASE_FROZEN:
+                    if(oldModel.getFrozenBalance().doubleValue() < changeAmount.doubleValue()){
+                        throw new AccountTradeException("冻结账户金额不足.");
+                    }
+                    oldModel.setFrozenUpdateVersion(newFrozenUpdateVersion);
+                    oldModel.setFrozenBalance(oldModel.getFrozenBalance().subtract(changeAmount));
+                    oldModel.setSpendAmount(oldModel.getSpendAmount().add(changeAmount));
                     break;
                 default:
                     throw new AccountTradeException("账户操作类型有误." );
             }
 
-            oldModel.setUpdateVersion(sequence.nextId());
             oldModel.setRecDate(new Date());
             oldModel.setRecUserId(RequestContext.getExeUserId());
 
@@ -113,47 +141,11 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
             if (!result)
                 throw new AccountTradeException("更新余额失败." );
         } else {
-            throw new AccountTradeException("找不到指定账户." );
+            throw new AccountTradeException("账户异常.","找不到账户信息，请检查账户信息版本号" );
         }
         return oldModel;
     }
 
-    /**
-     * 释放冻结中的金额
-     * @param accountNo  账户编号
-     * @param changeAmount  要释放的金额
-     * @param oldUpdateVersion 旧的账户版本号
-     * @return
-     */
-    public AccountInfoModel  releaseFrozen(String accountNo,BigDecimal changeAmount, Long oldUpdateVersion){
-        AccountInfoModel oldModel = this.queryByAccontNoAndVersion(accountNo, oldUpdateVersion);
-        if(!ValidationUtil.isEmpty(oldModel)){
-            if(oldModel.getFrozenBalance().doubleValue() < changeAmount.doubleValue()){
-                throw new AccountTradeException("释放冻结金额失败.冻结金额异常");
-            }
-            BigDecimal frozenBalance = oldModel.getFrozenBalance().subtract(changeAmount);
-            oldModel.setFrozenBalance(frozenBalance);
-
-            oldModel.setUpdateVersion(sequence.nextId());
-            oldModel.setRecDate(new Date());
-            oldModel.setRecUserId(RequestContext.getExeUserId());
-
-            Map<String, Object> params = new HashMap<>();
-            params.put("UPDATE_VERSION" , oldUpdateVersion);
-            params.put("ACCOUNT_NO" , accountNo);
-            params.put("ACCOUNT_STATUS" , AccountStatus.NORMAL.name());
-            QueryWrapper<AccountInfo> wrapper = new QueryWrapper<>();
-            wrapper.allEq(params, Boolean.FALSE);
-            boolean result = this.update(Bean.toPo(oldModel, new AccountInfo()), wrapper);
-            if (!result)
-                throw new AccountTradeException("更新余额失败." );
-
-        } else {
-            throw new AccountTradeException("找不到指定账户." );
-        }
-        return oldModel;
-
-    }
 
 
     public AccountInfoModel updateAccountStatus(String accountNo, AccountStatus newStatus, AccountStatus oldStatus, Long oldUpdateVersion)  {
@@ -187,10 +179,10 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
        return this.queryModelByParams(accountNo,updateVersion);
     }
 
-    public AccountInfoModel queryByUserId(String userId, AccountType accountType) {
+    public AccountInfoModel queryByUserId(String userId, String accountType) {
         AccountInfoModel accountInfoModel = new AccountInfoModel();
         accountInfoModel.setUserId(userId);
-        accountInfoModel.setAccountType(accountType.getAccountType());
+        accountInfoModel.setAccountType(accountType);
         return this.queryByModel(accountInfoModel);
     }
 }

@@ -7,6 +7,7 @@ import org.typroject.tyboot.face.account.model.AccountTransferRecordModel;
 import org.typroject.tyboot.face.account.service.AccountTransferRecordService;
 import org.typroject.tyboot.prototype.account.Account;
 import org.typroject.tyboot.prototype.account.AccountTradeException;
+import org.typroject.tyboot.prototype.account.AccountType;
 import org.typroject.tyboot.prototype.account.trade.AccountTradeHandler;
 import org.typroject.tyboot.prototype.account.trade.BaseTradeParams;
 import org.typroject.tyboot.prototype.account.trade.DefaultAccountTradeType;
@@ -50,6 +51,9 @@ public class TransferHandler    implements AccountTradeHandler {
 		transferType(true,"轉賬類型"),//轉賬的前置業務標識
 		amount(true,"交易金额"),
 		postscript(true,"交易附言"),
+		targetUserId(true,"目标用户id"),
+		targetAgencyCode(true,"账单找好的机构编号"),
+		targetAccountType(true,"目标账户类型"),
 		targetAccountNo(true,"目标账户编号");
 
 		private boolean notnull;
@@ -88,7 +92,12 @@ public class TransferHandler    implements AccountTradeHandler {
 			String billNo		   =  PaymentParams.billNo.getValue(params);
 			String postscript	   =  PaymentParams.postscript.getValue(params);
 			String transferType    =  PaymentParams.transferType.getValue(params);
-			Account targetAccount  = Account.getAccountInstance(targetAccountNo);
+			 String targetUserId    = PaymentParams.targetUserId.getValue(params);
+			 AccountType  targetAccountType       =  PaymentParams.targetAccountType.getValue(params);
+			 String targetAgencyCode  =  PaymentParams.targetAgencyCode.getValue(params);
+
+			Account targetAccount  = Account.getAccountInstance(targetUserId,targetAgencyCode,targetAccountType);
+
 
 
 			 //从來源账户出账
