@@ -44,4 +44,24 @@ public interface LimitStrategy {
      */
     boolean afterTokenAuth();
 
+
+    /**
+     * 所提供的限制策略
+     * @return
+     */
+    Strategy getStrategy();
+
+
+    /**
+     * 是否针对单实体的限制，若为false，则是针对此类实体的全局限制。
+     * @return
+     */
+    boolean singleEntityLimit();
+
+
+    /**
+     * 如果是针对单实体的限制，需要设置目标实体的标识
+     */
+    String getEntityId();
+
 }

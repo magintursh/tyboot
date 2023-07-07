@@ -50,6 +50,7 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
         accountInfo.setCumulativeBalance(BigDecimal.ZERO);
         accountInfo.setSpendAmount(BigDecimal.ZERO);
         accountInfo.setFrozenBalance(BigDecimal.ZERO);
+        accountInfo.setFrozenUpdateVersion(sequence.nextId());
         accountInfo.setPaymentPassword(AccountConstants.DEFAULT_PAYMENT_PASSWORD);
         accountInfo.setUpdateVersion(sequence.nextId());
         return this.createWithModel(accountInfo);
@@ -74,7 +75,7 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
         AccountInfoModel oldModel = this.queryByAccontNoAndVersion(accountNo, oldUpdateVersion);
         if (!ValidationUtil.isEmpty(oldModel)) {
 
-            if(oldModel.getFrozenUpdateVersion().equals(oldFrozenUpdateVersion)){
+            if(!oldModel.getFrozenUpdateVersion().equals(oldFrozenUpdateVersion)){
                 throw new AccountTradeException("账户异常!","冻结账户信息与冻结流水记录的版本号不一致.");
             }
 
