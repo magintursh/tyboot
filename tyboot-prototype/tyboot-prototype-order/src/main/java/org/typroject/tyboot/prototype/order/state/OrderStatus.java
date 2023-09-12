@@ -46,6 +46,15 @@ public interface OrderStatus {
 	 * @return
 	 */
 	String getStateName();
+
+
+	/**
+	 *
+	 *
+	 *code
+	 * @return
+	 */
+	String getStatusCode();
 	
 	
 	

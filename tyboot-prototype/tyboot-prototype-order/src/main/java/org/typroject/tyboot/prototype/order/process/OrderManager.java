@@ -4,6 +4,7 @@ package org.typroject.tyboot.prototype.order.process;
 import org.typroject.tyboot.core.foundation.context.SpringContextHelper;
 import org.typroject.tyboot.core.foundation.exception.BaseException;
 import org.typroject.tyboot.core.foundation.utils.ValidationUtil;
+import org.typroject.tyboot.face.order.model.BaseOrderInfo;
 import org.typroject.tyboot.prototype.order.BaseOrder;
 import org.typroject.tyboot.prototype.order.rule.OperationLimitHandler;
 import org.typroject.tyboot.prototype.order.state.BranchHandler;
@@ -17,6 +18,10 @@ public class OrderManager {
 
     public OrderManager(BaseOrder order) {
         state = getStateInstance(order);
+    }
+
+    public OrderManager(BaseOrderInfo baseOrderInfo, OrderStatus[] orderStatus) {
+        state = getStateInstance(BaseOrder.getInstance(baseOrderInfo, orderStatus));
     }
 
     /**
@@ -84,7 +89,7 @@ public class OrderManager {
         if (ValidationUtil.isEmpty(limitHandler)) {
             return true;
         }
-        OperationLimitHandler rule =  SpringContextHelper.getBean(limitHandler);
+        OperationLimitHandler rule = SpringContextHelper.getBean(limitHandler);
         if (!ValidationUtil.isEmpty(rule) && rule.checkOperation(this.getState().getOrder())) {
             return true;
         } else {

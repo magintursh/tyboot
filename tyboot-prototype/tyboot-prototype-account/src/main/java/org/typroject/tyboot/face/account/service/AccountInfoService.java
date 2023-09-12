@@ -44,12 +44,15 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
         accountInfo.setAgencyCode(agencyCode);
         accountInfo.setAccountType(accountType.getAccountType());
         accountInfo.setAccountStatus(AccountStatus.NORMAL.name());
-        accountInfo.setAgencyCode(CoreConstans.CODE_SUPER_ADMIN);
+        if(ValidationUtil.isEmpty(accountInfo.getAgencyCode())){
+            accountInfo.setAgencyCode(CoreConstans.CODE_SUPER_ADMIN);
+        }
         accountInfo.setBalance(BigDecimal.ZERO);
         accountInfo.setCreateTime(new Date());
         accountInfo.setCumulativeBalance(BigDecimal.ZERO);
         accountInfo.setSpendAmount(BigDecimal.ZERO);
         accountInfo.setFrozenBalance(BigDecimal.ZERO);
+        accountInfo.setFrozenUpdateVersion(sequence.nextId());
         accountInfo.setPaymentPassword(AccountConstants.DEFAULT_PAYMENT_PASSWORD);
         accountInfo.setUpdateVersion(sequence.nextId());
         return this.createWithModel(accountInfo);
@@ -74,7 +77,7 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
         AccountInfoModel oldModel = this.queryByAccontNoAndVersion(accountNo, oldUpdateVersion);
         if (!ValidationUtil.isEmpty(oldModel)) {
 
-            if(oldModel.getFrozenUpdateVersion().equals(oldFrozenUpdateVersion)){
+            if(!oldModel.getFrozenUpdateVersion().equals(oldFrozenUpdateVersion)){
                 throw new AccountTradeException("账户异常!","冻结账户信息与冻结流水记录的版本号不一致.");
             }
 

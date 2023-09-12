@@ -85,4 +85,7 @@ public class AccountCashout extends BaseEntity {
 
     @TableField("AGENCY_CODE" )
     private String agencyCode;
+
+    @TableField("CREATE_TIME" )
+    private Date createTime;
 }

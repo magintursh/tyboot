@@ -19,7 +19,7 @@ public class APIRestrictiveStrategy implements LimitStrategy {
     //默认每分钟 每个API 最多发起100个请求
    private   Frequency frequency = new Frequency(TimeUnit.MINUTES,1L,100L,100L);;
 
-   private Strategy strategy = Strategy.USERID; //附加限制策略
+   private Strategy extendStrategy = Strategy.USERID; //附加限制策略
 
    private static final String CACHE_KEY_PREFIX_API = "API";
 
@@ -35,10 +35,10 @@ public class APIRestrictiveStrategy implements LimitStrategy {
         this.frequency = frequency;
     }
 
-    public APIRestrictiveStrategy(Frequency frequency, Strategy strategy)
+    public APIRestrictiveStrategy(Frequency frequency, Strategy extendStrategy)
     {
         this.frequency = frequency;
-        this.strategy  = strategy;
+        this.extendStrategy  = extendStrategy;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class APIRestrictiveStrategy implements LimitStrategy {
 
         String methodName = handlerMethod.getMethod().getClass().getSimpleName() +"."+ handlerMethod.getMethod().getName();
 
-        String strategyKey  = getStrategyKey();
+        String strategyKey  = getExtendStrategyStrategyKey();
         return Redis.genKey(
                 CacheType.ERASABLE.name(),
                 CACHE_KEY_PREFIX,
@@ -60,10 +60,10 @@ public class APIRestrictiveStrategy implements LimitStrategy {
     }
 
 
-    private String getStrategyKey()
+    private String getExtendStrategyStrategyKey()
     {
         String strategyKey  = "";
-        switch (strategy)
+        switch (extendStrategy)
         {
             case IP:
                 strategyKey = RequestContext.getRequestIP();
@@ -100,5 +100,20 @@ public class APIRestrictiveStrategy implements LimitStrategy {
     @Override
     public boolean afterTokenAuth() {
         return true;
+    }
+
+    @Override
+    public Strategy getStrategy() {
+        return Strategy.API;
+    }
+
+    @Override
+    public boolean singleEntityLimit() {
+        return false;
+    }
+
+    @Override
+    public String getEntityId() {
+        return null;
     }
 }

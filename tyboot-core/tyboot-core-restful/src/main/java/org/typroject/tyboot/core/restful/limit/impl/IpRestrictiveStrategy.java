@@ -60,4 +60,19 @@ public class IpRestrictiveStrategy implements LimitStrategy {
     public boolean afterTokenAuth() {
         return false;
     }
+
+    @Override
+    public Strategy getStrategy() {
+        return null;
+    }
+
+    @Override
+    public boolean singleEntityLimit() {
+        return false;
+    }
+
+    @Override
+    public String getEntityId() {
+        return null;
+    }
 }
