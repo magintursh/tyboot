@@ -16,11 +16,8 @@ public class CacheConfig {
 
     @Resource
     public RedisTemplate redisTemplate(RedisTemplate<String, Object> redisTemplate) {
-        GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerialize = new GenericJackson2JsonRedisSerializer();
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(genericJackson2JsonRedisSerialize);
-        redisTemplate.setHashValueSerializer(genericJackson2JsonRedisSerialize);
         Redis.redisTemplate = redisTemplate;
         return redisTemplate;
     }

@@ -69,4 +69,7 @@ public class AccountCashoutRecordModel extends BaseModel {
     private String userId;
 
     private String agencyCode;
+
+
+    private Date createTime;
 }
