@@ -44,7 +44,9 @@ public class AccountInfoService extends BaseService<AccountInfoModel, AccountInf
         accountInfo.setAgencyCode(agencyCode);
         accountInfo.setAccountType(accountType.getAccountType());
         accountInfo.setAccountStatus(AccountStatus.NORMAL.name());
-        accountInfo.setAgencyCode(CoreConstans.CODE_SUPER_ADMIN);
+        if(ValidationUtil.isEmpty(accountInfo.getAgencyCode())){
+            accountInfo.setAgencyCode(CoreConstans.CODE_SUPER_ADMIN);
+        }
         accountInfo.setBalance(BigDecimal.ZERO);
         accountInfo.setCreateTime(new Date());
         accountInfo.setCumulativeBalance(BigDecimal.ZERO);

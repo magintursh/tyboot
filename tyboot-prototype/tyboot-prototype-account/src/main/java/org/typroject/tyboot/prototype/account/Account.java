@@ -131,7 +131,7 @@ public class Account {
                 this.getAccountInfoModel().getAgencyCode(),
                 this.accountInfoModel.getAccountNo(),
                 this.accountInfoModel.getAccountType(),
-                this.accountInfoModel.getUpdateVersion(),
+                this.accountInfoModel.getFrozenUpdateVersion(),
                 newFrozenUpdateVersion,
                 billNo, amount,
                 accountTradeType,
